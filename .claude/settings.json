@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(netlify login:*)",
+      "Bash(ls -lh *.bak)",
+      "Bash(mkdir -p /mnt/c/ClaudeProjects/active/dr-esam-podcast/backup)",
+      "Read(//mnt/c/ClaudeProjects/active/dr-esam-podcast/**)"
+    ]
+  }
+}

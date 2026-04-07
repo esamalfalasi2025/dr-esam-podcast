@@ -1,0 +1,6 @@
+[build]
+  functions = "netlify/functions"
+
+[build.environment]
+  MAILGUN_API_KEY = "501e955f2a58c881802459378f145da8-415ae7fb-a6081235"
+  MAILGUN_DOMAIN = "dresampodcast.com"

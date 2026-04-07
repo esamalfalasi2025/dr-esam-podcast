@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Dr Esam Podcast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css?v=3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <video class="login-logo" autoplay loop muted playsinline>
+      <source src="../assets/dr-esam-talk.mp4" type="video/mp4" />
+      <img src="../assets/logo-main.png" alt="Logo" />
+    </video>
+    <h1 class="login-title">Admin Panel</h1>
+    <p class="login-sub">Dr Esam Podcast</p>
+    <form id="login-form" autocomplete="off">
+      <div class="login-field">
+        <label for="admin-pass">Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="admin-pass" placeholder="Enter admin password" autofocus />
+          <button type="button" class="pass-toggle" id="pass-toggle" title="Show/hide password">
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-gold">Enter Dashboard</button>
+      <p id="login-error" class="login-error" hidden>Incorrect password. Try again.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" class="dashboard" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <img src="../assets/logo-main.png" alt="Logo" class="sidebar__logo" />
+      <span>Admin</span>
+    </div>
+    <nav class="sidebar__nav">
+      <button class="nav-item active" data-tab="settings">⚙️ Settings</button>
+      <button class="nav-item" data-tab="hero">🏠 Hero</button>
+      <button class="nav-item" data-tab="episodes">🎙️ Episodes</button>
+      <button class="nav-item" data-tab="about">👤 About</button>
+      <button class="nav-item" data-tab="platforms">📡 Platforms</button>
+      <button class="nav-item" data-tab="services">💼 Services</button>
+      <button class="nav-item dialogue-nav" data-tab="dialogue">🎙️ Dialogue AI</button>
+      <button class="nav-item" data-tab="imageai">🎙️ Dr Esam Podcast Images</button>
+      <button class="nav-item" data-tab="podcastvideo">🎬 Podcast Video</button>
+      <button class="nav-item" data-tab="subscribers">📧 Subscribers</button>
+      <button class="nav-item" data-tab="analytics">📊 Analytics</button>
+    </nav>
+    <div class="sidebar__actions">
+      <button class="btn-gold" id="save-all-btn">💾 Save All</button>
+      <button class="btn-ghost" id="preview-btn">🔗 Preview Site</button>
+      <button class="btn-ghost" id="reset-btn">↩️ Reset Defaults</button>
+      <button class="btn-outline" id="logout-btn">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="topbar">
+      <h2 class="topbar__title" id="tab-title">Dialogue AI</h2>
+      <span class="save-status" id="save-status"></span>
+    </div>
+
+    <!-- ── SETTINGS TAB ── -->
+    <section class="tab-panel active" id="tab-settings">
+      <div class="panel-grid">
+        <div class="panel-card">
+          <h3 class="card-title">Site Identity</h3>
+          <div class="form-row">
+            <label>Site Name (English)</label>
+            <input type="text" id="s-site-name-en" />
+          </div>
+          <div class="form-row">
+            <label>Site Name (Arabic)</label>
+            <input type="text" id="s-site-name-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Meta Description</label>
+            <textarea id="s-meta-desc" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">Contact & Social</h3>
+          <div class="form-row">
+            <label>WhatsApp Number</label>
+            <input type="text" id="s-whatsapp" placeholder="+971556266639" />
+          </div>
+          <div class="form-row">
+            <label>Instagram Handle</label>
+            <input type="text" id="s-instagram" placeholder="@dr.esam.alfalasi" />
+          </div>
+          <div class="form-row">
+            <label>YouTube Channel URL</label>
+            <input type="url" id="s-youtube" />
+          </div>
+          <div class="form-row">
+            <label>TikTok Handle / URL</label>
+            <input type="text" id="s-tiktok" />
+          </div>
+          <div class="form-row">
+            <label>Twitter / X Handle</label>
+            <input type="text" id="s-twitter" />
+          </div>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">🤖 Claude API (Dialogue AI)</h3>
+          <p class="hint" style="margin-bottom:12px">Required for the Dialogue AI tab. Get your key at <strong>console.anthropic.com</strong>. Stored locally — never sent anywhere except Anthropic.</p>
+          <div class="form-row">
+            <label>Claude API Key</label>
+            <div class="pass-wrap">
+              <input type="password" id="s-claude-key" placeholder="sk-ant-..." />
+              <button type="button" class="pass-toggle" onclick="toggleFieldVisibility('s-claude-key', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="hint">💡 Alternatively, set <code>ANTHROPIC_API_KEY</code> in Netlify environment variables for server-side security.</p>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">🖼️ Google AI (Image AI)</h3>
+          <p class="hint" style="margin-bottom:12px">Required for the Image AI tab. Get your key at <strong>aistudio.google.com</strong>. Stored locally only.</p>
+          <div class="form-row">
+            <label>Google AI API Key</label>
+            <div class="pass-wrap">
+              <input type="password" id="s-google-key" placeholder="AIza..." />
+              <button type="button" class="pass-toggle" onclick="toggleFieldVisibility('s-google-key', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="hint">💡 Alternatively, set <code>GOOGLE_AI_KEY</code> in Netlify environment variables.</p>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">🎬 Replicate (Podcast Video / Lip-Sync)</h3>
+          <p class="hint" style="margin-bottom:12px">Required for the Podcast Video tab. Sign up at <strong>replicate.com</strong> → Account Settings → API tokens. Free $5 credit on signup.</p>
+          <div class="form-row">
+            <label>Replicate API Key</label>
+            <div class="pass-wrap">
+              <input type="password" id="s-replicate-key" placeholder="r8_..." />
+              <button type="button" class="pass-toggle" onclick="toggleFieldVisibility('s-replicate-key', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="hint">💡 Alternatively, set <code>REPLICATE_API_KEY</code> in Netlify environment variables.</p>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">Admin Security</h3>
+          <div class="form-row">
+            <label>New Password</label>
+            <input type="password" id="s-new-pass" placeholder="Leave blank to keep current" />
+          </div>
+          <div class="form-row">
+            <label>Confirm Password</label>
+            <input type="password" id="s-confirm-pass" placeholder="Repeat new password" />
+          </div>
+          <button class="btn-gold btn-sm" id="change-pass-btn">Update Password</button>
+          <p id="pass-msg" class="msg" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HERO TAB ── -->
+    <section class="tab-panel" id="tab-hero">
+      <div class="panel-grid">
+        <div class="panel-card">
+          <h3 class="card-title">Hero Text (English)</h3>
+          <div class="form-row">
+            <label>Title Line 1</label>
+            <input type="text" id="h-title1-en" />
+          </div>
+          <div class="form-row">
+            <label>Title Line 2 (italic/gold)</label>
+            <input type="text" id="h-title2-en" />
+          </div>
+          <div class="form-row">
+            <label>Tagline</label>
+            <textarea id="h-tagline-en" rows="2"></textarea>
+          </div>
+          <div class="form-row">
+            <label>Accent Card Label</label>
+            <input type="text" id="h-accent-label-en" />
+          </div>
+          <div class="form-row">
+            <label>Accent Card Title</label>
+            <input type="text" id="h-accent-title-en" />
+          </div>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">Hero Text (Arabic)</h3>
+          <div class="form-row">
+            <label>Title Line 1</label>
+            <input type="text" id="h-title1-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Title Line 2 (italic/gold)</label>
+            <input type="text" id="h-title2-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Tagline</label>
+            <textarea id="h-tagline-ar" rows="2" dir="rtl"></textarea>
+          </div>
+          <div class="form-row">
+            <label>Accent Card Label</label>
+            <input type="text" id="h-accent-label-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Accent Card Title</label>
+            <input type="text" id="h-accent-title-ar" dir="rtl" />
+          </div>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">Stats Bar</h3>
+          <div class="form-row">
+            <label>Episodes Count</label>
+            <input type="text" id="h-stat-episodes" placeholder="120+" />
+          </div>
+          <div class="form-row">
+            <label>Listeners Count</label>
+            <input type="text" id="h-stat-listeners" placeholder="500K" />
+          </div>
+          <div class="form-row">
+            <label>Rating</label>
+            <input type="text" id="h-stat-rating" placeholder="4.9" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EPISODES TAB ── -->
+    <section class="tab-panel" id="tab-episodes">
+      <div class="panel-card" style="margin-bottom:20px">
+        <div class="card-header-row">
+          <h3 class="card-title">Episodes</h3>
+          <button class="btn-gold btn-sm" id="add-episode-btn">+ Add Episode</button>
+        </div>
+        <p class="hint">Drag rows to reorder. Changes save when you click "Save All".</p>
+        <div id="episodes-list" class="episodes-list"></div>
+      </div>
+
+      <!-- Add/Edit Episode Drawer (inline, no hidden-attribute issues) -->
+      <div id="ep-drawer" class="ep-drawer" style="display:none">
+        <div class="ep-drawer__inner">
+          <h3 class="card-title" id="ep-drawer-title">Add Episode</h3>
+          <div class="ep-drawer__grid">
+            <div class="form-row">
+              <label>Episode Title</label>
+              <input type="text" id="ep-title" placeholder="e.g., The Future of AI" />
+            </div>
+            <div class="form-row">
+              <label>Episode Image</label>
+              <div class="upload-area" id="upload-area">
+                <img id="ep-preview" class="ep-preview" src="" alt="" style="display:none;" />
+                <div id="upload-placeholder" class="upload-placeholder">
+                  <span class="upload-icon">📁</span>
+                  <span>Click to choose image</span>
+                  <span class="hint">JPG, PNG — stored in database</span>
+                </div>
+                <input type="file" id="ep-image-file" accept="image/*" style="display:none;" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label>Guest Name (optional)</label>
+              <input type="text" id="ep-guest-name" placeholder="e.g., Jane Smith" />
+            </div>
+            <div class="form-row">
+              <label>Description (optional)</label>
+              <textarea id="ep-description" placeholder="Brief episode summary..." style="min-height: 80px;"></textarea>
+            </div>
+            <div class="form-row">
+              <label>Audio URL (optional)</label>
+              <input type="url" id="ep-audio-url" placeholder="https://example.com/audio.mp3" />
+            </div>
+            <div class="form-row">
+              <label>YouTube URL (optional)</label>
+              <input type="url" id="ep-youtube" placeholder="https://www.youtube.com/watch?v=..." />
+            </div>
+            <div class="form-row">
+              <label>TikTok URL (optional)</label>
+              <input type="url" id="ep-tiktok" placeholder="https://www.tiktok.com/@.../video/..." />
+            </div>
+          </div>
+          <div class="drawer-actions">
+            <button class="btn-gold" id="ep-save-btn">💾 Save Episode</button>
+            <button class="btn-ghost" id="ep-cancel-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ABOUT TAB ── -->
+    <section class="tab-panel" id="tab-about">
+      <div class="panel-grid">
+        <div class="panel-card">
+          <h3 class="card-title">Host Info (English)</h3>
+          <div class="form-row">
+            <label>Host Name</label>
+            <input type="text" id="a-name-en" />
+          </div>
+          <div class="form-row">
+            <label>Host Title / Role</label>
+            <input type="text" id="a-role-en" />
+          </div>
+          <div class="form-row">
+            <label>Bio Paragraph</label>
+            <textarea id="a-bio-en" rows="5"></textarea>
+          </div>
+          <div class="form-row">
+            <label>Credentials (one per line)</label>
+            <textarea id="a-creds-en" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="panel-card">
+          <h3 class="card-title">Host Info (Arabic)</h3>
+          <div class="form-row">
+            <label>Host Name</label>
+            <input type="text" id="a-name-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Host Title / Role</label>
+            <input type="text" id="a-role-ar" dir="rtl" />
+          </div>
+          <div class="form-row">
+            <label>Bio Paragraph</label>
+            <textarea id="a-bio-ar" rows="5" dir="rtl"></textarea>
+          </div>
+          <div class="form-row">
+            <label>Credentials (one per line)</label>
+            <textarea id="a-creds-ar" rows="4" dir="rtl"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PLATFORMS TAB ── -->
+    <section class="tab-panel" id="tab-platforms">
+      <div class="panel-card">
+        <h3 class="card-title">Platform Links</h3>
+        <p class="hint">Empty platforms will show "Coming Soon" on the website.</p>
+        <div class="platforms-grid">
+          <div class="form-row">
+            <label>🎵 Spotify URL</label>
+            <input type="url" id="p-spotify" placeholder="Coming Soon..." />
+          </div>
+          <div class="form-row">
+            <label>📺 YouTube URL</label>
+            <input type="url" id="p-youtube" placeholder="Coming Soon..." />
+          </div>
+          <div class="form-row">
+            <label>🎵 TikTok URL</label>
+            <input type="url" id="p-tiktok" placeholder="Coming Soon..." />
+          </div>
+          <div class="form-row">
+            <label>📸 Instagram URL</label>
+            <input type="url" id="p-instagram" placeholder="Coming Soon..." />
+          </div>
+          <div class="form-row">
+            <label>🎙️ Apple Podcasts URL</label>
+            <input type="url" id="p-apple" placeholder="Coming Soon..." />
+          </div>
+          <div class="form-row">
+            <label>🔍 Google Podcasts URL</label>
+            <input type="url" id="p-google" placeholder="Coming Soon..." />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SERVICES TAB ── -->
+    <section class="tab-panel" id="tab-services">
+      <div class="panel-card" style="margin-bottom:20px">
+        <h3 class="card-title">Production Packages</h3>
+        <p class="hint">Edit pricing tiers below.</p>
+        <div id="tiers-list" class="tiers-list"></div>
+      </div>
+      <div class="panel-card" style="margin-bottom:20px">
+        <h3 class="card-title">Add-ons</h3>
+        <div id="addons-list" class="tiers-list"></div>
+      </div>
+      <div class="panel-card">
+        <h3 class="card-title">WhatsApp CTA</h3>
+        <div class="form-row">
+          <label>CTA Button Text (English)</label>
+          <input type="text" id="svc-cta-en" />
+        </div>
+        <div class="form-row">
+          <label>CTA Button Text (Arabic)</label>
+          <input type="text" id="svc-cta-ar" dir="rtl" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DIALOGUE AI TAB ── -->
+    <section class="tab-panel" id="tab-dialogue">
+
+      <!-- Step 1: Inputs -->
+      <div class="panel-card dialogue-card" id="dlg-step-inputs">
+        <h3 class="card-title">🎙️ Podcast Dialogue Generator</h3>
+        <p class="hint" style="margin-bottom:20px">Fill in the episode details and click Generate to create a professional broadcast-quality script.</p>
+        <div class="dlg-grid">
+          <div class="form-row">
+            <label>Host Name <span class="req">*</span></label>
+            <input type="text" id="dlg-host" placeholder="e.g. Dr. Esam Al Falasi" />
+          </div>
+          <div class="form-row">
+            <label>Guest Name <span class="req">*</span></label>
+            <input type="text" id="dlg-guest" placeholder="e.g. Noor Al Mansouri" />
+          </div>
+          <div class="form-row">
+            <label>Episode Topic / Subject <span class="req">*</span></label>
+            <input type="text" id="dlg-subject" placeholder="e.g. AI in the Arab World" />
+          </div>
+          <div class="form-row">
+            <label>Estimated Duration <span class="req">*</span></label>
+            <select id="dlg-duration">
+              <option value="1 minute">1 minute (~5 exchanges)</option>
+              <option value="2 minutes">2 minutes (~10 exchanges)</option>
+              <option value="5 minutes">5 minutes (~18 exchanges)</option>
+              <option value="15 minutes" selected>15 minutes (~25 exchanges)</option>
+              <option value="30 minutes">30 minutes (~50 exchanges)</option>
+              <option value="45 minutes">45 minutes (~70 exchanges)</option>
+              <option value="1 hour">1 hour (~100 exchanges)</option>
+            </select>
+          </div>
+        </div>
+        <div class="dlg-actions">
+          <button class="btn-gold" id="dlg-generate-btn">✨ Generate Script</button>
+        </div>
+        <div id="dlg-spinner" class="dlg-spinner" style="display:none">
+          <div class="spinner-ring"></div>
+          <span>Generating your script with Claude AI…</span>
+        </div>
+        <div id="dlg-error" class="dlg-error" style="display:none"></div>
+      </div>
+
+      <!-- Step 2: Script output -->
+      <div class="panel-card dialogue-card" id="dlg-step-output" style="display:none">
+        <div class="dlg-output-header">
+          <h3 class="card-title">📄 Generated Script</h3>
+          <div class="dlg-output-actions">
+            <button class="btn-gold btn-sm" id="dlg-export-docx">⬇️ Export .docx</button>
+            <button class="btn-ghost btn-sm" id="dlg-export-pdf">⬇️ Export .pdf</button>
+            <button class="btn-ghost btn-sm" id="dlg-export-txt">⬇️ Export .txt</button>
+            <button class="btn-ghost btn-sm" id="dlg-new-btn">+ New Script</button>
+          </div>
+        </div>
+        <div class="dlg-script-wrap">
+          <div class="dlg-watermark-overlay"></div>
+          <textarea id="dlg-script-area" class="dlg-script-area" spellcheck="false" style="background:#ffffff;color:#111111;"></textarea>
+        </div>
+
+        <!-- Modify section -->
+        <div class="dlg-modify-section">
+          <h4 class="dlg-modify-title">✏️ Request Modifications</h4>
+          <textarea id="dlg-modify-input" class="dlg-modify-input" placeholder="Describe what you'd like changed… e.g. 'Make the intro shorter and add more technical depth in the middle section'" rows="3"></textarea>
+          <div class="dlg-actions">
+            <button class="btn-gold" id="dlg-regenerate-btn">🔄 Regenerate with Changes</button>
+          </div>
+          <div id="dlg-regen-spinner" class="dlg-spinner" style="display:none">
+            <div class="spinner-ring"></div>
+            <span>Revising script…</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── IMAGE AI TAB ── -->
+    <section class="tab-panel" id="tab-imageai">
+
+      <!-- Two upload zones side by side -->
+      <div class="panel-card">
+        <h3 class="card-title">📸 Upload Images</h3>
+        <div class="img-two-col">
+
+          <!-- Zone A: Scene image -->
+          <div>
+            <div class="img-zone-label">📷 Image 1 — Scene to Keep</div>
+            <div class="img-upload-zone" id="img-zone-a" onclick="document.getElementById('img-file-a').click()">
+              <input type="file" id="img-file-a" accept="image/*" style="display:none" />
+              <div id="img-ph-a" class="img-upload-placeholder">
+                <div style="font-size:32px;margin-bottom:6px">📁</div>
+                <div style="font-size:13px;font-weight:600">Click to upload scene</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px">Background & scene will be kept 100%</div>
+              </div>
+              <div id="img-prev-a" style="display:none;position:relative">
+                <img id="img-img-a" src="" style="max-width:100%;max-height:200px;border-radius:8px;display:block;margin:0 auto" />
+                <button class="img-remove-btn" onclick="clearZone('a',event)">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zone B: Character image -->
+          <div>
+            <div class="img-zone-label">👤 Image 2 — Character to Place</div>
+            <div class="img-upload-zone" id="img-zone-b" onclick="document.getElementById('img-file-b').click()">
+              <input type="file" id="img-file-b" accept="image/*" style="display:none" />
+              <div id="img-ph-b" class="img-upload-placeholder">
+                <div style="font-size:32px;margin-bottom:6px">🎙️</div>
+                <div style="font-size:13px;font-weight:600">Click to upload character</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px">This person replaces the one in Image 1</div>
+              </div>
+              <div id="img-prev-b" style="display:none;position:relative">
+                <img id="img-img-b" src="" style="max-width:100%;max-height:200px;border-radius:8px;display:block;margin:0 auto" />
+                <button class="img-remove-btn" onclick="clearZone('b',event)">✕</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <p class="hint" style="margin-top:12px">💡 Upload both images for character replacement. Upload only Image 1 + prompt to edit the scene. Upload neither to generate from prompt only.</p>
+      </div>
+
+      <!-- Additional Instructions -->
+      <div class="panel-card">
+        <h3 class="card-title">✏️ Additional Instructions</h3>
+        <div class="form-row" style="margin-bottom:10px">
+          <label>Quick presets <span style="color:var(--muted);font-size:11px">(select to fill)</span></label>
+          <select id="img-prompt-preset" onchange="if(this.value){document.getElementById('img-prompt').value=this.value;this.value='';}">
+            <option value="">— choose a preset —</option>
+            <option value="Replace the image 1 character with image 2 character, keep 100% scenes of image 1">Replace character (keep scene 100%)</option>
+            <option value="Keep exact same pose and lighting. Make the character look natural in the scene. Ultra-realistic, 8K quality.">Natural integration, 8K quality</option>
+            <option value="Edit this image to look cinematic and professional. Keep all elements unchanged.">Cinematic & professional</option>
+            <option value="Make the background a modern TV studio with professional lighting.">Modern TV studio background</option>
+            <option value="Add a dramatic sunset sky in the background, keep all foreground elements unchanged.">Dramatic sunset sky</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Instructions <span style="color:var(--muted);font-size:11px">(optional — type or edit above preset)</span></label>
+          <textarea id="img-prompt" rows="4" placeholder="e.g. Keep exact same pose and lighting. Make the character look natural in the scene." style="resize:vertical;min-height:80px"></textarea>
+        </div>
+      </div>
+
+      <!-- Episode Title -->
+      <div class="panel-card">
+        <h3 class="card-title">🎙️ Episode Title</h3>
+        <div class="form-row">
+          <label>Episode Title <span style="color:var(--muted);font-size:11px">(used as image prompt &amp; filename)</span></label>
+          <input type="text" id="img-episode-name" placeholder="e.g. Episode 42 - Dubai Special" />
+        </div>
+      </div>
+
+      <!-- Settings + Generate -->
+      <div class="panel-card">
+
+        <div class="img-settings-row">
+          <div class="form-row">
+            <label>AI Model</label>
+            <select id="img-model">
+              <option value="gemini" selected>Gemini Flash — editing &amp; photo replacement</option>
+              <option value="imagen">Imagen 3 — text-to-image (may require billing)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Aspect Ratio <span style="color:var(--muted);font-size:11px">(Imagen only)</span></label>
+            <select id="img-aspect">
+              <option value="1:1">1:1 — Square</option>
+              <option value="16:9">16:9 — Landscape</option>
+              <option value="9:16">9:16 — Portrait</option>
+              <option value="4:3">4:3 — Standard</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="img-generate-btn" class="img-gen-btn">
+          <span id="img-btn-text">✨ GENERATE IMAGE</span>
+          <span id="img-btn-spinner" style="display:none"><span class="img-dot-spinner"></span> Generating…</span>
+        </button>
+
+        <div id="img-status-bar" class="img-status-bar" style="display:none">
+          <div class="img-progress-track"><div id="img-progress-fill" class="img-progress-fill"></div></div>
+          <span id="img-status-text">Sending to AI…</span>
+        </div>
+        <div id="img-error" class="img-error-box" style="display:none"></div>
+      </div>
+
+      <!-- Results -->
+      <div id="img-results" style="display:none">
+        <div class="panel-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+            <h3 class="card-title" style="margin:0">🎨 Generated Image</h3>
+            <div style="display:flex;gap:10px">
+              <button id="img-save-btn" class="img-dl-btn" style="padding:10px 20px;font-size:13px">⬇ Save Image</button>
+              <button id="img-new-btn" class="img-dl-btn" style="padding:10px 20px;font-size:13px;border-color:var(--muted);color:var(--muted)">+ New Generation</button>
+            </div>
+          </div>
+          <!-- Large result preview -->
+          <div id="img-result-display" style="width:100%;border-radius:12px;overflow:hidden;background:#111;min-height:200px;display:flex;align-items:center;justify-content:center">
+            <img id="img-result-img" src="" alt="Generated image" style="max-width:420px;width:100%;display:block;margin:0 auto;border-radius:12px" />
+          </div>
+          <!-- Additional results if multiple -->
+          <div id="img-grid" class="img-result-grid" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── PODCAST VIDEO TAB ── -->
+    <section class="tab-panel" id="tab-podcastvideo">
+
+      <!-- Host + Guest cards -->
+      <div class="pv-two-col">
+
+        <!-- HOST -->
+        <div class="panel-card">
+          <h3 class="card-title">🎙️ Host</h3>
+          <div class="form-row">
+            <label>Host Name</label>
+            <input type="text" id="pv-host-name" placeholder="e.g. Dr Esam Al Falasi" />
+          </div>
+          <div class="form-row">
+            <label>Host Photo</label>
+            <div class="pv-upload-zone" id="pv-zone-host-img" onclick="document.getElementById('pv-file-host-img').click()">
+              <input type="file" id="pv-file-host-img" accept="image/*" style="display:none" />
+              <div id="pv-ph-host-img" class="pv-upload-placeholder">
+                <div style="font-size:28px;margin-bottom:6px">🖼️</div>
+                <div style="font-size:13px;font-weight:600">Click to upload host photo</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:3px">JPG or PNG, face clearly visible</div>
+              </div>
+              <div id="pv-prev-host-img" style="display:none;position:relative">
+                <img id="pv-img-host" src="" style="max-width:100%;max-height:180px;border-radius:8px;display:block;margin:0 auto" />
+                <button class="img-remove-btn" onclick="pvClearZone('host-img',event)">✕</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Host Audio</label>
+            <div class="pv-upload-zone pv-audio-zone" id="pv-zone-host-audio" onclick="document.getElementById('pv-file-host-audio').click()">
+              <input type="file" id="pv-file-host-audio" accept="audio/*" style="display:none" />
+              <div id="pv-ph-host-audio" class="pv-upload-placeholder">
+                <div style="font-size:28px;margin-bottom:6px">🎵</div>
+                <div style="font-size:13px;font-weight:600">Click to upload host audio</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:3px">MP3, WAV or M4A</div>
+              </div>
+              <div id="pv-prev-host-audio" style="display:none;position:relative">
+                <audio id="pv-audio-host" controls style="width:100%;margin-top:4px"></audio>
+                <button class="img-remove-btn" onclick="pvClearZone('host-audio',event)">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GUEST -->
+        <div class="panel-card">
+          <h3 class="card-title">👤 Guest</h3>
+          <div class="form-row">
+            <label>Guest Name</label>
+            <input type="text" id="pv-guest-name" placeholder="e.g. Ahmed Al Mansoori" />
+          </div>
+          <div class="form-row">
+            <label>Guest Photo</label>
+            <div class="pv-upload-zone" id="pv-zone-guest-img" onclick="document.getElementById('pv-file-guest-img').click()">
+              <input type="file" id="pv-file-guest-img" accept="image/*" style="display:none" />
+              <div id="pv-ph-guest-img" class="pv-upload-placeholder">
+                <div style="font-size:28px;margin-bottom:6px">🖼️</div>
+                <div style="font-size:13px;font-weight:600">Click to upload guest photo</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:3px">JPG or PNG, face clearly visible</div>
+              </div>
+              <div id="pv-prev-guest-img" style="display:none;position:relative">
+                <img id="pv-img-guest" src="" style="max-width:100%;max-height:180px;border-radius:8px;display:block;margin:0 auto" />
+                <button class="img-remove-btn" onclick="pvClearZone('guest-img',event)">✕</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Guest Audio</label>
+            <div class="pv-upload-zone pv-audio-zone" id="pv-zone-guest-audio" onclick="document.getElementById('pv-file-guest-audio').click()">
+              <input type="file" id="pv-file-guest-audio" accept="audio/*" style="display:none" />
+              <div id="pv-ph-guest-audio" class="pv-upload-placeholder">
+                <div style="font-size:28px;margin-bottom:6px">🎵</div>
+                <div style="font-size:13px;font-weight:600">Click to upload guest audio</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:3px">MP3, WAV or M4A</div>
+              </div>
+              <div id="pv-prev-guest-audio" style="display:none;position:relative">
+                <audio id="pv-audio-guest" controls style="width:100%;margin-top:4px"></audio>
+                <button class="img-remove-btn" onclick="pvClearZone('guest-audio',event)">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate -->
+      <div class="panel-card" style="margin-top:0">
+        <button id="pv-generate-btn" class="img-gen-btn">
+          <span id="pv-btn-text">🎬 GENERATE LIP-SYNC VIDEOS</span>
+          <span id="pv-btn-spinner" style="display:none"><span class="img-dot-spinner"></span> Generating…</span>
+        </button>
+        <div id="pv-status-bar" class="img-status-bar" style="display:none;margin-top:14px">
+          <div class="img-progress-track"><div id="pv-progress-fill" class="img-progress-fill"></div></div>
+          <span id="pv-status-text">Creating videos…</span>
+        </div>
+        <div id="pv-error" class="img-error-box" style="display:none"></div>
+      </div>
+
+      <!-- Results -->
+      <div id="pv-results" style="display:none">
+        <div class="pv-two-col">
+          <div class="panel-card">
+            <h3 class="card-title" id="pv-host-result-name">🎙️ Host Video</h3>
+            <video id="pv-video-host" controls style="width:100%;border-radius:10px;margin-top:8px"></video>
+            <button class="img-dl-btn" id="pv-dl-host" style="margin-top:10px;width:100%">⬇ Download Host Video</button>
+          </div>
+          <div class="panel-card">
+            <h3 class="card-title" id="pv-guest-result-name">👤 Guest Video</h3>
+            <video id="pv-video-guest" controls style="width:100%;border-radius:10px;margin-top:8px"></video>
+            <button class="img-dl-btn" id="pv-dl-guest" style="margin-top:10px;width:100%">⬇ Download Guest Video</button>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <button class="img-dl-btn" id="pv-new-btn" style="border-color:var(--muted);color:var(--muted)">+ New Generation</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── SUBSCRIBERS TAB ── -->
+    <section class="tab-panel" id="tab-subscribers">
+      <div class="panel-card">
+        <div class="card-header-row">
+          <h3 class="card-title">Newsletter Subscribers</h3>
+          <button class="btn-gold btn-sm" id="refresh-subscribers-btn">🔍 Reload Subscribers</button>
+        </div>
+        <p class="hint">All subscribers who signed up for the newsletter. Use this list to send notifications and updates.</p>
+
+        <!-- Search/Filter -->
+        <div class="form-row" style="margin-bottom:20px">
+          <input type="text" id="subscribers-search" placeholder="Search by email, name, or year..." style="width:100%; padding:10px 14px; background:#2a2a2a; border:1.5px solid rgba(255,255,255,0.18); border-radius:8px; color:#f0ece4" />
+        </div>
+
+        <!-- Stats -->
+        <div style="display:grid; grid-template-columns:auto auto; gap:24px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px">Total Subscribers</div>
+            <div style="font-size:28px; font-weight:600; color:var(--gold)" id="total-subscribers">0</div>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px">Last Added</div>
+            <div style="font-size:14px; color:var(--text)" id="last-subscriber-date">—</div>
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div style="margin-bottom:20px; display:flex; gap:12px; flex-wrap:wrap">
+          <button class="btn-gold btn-sm" id="export-csv-btn">📥 Export as CSV</button>
+          <button class="btn-ghost btn-sm" id="export-json-btn">📥 Export as JSON</button>
+        </div>
+
+        <!-- Subscribers Table -->
+        <div id="subscribers-loading" style="text-align:center; padding:40px; color:var(--text-muted)">
+          <div class="spinner-ring" style="margin:0 auto 12px"></div>
+          Loading subscribers…
+        </div>
+
+        <table id="subscribers-table" class="subscribers-table" style="display:none; width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Subscribed Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="subscribers-tbody">
+          </tbody>
+        </table>
+
+        <div id="subscribers-empty" class="msg" style="display:none; text-align:center; margin-top:20px; color:#999;">No subscribers found. Start by sharing your newsletter signup link on your website.</div>
+      </div>
+
+      <!-- Bulk Email Composer -->
+      <div class="panel-card" style="margin-top:40px">
+        <h3 class="card-title" style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:20px">📧 Send Email to Subscribers</h3>
+
+        <div class="form-row">
+          <label>Email Subject <span class="field-required">*</span></label>
+          <input type="text" id="email-subject" placeholder="e.g., New Episode: The Future of Arab Media" maxlength="100" />
+        </div>
+
+        <div class="form-row">
+          <label>Email Content (HTML) <span class="field-required">*</span></label>
+          <textarea id="email-html" placeholder="Write your email content here. You can use HTML formatting." rows="10" style="font-family: monospace; font-size: 13px"></textarea>
+          <p class="hint" style="margin-top:8px">💡 Tip: Use &lt;strong&gt;, &lt;em&gt;, &lt;a href=&quot;&quot;&gt;, &lt;h2&gt; for formatting</p>
+        </div>
+
+        <div class="form-row">
+          <label>Preview Subscriber Email</label>
+          <select id="email-preview-subscriber" class="form-select" style="width:100%; padding:10px 14px; background:#2a2a2a; border:1.5px solid rgba(255,255,255,0.18); border-radius:8px; color:#f0ece4">
+            <option value="">— Select subscriber or leave blank to send to all —</option>
+          </select>
+          <p id="email-not-selected-msg" style="margin-top:8px; padding:10px 12px; background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.3); border-radius:6px; color:#c9a84c; font-size:13px;">📌 No email selected — email will be sent to ALL subscribers</p>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:20px">
+          <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px 0; text-transform:uppercase; letter-spacing:0.05em">📊 Recipients</p>
+          <div style="font-size:24px; font-weight:600; color:var(--gold)" id="email-recipient-count">0</div>
+          <p style="font-size:12px; color:var(--text-muted); margin:8px 0 0 0">subscriber(s) will receive this email</p>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px">
+          <button class="btn-gold btn-sm" id="send-email-btn">📤 Send Email</button>
+          <button class="btn-ghost btn-sm" id="clear-email-btn">Clear</button>
+        </div>
+
+        <div id="email-status" style="display:none; padding:16px; border-radius:8px; margin-top:16px">
+          <div id="email-status-content"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ANALYTICS TAB ── -->
+    <section class="tab-panel" id="tab-analytics">
+      <div style="margin-bottom:40px; display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end">
+        <div>
+          <label style="display:block; font-size:12px; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em">From Date</label>
+          <input type="date" id="analytics-from-date" style="padding:10px 12px; background:#2a2a2a; border:1.5px solid rgba(255,255,255,0.18); border-radius:8px; color:#f0ece4" />
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em">To Date</label>
+          <input type="date" id="analytics-to-date" style="padding:10px 12px; background:#2a2a2a; border:1.5px solid rgba(255,255,255,0.18); border-radius:8px; color:#f0ece4" />
+        </div>
+        <button class="btn-gold btn-sm" id="filter-analytics-btn">🔍 Filter</button>
+        <button class="btn-ghost btn-sm" id="export-pdf-btn">📥 Export PDF</button>
+        <button class="btn-gold btn-sm" id="refresh-analytics-btn">🔄 Refresh</button>
+      </div>
+
+      <!-- Stat Cards -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:40px">
+        <div style="background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.4); border-radius:12px; padding:24px">
+          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px">Total Visits</div>
+          <div style="font-size:48px; font-weight:600; color:var(--gold)" id="stat-total-visits">—</div>
+        </div>
+        <div style="background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.4); border-radius:12px; padding:24px">
+          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px">Total Subscribers</div>
+          <div style="font-size:48px; font-weight:600; color:var(--gold)" id="stat-total-subscribers">—</div>
+        </div>
+        <div style="background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.4); border-radius:12px; padding:24px">
+          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px">Countries Reached</div>
+          <div style="font-size:48px; font-weight:600; color:var(--gold)" id="stat-countries-reached">—</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px">
+        <div style="background:rgba(201,168,76,0.05); border:1.5px solid rgba(201,168,76,0.3); border-radius:12px; padding:24px">
+          <h3 class="card-title" style="margin-bottom:20px; font-size:16px; color:var(--text)">Episode Plays</h3>
+          <canvas id="chart-episode-plays" style="max-height:300px"></canvas>
+        </div>
+        <div style="background:rgba(201,168,76,0.05); border:1.5px solid rgba(201,168,76,0.3); border-radius:12px; padding:24px">
+          <h3 class="card-title" style="margin-bottom:20px; font-size:16px; color:var(--text)">Subscribers by Country</h3>
+          <canvas id="chart-countries-donut" style="max-height:300px"></canvas>
+        </div>
+      </div>
+
+      <div style="background:rgba(201,168,76,0.05); border:1.5px solid rgba(201,168,76,0.3); border-radius:12px; padding:24px">
+        <h3 class="card-title" style="margin-bottom:20px; font-size:16px; color:var(--text)">Page Views Over Time</h3>
+        <canvas id="chart-pageviews-timeline" style="max-height:300px"></canvas>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<!-- docx library for browser-side Word export -->
+<script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="admin.js"></script>
+<script src="imageai.js"></script>
+<script src="podcastvideo.js"></script>
+<script src="subscribers.js"></script>
+<script src="analytics.js"></script>
+</body>
+</html>

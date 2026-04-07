@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(wmic datafile:*)",
+      "Bash(start index.html)",
+      "Bash(npx netlify-cli:*)",
+      "Bash(python3 -c \"import sys,json; sites=json.load\\(sys.stdin\\); [print\\(s[''''id''''], s[''''name''''], s.get\\(''''default_domain'''',''''''''\\)\\) for s in sites]\")",
+      "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{const s=JSON.parse\\(d.join\\(''''''''\\)\\);s.forEach\\(x=>console.log\\(x.id, x.name, x.default_domain\\)\\)}\\)\")",
+      "Bash(find C:/Users/home/.claude -name *.md)",
+      "Bash(xargs grep:*)",
+      "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{const s=JSON.parse\\(d.join\\(''''''''\\)\\);console.log\\(JSON.stringify\\(s.skills||s.commands||{},null,2\\)\\)}\\)\")",
+      "Bash(NETLIFY_AUTH_TOKEN=nfp_aPkDE2apzCiyjbdD84RdaLattZ1ypYuEd626 npx netlify-cli deploy --prod -d .)",
+      "Bash(NETLIFY_AUTH_TOKEN=nfp_aPkDE2apzCiyjbdD84RdaLattZ1ypYuEd626 npx netlify-cli sites:list)",
+      "Bash(powershell -Command \"Compress-Archive -Path ''.'' -DestinationPath ''C:/tmp/deploy.zip'' -Force\")",
+      "Bash(mkdir -p \"C:/Users/home/deploy_tmp\")",
+      "Bash(powershell -Command \"Compress-Archive -Path ''.'' -DestinationPath ''C:/Users/home/deploy_tmp/deploy.zip'' -Force\")",
+      "Bash(node -e \":*)",
+      "Bash(npm install:*)",
+      "Bash(node -e \"const J = require\\(''jimp''\\); console.log\\(Object.keys\\(J\\).slice\\(0,10\\)\\);\")",
+      "Bash(node:*)",
+      "Bash(cmd /c \"dir /b \"\"C:\\\\ClaudeProjects\\\\active\\\\dr-esam-podcast\"\" | findstr /i podcast\")",
+      "Bash(cmd /c \"dir /b \"\"C:\\\\ClaudeProjects\\\\active\\\\dr-esam-podcast\"\"\")",
+      "Bash(cmd /c dir /b \"C:\\\\ClaudeProjects\\\\active\\\\dr-esam-podcast\")",
+      "Bash(cmd /c \"cd /d C:\\\\ClaudeProjects\\\\active\\\\dr-esam-podcast && dir /b\")",
+      "Bash(netlify deploy:*)",
+      "Bash(node_modules/.bin/netlify deploy:*)",
+      "Bash(where netlify:*)",
+      "Bash(npm list:*)",
+      "Bash(cmd /c \"npx --yes netlify-cli@latest status\")",
+      "Bash(cmd /c \"npx netlify-cli deploy --prod -d .\")",
+      "Bash(cmd /c \"cd /d c:\\\\ClaudeProjects\\\\active\\\\dr-esam-podcast && npx netlify-cli deploy --prod -d . 2>&1\")",
+      "Bash(NETLIFY_AUTH_TOKEN=nfp_4hj922B3VGzgjVJY9gUyCESG8h6TkL1N52f5 npx netlify-cli deploy --prod -d .)",
+      "Bash(NETLIFY_AUTH_TOKEN=nfp_4hj922B3VGzgjVJY9gUyCESG8h6TkL1N52f5 npx netlify-cli deploy --prod -d . --site a52ca944-f13b-49cc-8838-30259d50eee0)",
+      "WebFetch(domain:docs.sync.so)",
+      "WebFetch(domain:sync.so)",
+      "WebSearch",
+      "WebFetch(domain:docs.heygen.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:replicate.com)"
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+functionsDirectory = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+redirectsOrigin = "config"
+plugins = []
+headers = []
+
+[build]
+publish = "C:\\ClaudeProjects\\active\\dr-esam-podcast"
+publishOrigin = "config"
+functions = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions.heygen-upload-photo]
+timeout = 26.0
+
+[functions.heygen-create-video]
+timeout = 26.0
+
+[functions.heygen-video-status]
+timeout = 26.0
+
+[functions."*"]
+node_bundler = "esbuild"
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
