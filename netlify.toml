@@ -1,6 +1,19 @@
 [build]
   functions = "netlify/functions"
+  publish = "."
 
 [build.environment]
-  MAILGUN_API_KEY = "501e955f2a58c881802459378f145da8-415ae7fb-a6081235"
+  SUPABASE_URL = "https://vcchafwowzfpugjzooou.supabase.co"
+  SUPABASE_KEY = "sb_publishable_4yI7JSx_20CSkVYW2hdv9A_XjYyaJ0I"
+  MAILGUN_API_KEY = "key-501e955f2a58c881802459378f145c"
   MAILGUN_DOMAIN = "dresampodcast.com"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
