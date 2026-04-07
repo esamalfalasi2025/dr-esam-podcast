@@ -1,0 +1,55 @@
+<!-- BACKUP: Old admin/index.html episode drawer HTML (localStorage version)
+     This shows the old form fields before Supabase integration -->
+
+<!-- OLD EPISODE DRAWER FORM (before Supabase) -->
+<div class="drawer" id="ep-drawer">
+  <div class="drawer-header">
+    <h3 id="ep-drawer-title">Add Episode</h3>
+    <button class="close-btn" onclick="closeEpDrawer()">✕</button>
+  </div>
+  <div class="ep-drawer__grid">
+    <div class="form-row">
+      <label>Title (English)</label>
+      <input type="text" id="ep-title-en" />
+    </div>
+    <div class="form-row">
+      <label>Title (Arabic)</label>
+      <input type="text" id="ep-title-ar" dir="rtl" />
+    </div>
+    <div class="form-row">
+      <label>Episode Image</label>
+      <div class="upload-area" id="upload-area">
+        <img id="ep-preview" class="ep-preview" src="" alt="" style="display:none" />
+        <div id="upload-placeholder" class="upload-placeholder">
+          <span class="upload-icon">📁</span>
+          <span>Click to choose image</span>
+          <span class="hint">JPG, PNG — stored directly in admin</span>
+        </div>
+        <input type="file" id="ep-image-file" accept="image/*" style="display:none" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>YouTube URL</label>
+      <input type="url" id="ep-youtube" placeholder="https://www.youtube.com/watch?v=..." />
+    </div>
+    <div class="form-row">
+      <label>TikTok URL</label>
+      <input type="url" id="ep-tiktok" placeholder="https://www.tiktok.com/@.../video/..." />
+    </div>
+  </div>
+  <div class="drawer-actions">
+    <button class="btn-gold" id="ep-save-btn">💾 Save Episode</button>
+    <button class="btn-ghost" id="ep-cancel-btn">Cancel</button>
+  </div>
+</div>
+
+<!-- NOTES:
+  - Episodes stored in localStorage as `content.episodes` array
+  - Images converted to base64 and stored directly in the episodes object
+  - No Supabase integration
+  - Changes only persisted after clicking "Save All" button
+  - To restore:
+    1. Replace admin/index.html episode drawer with this HTML
+    2. Replace admin/admin.js episode functions with backup version
+    3. Remove Supabase calls from saveEpisode/renderEpisodes/deleteEpisode
+-->
