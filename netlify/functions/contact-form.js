@@ -66,13 +66,15 @@ Message:
 ${message}
     `.trim();
 
-    // Send email via Mailgun
+    // Send email via Mailgun (hardcoded recipient)
+    const recipientEmail = 'esamalfalasi@gmail.com';
+
     const result = await sendMailgunEmail(
       mailgunApiKey,
       mailgunDomain,
       {
         from: `noreply@${mailgunDomain}`,
-        to: 'esamalfalasi@gmail.com',
+        to: recipientEmail,
         subject: `New Contact Form: ${subject}`,
         text: emailContent,
         'h:Reply-To': email
@@ -80,7 +82,8 @@ ${message}
     );
 
     if (!result.success) {
-      throw new Error('Failed to send email');
+      console.error('Mailgun send failed:', result.error);
+      throw new Error('Failed to send email via Mailgun');
     }
 
     return {
@@ -136,7 +139,8 @@ function sendMailgunEmail(apiKey, domain, emailData) {
         if (res.statusCode === 200) {
           resolve({ success: true, data: JSON.parse(data) });
         } else {
-          reject(new Error(`Mailgun API error: ${res.statusCode}`));
+          console.error(`Mailgun error ${res.statusCode}:`, data);
+          reject(new Error(`Mailgun API error: ${res.statusCode} - ${data}`));
         }
       });
     });
