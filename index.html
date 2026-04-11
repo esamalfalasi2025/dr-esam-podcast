@@ -25,6 +25,7 @@
         <li><a href="#host" data-i18n="nav_about">About</a></li>
         <li><a href="#services" data-i18n="nav_services">Services</a></li>
         <li><a href="#platforms" data-i18n="nav_listen">Listen On</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact Us</a></li>
         <li><a href="#subscribe" class="btn btn--gold btn--sm" data-i18n="nav_follow">Follow the Show</a></li>
       </ul>
       <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
@@ -260,6 +261,9 @@
           <p class="services__desc" data-i18n="svc_desc">
             Transform your podcast into a professional production. Choose your package, add enhancements, and we'll handle the rest.
           </p>
+          <p class="services__pricing-note" data-i18n="svc_pricing_note">
+            💡 Pricing includes professional expertise markup (50%) + premium tools (Claude, ChatGPT, Gemini, Dzine AI, CapCut, Netlify & Supabase infrastructure)
+          </p>
         </div>
 
         <!-- SERVICE TIERS -->
@@ -279,32 +283,32 @@
                 <tr>
                   <td class="style-badge"><span class="badge">🎙️</span> Audio Only</td>
                   <td>Clean audio, intro/outro, mastering</td>
-                  <td class="price">$80</td>
-                  <td class="price">300</td>
+                  <td class="price">$120</td>
+                  <td class="price">440</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🎥</span> Standard Video</td>
                   <td>Static podcast (2 speakers)</td>
-                  <td class="price">$150</td>
-                  <td class="price">550</td>
+                  <td class="price">$225</td>
+                  <td class="price">827</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🎬</span> Cinematic Podcast</td>
                   <td>Multi-angle, motion, transitions</td>
-                  <td class="price">$300</td>
-                  <td class="price">1,100</td>
+                  <td class="price">$450</td>
+                  <td class="price">1,651</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🧠</span> AI Enhanced</td>
                   <td>AI visuals, captions, highlights</td>
-                  <td class="price">$450</td>
-                  <td class="price">1,650</td>
+                  <td class="price">$675</td>
+                  <td class="price">2,477</td>
                 </tr>
                 <tr class="highlight-row">
                   <td class="style-badge"><span class="badge">🚀</span> Premium Brand</td>
                   <td>Full production + branding</td>
-                  <td class="price">$800</td>
-                  <td class="price">2,950</td>
+                  <td class="price">$1,200</td>
+                  <td class="price">4,404</td>
                 </tr>
               </tbody>
             </table>
@@ -328,38 +332,38 @@
                 <tr>
                   <td class="style-badge"><span class="badge">✂️</span> Short Clips</td>
                   <td>3–5 TikTok/Reels-ready clips</td>
-                  <td class="price">$50</td>
-                  <td class="price">180</td>
+                  <td class="price">$75</td>
+                  <td class="price">275</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">📝</span> Subtitles</td>
                   <td>Auto + styled captions</td>
-                  <td class="price">$40</td>
-                  <td class="price">150</td>
+                  <td class="price">$60</td>
+                  <td class="price">220</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🎨</span> Custom Thumbnail</td>
                   <td>YouTube-ready design</td>
-                  <td class="price">$30</td>
-                  <td class="price">110</td>
+                  <td class="price">$45</td>
+                  <td class="price">165</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🧑‍🎨</span> AI Scene</td>
                   <td>Pixar / realistic scenes</td>
-                  <td class="price">$120</td>
-                  <td class="price">440</td>
+                  <td class="price">$180</td>
+                  <td class="price">661</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🎤</span> Voice Enhancement</td>
                   <td>Studio-quality audio</td>
-                  <td class="price">$25</td>
-                  <td class="price">90</td>
+                  <td class="price">$40</td>
+                  <td class="price">147</td>
                 </tr>
                 <tr>
                   <td class="style-badge"><span class="badge">🌍</span> Bilingual</td>
                   <td>Arabic + English version</td>
-                  <td class="price">$100</td>
-                  <td class="price">370</td>
+                  <td class="price">$150</td>
+                  <td class="price">550</td>
                 </tr>
               </tbody>
             </table>
@@ -576,6 +580,83 @@
           </form>
           <p class="subscribe__note" data-i18n="sub_note">No spam. Unsubscribe anytime.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact">
+      <div class="contact__inner">
+        <div class="contact__content reveal" data-delay="1">
+          <span class="section-kicker" data-i18n="contact_kicker">Get in Touch</span>
+          <h2 class="contact__title" data-i18n="contact_title">Contact Us</h2>
+          <p class="contact__desc" data-i18n="contact_desc">Have a question or interested in our services? Send us a message and we'll get back to you soon.</p>
+          <p class="contact__note" data-i18n="contact_note">📧 Your information will be sent to esamalfalasi@gmail.com</p>
+        </div>
+
+        <form class="contact__form reveal" id="contact-form" data-delay="2">
+          <div class="contact__form-group">
+            <label for="contact-first-name" class="contact__label" data-i18n="contact_first_name">First Name</label>
+            <input
+              type="text"
+              id="contact-first-name"
+              name="firstName"
+              class="contact__input"
+              required
+              placeholder="John"
+            />
+          </div>
+
+          <div class="contact__form-group">
+            <label for="contact-last-name" class="contact__label" data-i18n="contact_last_name">Last Name</label>
+            <input
+              type="text"
+              id="contact-last-name"
+              name="lastName"
+              class="contact__input"
+              required
+              placeholder="Doe"
+            />
+          </div>
+
+          <div class="contact__form-group">
+            <label for="contact-email" class="contact__label" data-i18n="contact_email">Email Address</label>
+            <input
+              type="email"
+              id="contact-email"
+              name="email"
+              class="contact__input"
+              required
+              placeholder="john@example.com"
+            />
+          </div>
+
+          <div class="contact__form-group">
+            <label for="contact-subject" class="contact__label" data-i18n="contact_subject">Subject</label>
+            <select id="contact-subject" name="subject" class="contact__input" required>
+              <option value="" disabled selected data-i18n="contact_subject_select">Select a subject</option>
+              <option value="consulting" data-i18n="contact_subject_consulting">Consulting Services</option>
+              <option value="speaking" data-i18n="contact_subject_speaking">Speaking Engagement</option>
+              <option value="partnership" data-i18n="contact_subject_partnership">Partnership Opportunity</option>
+              <option value="media" data-i18n="contact_subject_media">Media Inquiry</option>
+              <option value="podcast" data-i18n="contact_subject_podcast">Podcast Appearance</option>
+              <option value="other" data-i18n="contact_subject_other">Other Inquiry</option>
+            </select>
+          </div>
+
+          <div class="contact__form-group contact__form-group--full">
+            <label for="contact-message" class="contact__label" data-i18n="contact_message">Message</label>
+            <textarea
+              id="contact-message"
+              name="message"
+              class="contact__textarea"
+              rows="5"
+              placeholder="Tell us more about your inquiry..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--gold btn--lg" data-i18n="contact_submit">Send Message</button>
+          <div class="contact__status" id="contact-status"></div>
+        </form>
       </div>
     </section>
   </main>

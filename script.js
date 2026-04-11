@@ -576,7 +576,51 @@
     speedSel.addEventListener('change',  calcTotal);
   })();
 
-  /* ---------- 12. Prefers-reduced-motion support ---------- */
+  /* ---------- 12. Contact Form Handler ---------- */
+  (function setupContactForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('contact-status');
+      statusEl.textContent = 'Sending...';
+      statusEl.className = 'contact__status';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('/.netlify/functions/contact-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          statusEl.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+          statusEl.classList.add('success');
+          form.reset();
+        } else {
+          statusEl.textContent = result.error || 'Failed to send message. Please try again.';
+          statusEl.classList.add('error');
+        }
+      } catch (error) {
+        statusEl.textContent = 'Error sending message. Please try again later.';
+        statusEl.classList.add('error');
+        console.error('Contact form error:', error);
+      }
+
+      setTimeout(() => {
+        statusEl.className = 'contact__status';
+        statusEl.textContent = '';
+      }, 5000);
+    });
+  })();
+
+  /* ---------- 13. Prefers-reduced-motion support ---------- */
   const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (mql.matches) {
     document.documentElement.classList.add('reduce-motion');
