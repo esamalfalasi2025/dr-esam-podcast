@@ -8,7 +8,16 @@
   status = 200
 
 [[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = { NOT = {Path = ["/.netlify/functions/*"]} }
