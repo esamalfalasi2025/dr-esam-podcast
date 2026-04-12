@@ -114,10 +114,9 @@ ${message}
           subject:      subject,
           service_key:  subject,
           service_name: tier.name,
-          revenue:      tier.price,
-          cost:         tier.cost,
-          profit:       tier.price - tier.cost,
-          created_at:   new Date().toISOString()
+          price_aed:    tier.price,
+          cost_aed:     tier.cost,
+          markup_aed:   tier.price - tier.cost
         };
         // Fire-and-forget: insert to Supabase without blocking response
         (async () => {
