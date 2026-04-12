@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     const supabaseKey = process.env.SUPABASE_KEY;
     if (!supabaseUrl || !supabaseKey) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Missing Supabase credentials' }) };
 
-    const r = await fetch(`${supabaseUrl}/rest/v1/episodes?select=id,title,created_at,youtube,tiktok&order=created_at.desc`, {
+    const r = await fetch(`${supabaseUrl}/rest/v1/episodes?select=id,title,created_at,youtube,tiktok,image_url&order=created_at.desc`, {
       headers: {
         'apikey': supabaseKey,
         'Authorization': `Bearer ${supabaseKey}`,
