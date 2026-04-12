@@ -7,6 +7,19 @@ const STORAGE_KEY   = 'drEsamContent';
 const PASSWORD_KEY  = 'drEsamAdminPass';
 const DEFAULT_PASS  = 'DrEsam2025';
 
+// Utility: Escape HTML special characters
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.toString().replace(/[&<>"']/g, m => map[m]);
+}
+
 // ──────────────────────────────────────────────────
 // DEFAULT CONTENT (mirrors what's in index.html)
 // ──────────────────────────────────────────────────
