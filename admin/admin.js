@@ -1138,15 +1138,21 @@ function toggleFieldVisibility(fieldId, btn) {
 // SERVICE REQUESTS MANAGEMENT
 // ──────────────────────────────────────────────────
 async function loadServiceRequests() {
+  console.log('loadServiceRequests called');
   const list = document.getElementById('requests-list');
-  if (!list) return;
+  if (!list) {
+    console.error('requests-list element not found!');
+    return;
+  }
 
   list.innerHTML = '<p style="text-align:center; padding:20px;">Loading requests...</p>';
 
   try {
     const res = await fetch('/.netlify/functions/service-requests-list');
+    console.log('Fetch response:', res.status, res.ok);
     if (!res.ok) throw new Error('Failed to fetch requests');
     const requests = await res.json();
+    console.log('Fetched requests:', requests.length, 'items');
 
     if (!requests || requests.length === 0) {
       list.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">No service requests yet.</p>';
