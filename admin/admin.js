@@ -196,6 +196,15 @@ function switchTab(tab, btn) {
   btn.classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('tab-title').textContent = btn.textContent.replace(/^[^\w]+/, '').trim();
+
+  // Load tab-specific data
+  if (tab === 'requests') {
+    loadServiceRequests();
+  } else if (tab === 'analytics') {
+    if (typeof initAnalytics === 'function') initAnalytics();
+  } else if (tab === 'revenue') {
+    if (typeof initRevenueReport === 'function') initRevenueReport();
+  }
 }
 
 // ──────────────────────────────────────────────────
@@ -1111,3 +1120,74 @@ function toggleFieldVisibility(fieldId, btn) {
   });
 })();
 
+
+// ──────────────────────────────────────────────────
+// SERVICE REQUESTS MANAGEMENT
+// ──────────────────────────────────────────────────
+async function loadServiceRequests() {
+  const list = document.getElementById('requests-list');
+  if (!list) return;
+
+  list.innerHTML = '<p style="text-align:center; padding:20px;">Loading requests...</p>';
+
+  try {
+    const res = await fetch('/.netlify/functions/service-requests-list');
+    if (!res.ok) throw new Error('Failed to fetch requests');
+    const requests = await res.json();
+
+    if (!requests || requests.length === 0) {
+      list.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">No service requests yet.</p>';
+      return;
+    }
+
+    list.innerHTML = requests.map(req => `
+      <div class="request-card">
+        <div class="request-info">
+          <div class="request-header">
+            <div>
+              <div class="request-name">${escapeHtml(req.first_name)} ${escapeHtml(req.last_name)}</div>
+              <div class="request-detail"><strong>Email:</strong> ${escapeHtml(req.email)}</div>
+            </div>
+            <div class="request-status status-${req.status || 'discussion'}">${(req.status || 'discussion').toUpperCase()}</div>
+          </div>
+          <div class="request-service">${escapeHtml(req.service_name || 'Unknown Service')}</div>
+          <div class="request-detail"><strong>Date:</strong> ${new Date(req.created_at).toLocaleDateString()}</div>
+          ${req.price_aed ? `<div class="request-price">💰 ${req.price_aed.toLocaleString()} AED</div>` : ''}
+        </div>
+        <div class="request-actions">
+          <button class="btn-status ${(req.status || 'discussion') !== 'discussion' ? 'disabled' : ''}" 
+                  onclick="updateRequestStatus('${req.id}', 'agreed')"
+                  ${(req.status || 'discussion') !== 'discussion' ? 'disabled' : ''}>
+            → Agreed
+          </button>
+          <button class="btn-status ${(req.status || 'discussion') === 'done' ? 'disabled' : ''}" 
+                  onclick="updateRequestStatus('${req.id}', 'done')"
+                  ${(req.status || 'discussion') === 'done' ? 'disabled' : ''}>
+            ✓ Done
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Load requests error:', err);
+    list.innerHTML = `<p style="color:#f44336; padding:20px;">Error loading requests: ${err.message}</p>`;
+  }
+}
+
+async function updateRequestStatus(id, status) {
+  try {
+    const res = await fetch('/.netlify/functions/update-request-status', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status })
+    });
+
+    if (!res.ok) throw new Error('Failed to update status');
+    
+    showToast(`✓ Status updated to ${status}`);
+    await loadServiceRequests();
+  } catch (err) {
+    showToast(`Error: ${err.message}`, true);
+    console.error('Update status error:', err);
+  }
+}

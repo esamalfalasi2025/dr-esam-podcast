@@ -24,6 +24,8 @@ const headers = {
 };
 
 exports.handler = async (event) => {
+  console.log('Contact form handler called:', { method: event.httpMethod, body: event.body });
+
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
@@ -38,6 +40,7 @@ exports.handler = async (event) => {
 
   try {
     const { firstName, lastName, email, subject, message } = JSON.parse(event.body);
+    console.log('Parsed form data:', { firstName, lastName, email, subject, message });
 
     // Validate required fields
     if (!firstName || !lastName || !email || !subject || !message) {
@@ -101,7 +104,7 @@ ${message}
       throw new Error('Failed to send email via Mailgun');
     }
 
-    // Insert into service_requests table (non-blocking, fire-and-forget)
+    // Insert into service_requests table (blocking)
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_KEY;
     if (supabaseUrl && supabaseKey) {
@@ -116,31 +119,31 @@ ${message}
           service_name: tier.name,
           price_aed:    tier.price,
           cost_aed:     tier.cost,
-          markup_aed:   tier.price - tier.cost
+          markup_aed:   tier.price - tier.cost,
+          status:       'discussion'
         };
-        // Fire-and-forget: insert to Supabase without blocking response
-        (async () => {
-          try {
-            const dbRes = await fetch(`${supabaseUrl}/rest/v1/service_requests`, {
-              method: 'POST',
-              headers: {
-                'apikey':        supabaseKey,
-                'Authorization': `Bearer ${supabaseKey}`,
-                'Content-Type':  'application/json',
-                'Prefer':        'return=minimal'
-              },
-              body: JSON.stringify(record)
-            });
-            if (!dbRes.ok) {
-              const errData = await dbRes.text();
-              console.error(`Supabase insert failed (${dbRes.status}):`, errData);
-            } else {
-              console.log('Service request stored successfully');
-            }
-          } catch (dbErr) {
-            console.error('Supabase insert error (non-fatal):', dbErr.message);
+        try {
+          console.log('Inserting record to Supabase:', record);
+          const dbRes = await fetch(`${supabaseUrl}/rest/v1/service_requests`, {
+            method: 'POST',
+            headers: {
+              'apikey':        supabaseKey,
+              'Authorization': `Bearer ${supabaseKey}`,
+              'Content-Type':  'application/json',
+              'Prefer':        'return=minimal'
+            },
+            body: JSON.stringify(record)
+          });
+          console.log('Supabase response status:', dbRes.status);
+          if (!dbRes.ok) {
+            const errData = await dbRes.text();
+            console.error(`Supabase insert failed (${dbRes.status}):`, errData);
+          } else {
+            console.log('Service request stored successfully');
           }
-        })();
+        } catch (dbErr) {
+          console.error('Supabase insert error:', dbErr.message);
+        }
       }
     }
 

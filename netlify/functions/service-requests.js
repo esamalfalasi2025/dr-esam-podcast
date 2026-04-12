@@ -19,8 +19,8 @@ exports.handler = async (event) => {
   // Date filter from query string: ?from=YYYY-MM-DD&to=YYYY-MM-DD
   const { from, to } = event.queryStringParameters || {};
 
-  // Build Supabase filter
-  let url = `${supabaseUrl}/rest/v1/service_requests?select=service_key,service_name,price_aed,cost_aed,markup_aed,created_at&order=created_at.desc`;
+  // Build Supabase filter - only count 'agreed' and 'done' status as revenue
+  let url = `${supabaseUrl}/rest/v1/service_requests?select=service_key,service_name,price_aed,cost_aed,markup_aed,status,created_at&status=in.(agreed,done)&order=created_at.desc`;
   if (from) url += `&created_at=gte.${from}T00:00:00Z`;
   if (to)   url += `&created_at=lte.${to}T23:59:59Z`;
 

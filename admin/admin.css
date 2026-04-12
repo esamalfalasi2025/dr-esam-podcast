@@ -927,3 +927,103 @@ body {
   border-top: 2px solid rgba(201,168,76,0.4);
   border-bottom: none;
 }
+
+/* ===== SERVICE REQUESTS ===== */
+.requests-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.request-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+
+.request-info {
+  display: grid;
+  gap: 8px;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+}
+
+.request-name {
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.request-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-discussion { background: rgba(150,150,150,0.2); color: #ccc; }
+.status-agreed { background: rgba(201,168,76,0.2); color: var(--gold); }
+.status-done { background: rgba(76,201,120,0.2); color: #4cc978; }
+
+.request-detail {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.request-detail strong { color: var(--text); }
+
+.request-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.btn-status {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.btn-status:hover {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+
+.btn-status.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.request-service {
+  background: rgba(201,168,76,0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 13px;
+}
+
+.request-price {
+  color: var(--gold);
+  font-weight: 600;
+}
