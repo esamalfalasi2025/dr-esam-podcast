@@ -1196,9 +1196,10 @@ async function updateRequestStatus(id, status) {
     });
 
     if (!res.ok) throw new Error('Failed to update status');
-    
+
     showToast(`✓ Status updated to ${status}`);
-    await loadServiceRequests();
+    // Small delay to ensure database update completes
+    setTimeout(() => loadServiceRequests(), 300);
   } catch (err) {
     showToast(`Error: ${err.message}`, true);
     console.error('Update status error:', err);
