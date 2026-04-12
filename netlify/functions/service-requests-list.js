@@ -33,7 +33,7 @@ exports.handler = async (event) => {
   try {
     // Get all requests, newest first
     const res = await fetch(
-      `${supabaseUrl}/rest/v1/service_requests?select=*&order=created_at.desc`,
+      `${supabaseUrl}/rest/v1/service_requests?select=id,first_name,last_name,email,subject,service_key,service_name,price_aed,cost_aed,markup_aed,status,created_at&order=created_at.desc`,
       {
         headers: {
           'apikey': supabaseKey,
