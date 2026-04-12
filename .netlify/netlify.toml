@@ -1,13 +1,13 @@
-functionsDirectory = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+functionsDirectory = "c:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
 functionsDirectoryOrigin = "config-v1"
 redirectsOrigin = "config"
 plugins = []
 headers = []
 
 [build]
-publish = "C:\\ClaudeProjects\\active\\dr-esam-podcast"
+publish = "c:\\ClaudeProjects\\active\\dr-esam-podcast"
 publishOrigin = "config"
-functions = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+functions = "c:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
 
 [build.environment]
 
@@ -25,17 +25,7 @@ functions = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
 
 [functions]
 
-[functions.heygen-upload-photo]
-timeout = 26.0
-
-[functions.heygen-create-video]
-timeout = 26.0
-
-[functions.heygen-video-status]
-timeout = 26.0
-
 [functions."*"]
-node_bundler = "esbuild"
 
 [[redirects]]
 from = "/api/*"

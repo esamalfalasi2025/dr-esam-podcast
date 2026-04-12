@@ -118,20 +118,29 @@ ${message}
           cost_aed:     tier.cost,
           markup_aed:   tier.price - tier.cost
         };
-        try {
-          fetch(`${supabaseUrl}/rest/v1/service_requests`, {
-            method: 'POST',
-            headers: {
-              'apikey':        supabaseKey,
-              'Authorization': `Bearer ${supabaseKey}`,
-              'Content-Type':  'application/json',
-              'Prefer':        'return=minimal'
-            },
-            body: JSON.stringify(record)
-          }).catch(err => console.error('Supabase insert failed (non-fatal):', err.message));
-        } catch (dbErr) {
-          console.error('Supabase insert error (non-fatal):', dbErr.message);
-        }
+        // Fire-and-forget: insert to Supabase without blocking response
+        (async () => {
+          try {
+            const dbRes = await fetch(`${supabaseUrl}/rest/v1/service_requests`, {
+              method: 'POST',
+              headers: {
+                'apikey':        supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+                'Content-Type':  'application/json',
+                'Prefer':        'return=minimal'
+              },
+              body: JSON.stringify(record)
+            });
+            if (!dbRes.ok) {
+              const errData = await dbRes.text();
+              console.error(`Supabase insert failed (${dbRes.status}):`, errData);
+            } else {
+              console.log('Service request stored successfully');
+            }
+          } catch (dbErr) {
+            console.error('Supabase insert error (non-fatal):', dbErr.message);
+          }
+        })();
       }
     }
 
