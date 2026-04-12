@@ -2569,9 +2569,11 @@ select.contact__input optgroup {
 /* AED Currency Symbol */
 .aed-symbol {
   display: inline-block;
-  vertical-align: -0.2em;
-  margin: 0 2px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-left: 3px;
   color: currentColor;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .contact__form button {
