@@ -67,9 +67,9 @@ exports.handler = async (event) => {
       const errData = await res.text();
       console.error(`Supabase update failed (${res.status}):`, errData);
       return {
-        statusCode: res.status,
+        statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Failed to update status' })
+        body: JSON.stringify({ error: `Supabase error: ${errData}` })
       };
     }
 
