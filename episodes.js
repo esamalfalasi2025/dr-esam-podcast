@@ -69,8 +69,32 @@
         </div>
       `;
     }).join('');
+
+    // Add TikTok card at the end
+    const tiktokCard = `
+      <div class="episode-thumbnail reveal" style="opacity: 1; transform: translateY(0);" data-delay="7">
+        <a href="https://www.tiktok.com/@dxbesam" target="_blank" rel="noopener noreferrer" class="episode-thumbnail__image-wrapper" style="background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+          <div style="text-align: center; color: white; position: relative; z-index: 2;">
+            <div style="font-size: 48px; margin-bottom: 12px;">🎵</div>
+            <div style="font-size: 16px; font-weight: 600;">More Episodes</div>
+            <div style="font-size: 12px; margin-top: 4px; opacity: 0.8;">on TikTok</div>
+          </div>
+          <div class="episode-thumbnail__overlay"></div>
+        </a>
+        <h3 class="episode-thumbnail__title">See More Episodes</h3>
+        <p class="episode-thumbnail__guest" style="font-size: 13px; color: #7a7570; margin-top: 4px;">@dxbesam</p>
+        <div class="episode-thumbnail__links">
+          <a href="https://www.tiktok.com/@dxbesam" target="_blank" rel="noopener noreferrer" class="btn btn--gold btn--xs" title="Visit TikTok">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 14px; height: 14px; fill: currentColor;">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.86 2.86 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-.54-.05z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    `;
+
     console.log('Generated HTML:', html);
-    grid.innerHTML = html;
+    grid.innerHTML = html + tiktokCard;
     console.log('Episodes rendered successfully');
   }
 
