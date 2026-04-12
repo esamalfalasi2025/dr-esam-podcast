@@ -1188,6 +1188,7 @@ async function loadServiceRequests() {
 }
 
 async function updateRequestStatus(id, status) {
+  console.log('updateRequestStatus called:', { id, status });
   try {
     const res = await fetch('/.netlify/functions/update-request-status', {
       method: 'PATCH',
@@ -1195,11 +1196,16 @@ async function updateRequestStatus(id, status) {
       body: JSON.stringify({ id, status })
     });
 
+    console.log('Update response:', res.status, res.ok);
     if (!res.ok) throw new Error('Failed to update status');
 
     showToast(`✓ Status updated to ${status}`);
     // Small delay to ensure database update completes
-    setTimeout(() => loadServiceRequests(), 300);
+    console.log('Calling loadServiceRequests after 300ms');
+    setTimeout(() => {
+      console.log('Reloading service requests...');
+      loadServiceRequests();
+    }, 300);
   } catch (err) {
     showToast(`Error: ${err.message}`, true);
     console.error('Update status error:', err);
