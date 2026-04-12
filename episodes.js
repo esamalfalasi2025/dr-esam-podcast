@@ -82,7 +82,6 @@
           <div class="episode-thumbnail__overlay"></div>
         </a>
         <h3 class="episode-thumbnail__title">See More Episodes</h3>
-        <p class="episode-thumbnail__guest" style="font-size: 13px; color: #7a7570; margin-top: 4px;">@dxbesam</p>
         <div class="episode-thumbnail__links">
           <a href="https://www.tiktok.com/@dxbesam" target="_blank" rel="noopener noreferrer" class="btn btn--gold btn--xs" title="Visit TikTok">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 14px; height: 14px; fill: currentColor;">
