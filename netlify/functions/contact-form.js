@@ -1,6 +1,21 @@
 // Contact form handler with Mailgun email integration
 const https = require('https');
 
+// Service pricing map (matches contact form <select> values)
+const PRICING = {
+  'audio-only':        { name: 'Audio Only',        price: 440,  cost: 293  },
+  'standard-video':    { name: 'Standard Video',     price: 826,  cost: 551  },
+  'cinematic':         { name: 'Cinematic',          price: 1652, cost: 1101 },
+  'ai-enhanced':       { name: 'AI Enhanced',        price: 2476, cost: 1651 },
+  'premium-brand':     { name: 'Premium Brand',      price: 4404, cost: 2936 },
+  'short-clips':       { name: 'Short Clips',        price: 275,  cost: 183  },
+  'subtitles':         { name: 'Subtitles',          price: 220,  cost: 147  },
+  'thumbnail':         { name: 'Thumbnail',          price: 165,  cost: 110  },
+  'ai-scenes':         { name: 'AI Scenes',          price: 661,  cost: 441  },
+  'voice-enhancement': { name: 'Voice Enhancement',  price: 147,  cost: 98   },
+  'bilingual':         { name: 'Bilingual',          price: 551,  cost: 367  },
+};
+
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -84,6 +99,40 @@ ${message}
     if (!result.success) {
       console.error('Mailgun send failed:', result.error);
       throw new Error('Failed to send email via Mailgun');
+    }
+
+    // Insert into service_requests table (non-blocking, fire-and-forget)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_KEY;
+    if (supabaseUrl && supabaseKey) {
+      const tier = PRICING[subject];
+      if (tier) {
+        const record = {
+          first_name:   firstName,
+          last_name:    lastName,
+          email:        email,
+          subject:      subject,
+          service_key:  subject,
+          service_name: tier.name,
+          price_aed:    tier.price,
+          cost_aed:     tier.cost,
+          markup_aed:   tier.price - tier.cost
+        };
+        try {
+          fetch(`${supabaseUrl}/rest/v1/service_requests`, {
+            method: 'POST',
+            headers: {
+              'apikey':        supabaseKey,
+              'Authorization': `Bearer ${supabaseKey}`,
+              'Content-Type':  'application/json',
+              'Prefer':        'return=minimal'
+            },
+            body: JSON.stringify(record)
+          }).catch(err => console.error('Supabase insert failed (non-fatal):', err.message));
+        } catch (dbErr) {
+          console.error('Supabase insert error (non-fatal):', dbErr.message);
+        }
+      }
     }
 
     return {

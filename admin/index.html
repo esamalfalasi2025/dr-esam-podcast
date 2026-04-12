@@ -61,6 +61,7 @@
       <button class="nav-item" data-tab="podcastvideo">🎬 Podcast Video</button>
       <button class="nav-item" data-tab="subscribers">📧 Subscribers</button>
       <button class="nav-item" data-tab="analytics">📊 Analytics</button>
+      <button class="nav-item" data-tab="revenue">💰 Revenue Report</button>
     </nav>
     <div class="sidebar__actions">
       <button class="btn-gold" id="save-all-btn">💾 Save All</button>
@@ -881,6 +882,82 @@
       </div>
     </section>
 
+    <!-- ── REVENUE REPORT TAB ── -->
+    <section class="tab-panel" id="tab-revenue">
+
+      <!-- Date filter row -->
+      <div class="rr-toolbar">
+        <div>
+          <label class="rr-label">From Date</label>
+          <input type="date" id="rr-from-date" class="rr-date-input" />
+        </div>
+        <div>
+          <label class="rr-label">To Date</label>
+          <input type="date" id="rr-to-date" class="rr-date-input" />
+        </div>
+        <button class="btn-gold btn-sm" id="rr-filter-btn">Filter</button>
+        <button class="btn-ghost btn-sm" id="rr-refresh-btn">Refresh</button>
+        <button class="btn-ghost btn-sm" id="rr-export-btn">Export CSV</button>
+      </div>
+
+      <!-- Summary stat cards -->
+      <div class="rr-stat-cards">
+        <div class="rr-stat-card">
+          <div class="rr-stat-label">Total Revenue</div>
+          <div class="rr-stat-value" id="rr-stat-revenue">—</div>
+        </div>
+        <div class="rr-stat-card">
+          <div class="rr-stat-label">Total Cost</div>
+          <div class="rr-stat-value" id="rr-stat-cost">—</div>
+        </div>
+        <div class="rr-stat-card">
+          <div class="rr-stat-label">Total Profit</div>
+          <div class="rr-stat-value" id="rr-stat-profit">—</div>
+        </div>
+        <div class="rr-stat-card">
+          <div class="rr-stat-label">Total Requests</div>
+          <div class="rr-stat-value" id="rr-stat-count">—</div>
+        </div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="rr-charts">
+        <div class="rr-chart-card">
+          <h3 class="card-title">Revenue per Service</h3>
+          <canvas id="rr-chart-bar" style="max-height:300px"></canvas>
+        </div>
+        <div class="rr-chart-card">
+          <h3 class="card-title">Revenue Distribution</h3>
+          <canvas id="rr-chart-pie" style="max-height:300px"></canvas>
+        </div>
+      </div>
+
+      <!-- Breakdown table -->
+      <div class="panel-card" style="margin-top:32px">
+        <h3 class="card-title">Per-Service Breakdown</h3>
+        <div class="rr-table-wrap">
+          <table class="rr-table" id="rr-table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th class="rr-num">Requests</th>
+                <th class="rr-num">Revenue (AED)</th>
+                <th class="rr-num">Base Cost (AED)</th>
+                <th class="rr-num">Profit (AED)</th>
+                <th class="rr-num">% of Total</th>
+              </tr>
+            </thead>
+            <tbody id="rr-tbody"></tbody>
+            <tfoot id="rr-tfoot"></tfoot>
+          </table>
+          <p id="rr-empty" style="display:none; color:var(--text-muted); padding:24px 0; text-align:center">
+            No service requests found for this period.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 </div>
 
@@ -895,5 +972,6 @@
 <script src="podcastvideo.js"></script>
 <script src="subscribers.js"></script>
 <script src="analytics.js"></script>
+<script src="revenue-report.js"></script>
 </body>
 </html>
