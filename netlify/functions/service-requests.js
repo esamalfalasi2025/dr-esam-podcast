@@ -20,7 +20,7 @@ exports.handler = async (event) => {
   const { from, to } = event.queryStringParameters || {};
 
   // Build Supabase filter
-  let url = `${supabaseUrl}/rest/v1/service_requests?select=service_key,service_name,price_aed,cost_aed,markup_aed,created_at&order=created_at.desc`;
+  let url = `${supabaseUrl}/rest/v1/service_requests?select=service_key,service_name,revenue,cost,profit,created_at&order=created_at.desc`;
   if (from) url += `&created_at=gte.${from}T00:00:00Z`;
   if (to)   url += `&created_at=lte.${to}T23:59:59Z`;
 
@@ -50,9 +50,9 @@ exports.handler = async (event) => {
         };
       }
       grouped[k].count   += 1;
-      grouped[k].revenue += Number(r.price_aed);
-      grouped[k].cost    += Number(r.cost_aed);
-      grouped[k].markup  += Number(r.markup_aed);
+      grouped[k].revenue += Number(r.revenue);
+      grouped[k].cost    += Number(r.cost);
+      grouped[k].markup  += Number(r.profit);
     });
 
     const services = Object.values(grouped);
