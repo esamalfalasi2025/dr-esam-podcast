@@ -2561,6 +2561,11 @@ select.contact__input optgroup {
   font-weight: 600;
 }
 
+/* Hide internal pricing note from customers */
+.services__pricing-note {
+  display: none;
+}
+
 .contact__form button {
   grid-column: 1 / -1;
   margin-top: 16px;
