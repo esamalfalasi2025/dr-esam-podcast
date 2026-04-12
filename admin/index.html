@@ -283,16 +283,17 @@
               </div>
             </div>
             <div class="form-row">
+              <label>Image URL (Supabase Storage)</label>
+              <input type="url" id="ep-image-url" placeholder="https://vcchafwowzfpugjzooou.supabase.co/storage/v1/object/public/episode-images/..." />
+              <span class="hint" style="margin-top:4px;display:block;font-size:12px">Paste a Supabase Storage URL directly — takes priority over file upload</span>
+            </div>
+            <div class="form-row">
               <label>Guest Name (optional)</label>
               <input type="text" id="ep-guest-name" placeholder="e.g., Jane Smith" />
             </div>
             <div class="form-row">
               <label>Description (optional)</label>
               <textarea id="ep-description" placeholder="Brief episode summary..." style="min-height: 80px;"></textarea>
-            </div>
-            <div class="form-row">
-              <label>Audio URL (optional)</label>
-              <input type="url" id="ep-audio-url" placeholder="https://example.com/audio.mp3" />
             </div>
             <div class="form-row">
               <label>YouTube URL (optional)</label>

@@ -485,7 +485,10 @@ body {
   gap: 16px;
   margin-bottom: 20px;
 }
-.ep-drawer__grid .form-row:nth-child(3) {
+.ep-drawer__grid .form-row:nth-child(1),
+.ep-drawer__grid .form-row:nth-child(2),
+.ep-drawer__grid .form-row:nth-child(3),
+.ep-drawer__grid .form-row:nth-child(5) {
   grid-column: 1 / -1;
 }
 .drawer-actions {

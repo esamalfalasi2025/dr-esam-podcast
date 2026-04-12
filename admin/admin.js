@@ -321,12 +321,12 @@ function openEpDrawer(index = -1, ep = null) {
   pendingImageData = null;
   document.getElementById('ep-drawer-title').textContent = index === -1 ? 'Add Episode' : 'Edit Episode';
   document.getElementById('ep-image-file').value = '';
+  set('ep-image-url', '');
 
   if (index === -1) {
     set('ep-title', '');
     set('ep-guest-name', '');
     set('ep-description', '');
-    set('ep-audio-url', '');
     set('ep-youtube', '');
     set('ep-tiktok', '');
     // Hide preview, show placeholder
@@ -336,9 +336,9 @@ function openEpDrawer(index = -1, ep = null) {
     set('ep-title', ep.title || '');
     set('ep-guest-name', ep.guest_name || '');
     set('ep-description', ep.description || '');
-    set('ep-audio-url', ep.audio_url || '');
     set('ep-youtube', ep.youtube || '');
     set('ep-tiktok', ep.tiktok || '');
+    set('ep-image-url', ep.image_url || '');
     // Show preview if image exists
     if (ep.image_url) {
       document.getElementById('ep-preview').src = ep.image_url;
@@ -378,10 +378,15 @@ async function saveEpisode() {
   const title = get('ep-title');
   if (!title) { showToast('Episode title is required', true); return; }
 
-  // Use existing image if not uploading new one
+  // Priority: uploaded file > pasted URL > existing image
   let imageUrl = pendingImageData;
-  if (!imageUrl && editingEpisode && editingEpisode.image_url) {
-    imageUrl = editingEpisode.image_url;
+  if (!imageUrl) {
+    const pastedUrl = get('ep-image-url');
+    if (pastedUrl) {
+      imageUrl = pastedUrl;
+    } else if (editingEpisode && editingEpisode.image_url) {
+      imageUrl = editingEpisode.image_url;
+    }
   }
 
   const ep = {
@@ -389,7 +394,6 @@ async function saveEpisode() {
     image_url: imageUrl || '',
     guest_name: get('ep-guest-name'),
     description: get('ep-description'),
-    audio_url: get('ep-audio-url'),
     youtube: get('ep-youtube'),
     tiktok: get('ep-tiktok'),
     created_at: new Date().toISOString()
