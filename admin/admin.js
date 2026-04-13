@@ -154,14 +154,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // ──────────────────────────────────────────────────
 // AUTH
 // ──────────────────────────────────────────────────
-function handleLogin(e) {
+async function handleLogin(e) {
   e.preventDefault();
   const pass = document.getElementById('admin-pass').value;
   const stored = localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASS;
   if (pass === stored) {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('dashboard').style.display = 'flex';
-    loadContent();
+    await loadContent();
     // Open Dialogue AI tab by default
     const dlgBtn = document.querySelector('.nav-item[data-tab="dialogue"]');
     if (dlgBtn) switchTab('dialogue', dlgBtn);
@@ -223,9 +223,34 @@ function switchTab(tab, btn) {
 // ──────────────────────────────────────────────────
 // LOAD CONTENT → fill form fields
 // ──────────────────────────────────────────────────
-function loadContent() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  content = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULTS));
+async function loadContent() {
+  let saved = null;
+
+  // Try Supabase first
+  try {
+    const res = await fetch('/.netlify/functions/content-get');
+    if (res.ok) {
+      const data = await res.json();
+      if (Object.keys(data).length > 0) {
+        saved = data;
+        console.log('Content loaded from Supabase');
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to fetch from Supabase, falling back to localStorage:', err.message);
+  }
+
+  // Fall back to localStorage
+  if (!saved) {
+    const localSaved = localStorage.getItem(STORAGE_KEY);
+    if (localSaved) {
+      saved = JSON.parse(localSaved);
+      console.log('Content loaded from localStorage');
+    }
+  }
+
+  // Parse or use defaults
+  content = saved ? (typeof saved === 'string' ? JSON.parse(saved) : saved) : JSON.parse(JSON.stringify(DEFAULTS));
   // Merge any missing keys from DEFAULTS
   content = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), content);
 
@@ -577,6 +602,21 @@ function saveAll() {
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
 
+  // Save to Supabase in the background (non-blocking)
+  fetch('/.netlify/functions/content-save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: DEFAULT_PASS, content })
+  }).then(res => {
+    if (res.ok) {
+      console.log('Content synced to Supabase');
+    } else {
+      console.warn('Failed to sync content to Supabase');
+    }
+  }).catch(err => {
+    console.warn('Error syncing to Supabase:', err.message);
+  });
+
   const status = document.getElementById('save-status');
   status.textContent = '✓ Saved';
   status.classList.add('visible');
@@ -587,11 +627,11 @@ function saveAll() {
 // ──────────────────────────────────────────────────
 // RESET DEFAULTS
 // ──────────────────────────────────────────────────
-function resetDefaults() {
+async function resetDefaults() {
   if (!confirm('Reset all content to defaults? This cannot be undone.')) return;
   localStorage.removeItem(STORAGE_KEY);
   content = JSON.parse(JSON.stringify(DEFAULTS));
-  loadContent();
+  await loadContent();
   showToast('Content reset to defaults');
 }
 

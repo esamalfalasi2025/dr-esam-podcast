@@ -11,11 +11,35 @@
   })();
 
   /* ---------- 0. Apply Admin Content Overrides ---------- */
-  (function applyAdminContent() {
-    const raw = localStorage.getItem('drEsamContent');
-    if (!raw) return;
+  (async function applyAdminContent() {
+    let c = null;
+
+    // Try Supabase first
     try {
-      const c = JSON.parse(raw);
+      const res = await fetch('/.netlify/functions/content-get');
+      if (res.ok) {
+        const data = await res.json();
+        if (Object.keys(data).length > 0) {
+          c = data;
+        }
+      }
+    } catch (err) {
+      // Fall back to localStorage
+      console.warn('Failed to fetch from Supabase, using localStorage');
+    }
+
+    // Fall back to localStorage if Supabase didn't work
+    if (!c) {
+      const raw = localStorage.getItem('drEsamContent');
+      if (!raw) return;
+      try {
+        c = JSON.parse(raw);
+      } catch (e) {
+        return;
+      }
+    }
+
+    try {
       const lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
 
       // Helper: set text of first matching element

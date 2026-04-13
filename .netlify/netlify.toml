@@ -1,13 +1,13 @@
-functionsDirectory = "c:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+functionsDirectory = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
 functionsDirectoryOrigin = "config-v1"
 redirectsOrigin = "config"
 plugins = []
 headers = []
 
 [build]
-publish = "c:\\ClaudeProjects\\active\\dr-esam-podcast"
+publish = "C:\\ClaudeProjects\\active\\dr-esam-podcast"
 publishOrigin = "config"
-functions = "c:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
+functions = "C:\\ClaudeProjects\\active\\dr-esam-podcast\\netlify\\functions"
 
 [build.environment]
 
