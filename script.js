@@ -11,36 +11,37 @@
   })();
 
   /* ---------- 0. Apply Admin Content Overrides ---------- */
-  (async function applyAdminContent() {
-    let c = null;
+  let adminContent = null; // Store fetched content globally
 
-    // Try Supabase first
-    try {
-      const res = await fetch('/.netlify/functions/content-get');
-      if (res.ok) {
-        const data = await res.json();
-        if (Object.keys(data).length > 0) {
-          c = data;
+  async function applyAdminContent() {
+    // Fetch content once and cache it
+    if (!adminContent) {
+      try {
+        const res = await fetch('/.netlify/functions/content-get');
+        if (res.ok) {
+          const data = await res.json();
+          if (Object.keys(data).length > 0) {
+            adminContent = data;
+          }
+        }
+      } catch (err) {
+        // Fall back to localStorage
+        const raw = localStorage.getItem('drEsamContent');
+        if (raw) {
+          try {
+            adminContent = JSON.parse(raw);
+          } catch (e) {
+            // Ignore parse errors
+          }
         }
       }
-    } catch (err) {
-      // Fall back to localStorage
-      console.warn('Failed to fetch from Supabase, using localStorage');
     }
 
-    // Fall back to localStorage if Supabase didn't work
-    if (!c) {
-      const raw = localStorage.getItem('drEsamContent');
-      if (!raw) return;
-      try {
-        c = JSON.parse(raw);
-      } catch (e) {
-        return;
-      }
-    }
+    if (!adminContent) return;
 
     try {
       const lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
+      const c = adminContent;
 
       // Helper: set text of first matching element
       function setText(sel, val) {
@@ -106,7 +107,10 @@
 
       // Episodes — skip override, let episodes.js handle dynamic loading from Supabase
     } catch(e) { /* ignore parse errors */ }
-  })();
+  }
+
+  // Apply admin content on page load
+  applyAdminContent();
 
   /* ---------- 1. Navbar scroll effect ---------- */
   const navbar = document.getElementById('navbar');
@@ -487,6 +491,8 @@
     langToggle.addEventListener('click', () => {
       currentLang = currentLang === 'en' ? 'ar' : 'en';
       applyLang(currentLang);
+      // Re-apply admin content after language change
+      applyAdminContent();
     });
   })();
 
