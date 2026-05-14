@@ -318,14 +318,17 @@
           .chat-preview {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 12px;
+            gap: 0;
+            padding: 0;
             height: 100%;
+            min-height: 400px;
           }
 
           .preview-header {
             border-bottom: 1px solid rgba(201, 168, 76, 0.3);
-            padding-bottom: 8px;
+            padding: 12px 16px;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.2);
           }
 
           .preview-header h4 {
@@ -334,16 +337,20 @@
             color: var(--color-text, #f0ede8);
           }
 
+          .preview-header p {
+            margin: 0;
+            font-size: 11px;
+            color: #999;
+          }
+
           .preview-content {
             flex: 1;
             overflow-y: auto;
-            border: 1px solid rgba(201, 168, 76, 0.2);
-            border-radius: 8px;
-            padding: 8px;
-            background-color: rgba(0, 0, 0, 0.3);
+            padding: 12px 16px;
             font-size: 11px;
             line-height: 1.3;
             color: var(--color-text, #f0ede8);
+            min-height: 200px;
           }
 
           .preview-content h1 {
@@ -389,8 +396,10 @@
           .preview-actions {
             display: flex;
             gap: 8px;
-            padding-top: 8px;
+            padding: 12px 16px;
             border-top: 1px solid rgba(201, 168, 76, 0.3);
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.2);
           }
 
           .preview-btn-send {
@@ -398,11 +407,11 @@
             background-color: var(--color-gold, #c9a84c);
             border: none;
             border-radius: 6px;
-            padding: 10px;
+            padding: 12px 16px;
             color: var(--color-bg, #0d0d0d);
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             transition: background-color 0.2s;
           }
 
@@ -410,16 +419,21 @@
             background-color: var(--color-gold-hover, #dfc06a);
           }
 
+          .preview-btn-send:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
           .preview-btn-edit {
             flex: 1;
             background-color: transparent;
-            border: 1px solid var(--color-gold, #c9a84c);
+            border: 1.5px solid var(--color-gold, #c9a84c);
             border-radius: 6px;
-            padding: 10px;
+            padding: 12px 16px;
             color: var(--color-gold, #c9a84c);
             font-weight: 600;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.2s;
           }
 
