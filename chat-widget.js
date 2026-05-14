@@ -562,6 +562,7 @@
       // Get elements
       this.fab = container.querySelector('.chat-fab');
       this.panel = container.querySelector('.chat-panel');
+      this.contentArea = container.querySelector('.chat-content');
       this.messagesContainer = container.querySelector('.chat-messages');
       this.input = container.querySelector('.chat-input-area input');
       this.sendBtn = container.querySelector('.chat-send-btn');
@@ -625,7 +626,7 @@
 
       // Auto-scroll to bottom
       setTimeout(() => {
-        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        this.contentArea.scrollTop = this.contentArea.scrollHeight;
       }, 0);
     }
 
