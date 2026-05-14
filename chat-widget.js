@@ -339,11 +339,51 @@
             overflow-y: auto;
             border: 1px solid rgba(201, 168, 76, 0.2);
             border-radius: 8px;
-            padding: 12px;
+            padding: 8px;
             background-color: rgba(0, 0, 0, 0.3);
-            font-size: 12px;
-            line-height: 1.4;
+            font-size: 11px;
+            line-height: 1.3;
             color: var(--color-text, #f0ede8);
+          }
+
+          .preview-content h1 {
+            font-size: 16px !important;
+            margin: 8px 0 4px 0 !important;
+          }
+
+          .preview-content h2 {
+            font-size: 14px !important;
+            margin: 4px 0 2px 0 !important;
+          }
+
+          .preview-content h3 {
+            font-size: 13px !important;
+            margin: 4px 0 2px 0 !important;
+          }
+
+          .preview-content h4 {
+            font-size: 12px !important;
+            margin: 3px 0 2px 0 !important;
+          }
+
+          .preview-content p {
+            margin: 4px 0 !important;
+            font-size: 11px !important;
+          }
+
+          .preview-content ul {
+            margin: 4px 0 !important;
+            padding-left: 16px !important;
+            font-size: 11px !important;
+          }
+
+          .preview-content li {
+            margin: 2px 0 !important;
+            font-size: 11px !important;
+          }
+
+          .preview-content div {
+            margin: 4px 0 !important;
           }
 
           .preview-actions {
