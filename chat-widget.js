@@ -404,11 +404,17 @@
       this.setLoading(true);
 
       try {
+        // Convert 'bot' role to 'assistant' for Claude API
+        const apiMessages = this.messages.map(msg => ({
+          role: msg.role === 'bot' ? 'assistant' : msg.role,
+          content: msg.content
+        }));
+
         const response = await fetch('/.netlify/functions/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            messages: this.messages,
+            messages: apiMessages,
             lang: this.lang
           })
         });
