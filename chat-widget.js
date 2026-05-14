@@ -225,7 +225,8 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            flex-shrink: 0;
+            flex: 1;
+            min-height: 0;
             overflow: hidden;
           }
 
@@ -388,13 +389,32 @@
 
           .preview-content {
             flex: 1;
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             padding: 12px 16px;
             font-size: 11px;
             line-height: 1.3;
             color: var(--color-text, #f0ede8);
             min-height: 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(201, 168, 76, 0.3) transparent;
+          }
+
+          .preview-content::-webkit-scrollbar {
+            width: 6px;
+          }
+
+          .preview-content::-webkit-scrollbar-track {
+            background: transparent;
+          }
+
+          .preview-content::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, 0.3);
+            border-radius: 3px;
+          }
+
+          .preview-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 168, 76, 0.5);
           }
 
           .preview-content h1 {
