@@ -308,6 +308,85 @@
             font-weight: 500;
           }
 
+          .chat-error-message {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            font-weight: 500;
+          }
+
+          .chat-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+            height: 100%;
+          }
+
+          .preview-header {
+            border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+            padding-bottom: 8px;
+          }
+
+          .preview-header h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: var(--color-text, #f0ede8);
+          }
+
+          .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--color-text, #f0ede8);
+          }
+
+          .preview-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(201, 168, 76, 0.3);
+          }
+
+          .preview-btn-send {
+            flex: 1;
+            background-color: var(--color-gold, #c9a84c);
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            color: var(--color-bg, #0d0d0d);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s;
+          }
+
+          .preview-btn-send:hover {
+            background-color: var(--color-gold-hover, #dfc06a);
+          }
+
+          .preview-btn-edit {
+            flex: 1;
+            background-color: transparent;
+            border: 1px solid var(--color-gold, #c9a84c);
+            border-radius: 6px;
+            padding: 10px;
+            color: var(--color-gold, #c9a84c);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+          }
+
+          .preview-btn-edit:hover {
+            background-color: rgba(201, 168, 76, 0.1);
+          }
+
           @media (max-width: 480px) {
             .chat-panel {
               width: calc(100% - 48px);
@@ -477,10 +556,10 @@
       `;
 
       const submitBtn = document.getElementById('chat-form-submit');
-      submitBtn.addEventListener('click', () => this.submitRecommendation());
+      submitBtn.addEventListener('click', () => this.generateAndPreviewRecommendation());
     }
 
-    async submitRecommendation() {
+    async generateAndPreviewRecommendation() {
       const nameInput = document.getElementById('chat-name');
       const lastNameInput = document.getElementById('chat-lastname');
       const emailInput = document.getElementById('chat-email');
@@ -495,6 +574,7 @@
       submitBtn.textContent = this.getText('submitting');
 
       try {
+        // First, generate the recommendation and get preview
         const response = await fetch('/.netlify/functions/generate-recommendation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -502,7 +582,8 @@
             discoveryData: this.discoveryData,
             firstName: nameInput.value.trim(),
             lastName: lastNameInput.value.trim(),
-            email: emailInput.value.trim()
+            email: emailInput.value.trim(),
+            previewOnly: true // Request preview, don't send email yet
           })
         });
 
@@ -510,16 +591,9 @@
 
         const result = await response.json();
 
-        // Show success message
-        const inputArea = this.panel.querySelector('.chat-input-area');
-        inputArea.innerHTML = `
-          <div class="chat-success-message">
-            <p>✅ Your recommendation has been sent!</p>
-            <p style="font-size: 12px; margin-top: 8px;">Check your email for the full details, pricing, and next steps.</p>
-          </div>
-        `;
+        // Show preview with approve/edit buttons
+        this.showEmailPreview(result, nameInput.value.trim(), lastNameInput.value.trim(), emailInput.value.trim());
 
-        this.addMessage('bot', '🎉 Your personalized podcast recommendation has been sent to your email! Download the PDF to see your package, pricing, and next steps.');
       } catch (err) {
         console.error('Recommendation generation error:', err);
         submitBtn.disabled = false;
@@ -527,6 +601,71 @@
         this.addMessage('bot', 'Sorry, there was an error. Please try again or contact us at dresampodcast.com');
       }
     }
+
+    showEmailPreview(recommendation, firstName, lastName, email) {
+      const inputArea = this.panel.querySelector('.chat-input-area');
+      inputArea.innerHTML = `
+        <div class="chat-preview">
+          <div class="preview-header">
+            <h4>📧 Email Preview</h4>
+            <p style="font-size: 11px; color: #999;">Review before sending to ${email}</p>
+          </div>
+          <div class="preview-content">${recommendation.emailHtml}</div>
+          <div class="preview-actions">
+            <button id="preview-send" class="preview-btn-send">✓ Send Email</button>
+            <button id="preview-edit" class="preview-btn-edit">✎ Edit</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('preview-send').addEventListener('click', () =>
+        this.confirmAndSendRecommendation(recommendation, firstName, lastName, email)
+      );
+
+      document.getElementById('preview-edit').addEventListener('click', () =>
+        this.showRecommendationForm()
+      );
+    }
+
+    async confirmAndSendRecommendation(recommendation, firstName, lastName, email) {
+      const inputArea = this.panel.querySelector('.chat-input-area');
+      inputArea.innerHTML = `<div style="text-align: center; padding: 20px;"><p>${this.getText('submitting')}</p></div>`;
+
+      try {
+        const response = await fetch('/.netlify/functions/generate-recommendation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            discoveryData: this.discoveryData,
+            firstName,
+            lastName,
+            email,
+            previewOnly: false // Actually send the email
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to send recommendation');
+
+        // Show success message
+        inputArea.innerHTML = `
+          <div class="chat-success-message">
+            <p>✅ Your recommendation has been sent!</p>
+            <p style="font-size: 12px; margin-top: 8px;">Check your email for the full details, pricing, and next steps.</p>
+          </div>
+        `;
+
+        this.addMessage('bot', '🎉 Your personalized podcast recommendation has been sent to your email! Check your inbox for pricing, packages, and next steps.');
+      } catch (err) {
+        console.error('Email send error:', err);
+        inputArea.innerHTML = `
+          <div class="chat-error-message">
+            <p>❌ Error sending email</p>
+            <p style="font-size: 12px; margin-top: 8px;">Please contact us at dresampodcast.com</p>
+          </div>
+        `;
+      }
+    }
+
 
     updateUIText() {
       const panelHeader = this.panel.querySelector('.chat-header');
