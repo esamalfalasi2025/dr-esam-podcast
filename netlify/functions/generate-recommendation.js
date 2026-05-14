@@ -148,19 +148,25 @@ async function sendEmailViaMailgun(email, firstName, recommendation) {
         <p>Thank you for chatting with Dr. Esam's AI Sales Consultant! Based on your needs, here's your personalized recommendation:</p>
 
         <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3>${recommendation.recommendedPackage} — ${recommendation.packagePrice || 0} AED</h3>
-          <p>${recommendation.podcastType === 'personal' ? 'Personal Brand' : 'Commercial'} Podcast with ${recommendation.hasGuests ? 'Guests' : 'Solo'} ${recommendation.needsAvatar ? '& AI Avatar' : ''}</p>
-          ${addonsList ? `<h4>Recommended Add-ons:</h4><ul>${addonsList}</ul>` : ''}
-          <h2 style="color: #c9a84c; margin-top: 20px;">Total: ${recommendation.totalPrice || 0} AED</h2>
+          <h3 style="margin-top: 0;">${recommendation.recommendedPackage}</h3>
+          <p style="color: #666; font-size: 14px;">${recommendation.podcastType === 'personal' ? 'Personal Brand' : 'Commercial'} Podcast with ${recommendation.hasGuests ? 'Guests' : 'Solo'} ${recommendation.needsAvatar ? '& AI Avatar' : ''}</p>
+
+          <p style="color: #999; font-size: 13px; margin: 10px 0;">Base Package: <strong>${recommendation.packagePrice || 0} AED</strong></p>
+
+          ${addonsList ? `<h4 style="margin-bottom: 10px;">Recommended Add-ons:</h4><ul style="margin: 10px 0; padding-left: 20px;">${addonsList}</ul>` : ''}
+
+          <div style="border-top: 2px solid #c9a84c; padding-top: 15px; margin-top: 15px;">
+            <h2 style="color: #c9a84c; margin: 0;">Total Investment: ${recommendation.totalPrice || 0} AED</h2>
+          </div>
         </div>
 
-        <p style="background: #f0f0f0; padding: 15px; border-left: 4px solid #c9a84c;">
-          <strong>Next Steps:</strong><br/>
-          Contact us on WhatsApp or fill out the form at <strong>dresampodcast.com</strong> to book your podcast production.
+        <p style="background: #fffbf0; padding: 15px; border-left: 4px solid #c9a84c; margin: 20px 0;">
+          <strong>Ready to get started?</strong><br/>
+          Contact us on WhatsApp or fill out the form at <strong>dresampodcast.com</strong> to book your podcast production today!
         </p>
 
-        <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
-        <p style="color: #999; font-size: 12px;">© 2026 DR. ESAM PODCAST | dresampodcast.com</p>
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+        <p style="color: #999; font-size: 11px; text-align: center;">© 2026 DR. ESAM PODCAST | dresampodcast.com<br/>Transforming Your Ideas Into Premium Audio & Video Content</p>
       </div>
     `;
 
