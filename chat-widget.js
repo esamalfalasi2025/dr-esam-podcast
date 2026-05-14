@@ -142,6 +142,28 @@
             font-weight: 600;
             color: var(--color-text, #f0ede8);
             font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .chat-close-btn {
+            background: none;
+            border: none;
+            color: var(--color-text-secondary, #9a9490);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+          }
+
+          .chat-close-btn:hover {
+            color: var(--color-text, #f0ede8);
           }
 
           .chat-messages {
@@ -472,7 +494,10 @@
 
         <button class="chat-fab" aria-label="Open chat">💬</button>
         <div class="chat-panel">
-          <div class="chat-header">Dr. Esam Podcast</div>
+          <div class="chat-header">
+            <span>Dr. Esam Podcast</span>
+            <button class="chat-close-btn" aria-label="Close chat">✕</button>
+          </div>
           <div class="chat-messages">
             <div class="chat-message bot">
               <div class="chat-bubble"></div>
@@ -493,9 +518,11 @@
       this.messagesContainer = container.querySelector('.chat-messages');
       this.input = container.querySelector('.chat-input-area input');
       this.sendBtn = container.querySelector('.chat-send-btn');
+      this.closeBtn = container.querySelector('.chat-close-btn');
 
       // Attach event listeners
       this.fab.addEventListener('click', () => this.toggle());
+      this.closeBtn.addEventListener('click', () => this.close());
       this.sendBtn.addEventListener('click', () => this.sendMessage());
       this.input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -515,6 +542,11 @@
       if (this.isOpen) {
         this.input.focus();
       }
+    }
+
+    close() {
+      this.isOpen = false;
+      this.panel.classList.remove('open');
     }
 
     addMessage(role, content) {
