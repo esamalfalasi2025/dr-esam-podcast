@@ -236,6 +236,8 @@ exports.handler = async (event) => {
       - Needs avatar: ${discoveryData.needsAvatar}
       - Budget: ${discoveryData.budgetRange}
 
+      ONLY recommend add-ons from this list: Short Clips, Subtitles, Custom Thumbnail, AI Scenes, Voice Enhancement, Bilingual Version
+
       Return ONLY valid JSON (no markdown, no extra text):
       {
         "podcastType": "personal|commercial",
@@ -245,7 +247,7 @@ exports.handler = async (event) => {
         "goals": "${discoveryData.goals || 'Professional podcast'}",
         "recommendedPackage": "Audio Only|Standard Video|Cinematic|AI Enhanced|Premium Brand",
         "packagePrice": number,
-        "recommendedAddons": ["addon1", "addon2"],
+        "recommendedAddons": ["Short Clips", "Subtitles", ...],
         "totalPrice": number
       }
     `;

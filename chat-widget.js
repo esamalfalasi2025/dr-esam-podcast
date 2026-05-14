@@ -510,13 +510,12 @@
 
         const result = await response.json();
 
-        // Show success message with PDF link
+        // Show success message
         const inputArea = this.panel.querySelector('.chat-input-area');
         inputArea.innerHTML = `
           <div class="chat-success-message">
             <p>✅ Your recommendation has been sent!</p>
-            <p style="font-size: 12px; margin-top: 8px;">Check your email for a PDF download link and next steps.</p>
-            <a href="${result.pdfUrl}" target="_blank" style="display: inline-block; margin-top: 10px; color: #c9a84c; text-decoration: none; font-weight: bold;">📥 Download PDF Now</a>
+            <p style="font-size: 12px; margin-top: 8px;">Check your email for the full details, pricing, and next steps.</p>
           </div>
         `;
 
