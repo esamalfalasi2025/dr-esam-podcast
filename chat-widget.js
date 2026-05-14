@@ -128,6 +128,35 @@
             transform: translateY(20px);
             pointer-events: none;
             transition: opacity 0.3s, transform 0.3s;
+            overflow: hidden;
+          }
+
+          .chat-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(201, 168, 76, 0.3) transparent;
+          }
+
+          .chat-content::-webkit-scrollbar {
+            width: 6px;
+          }
+
+          .chat-content::-webkit-scrollbar-track {
+            background: transparent;
+          }
+
+          .chat-content::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, 0.3);
+            border-radius: 3px;
+          }
+
+          .chat-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 168, 76, 0.5);
           }
 
           .chat-panel.open {
@@ -167,13 +196,11 @@
           }
 
           .chat-messages {
-            flex: 1;
-            overflow-y: auto;
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            min-height: 0;
+            flex-shrink: 0;
           }
 
           .chat-message {
@@ -225,9 +252,7 @@
             display: flex;
             flex-direction: column;
             gap: 0;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
+            flex-shrink: 0;
           }
 
           .chat-input-area .chat-input {
@@ -518,14 +543,16 @@
             <span>Dr. Esam Podcast</span>
             <button class="chat-close-btn" aria-label="Close chat">✕</button>
           </div>
-          <div class="chat-messages">
-            <div class="chat-message bot">
-              <div class="chat-bubble"></div>
+          <div class="chat-content">
+            <div class="chat-messages">
+              <div class="chat-message bot">
+                <div class="chat-bubble"></div>
+              </div>
             </div>
-          </div>
-          <div class="chat-input-area">
-            <input type="text" placeholder="" />
-            <button class="chat-send-btn" aria-label="Send message">→</button>
+            <div class="chat-input-area">
+              <input type="text" placeholder="" />
+              <button class="chat-send-btn" aria-label="Send message">→</button>
+            </div>
           </div>
         </div>
       `;
