@@ -114,9 +114,9 @@
             position: fixed;
             bottom: 96px;
             ${isRTL() ? 'left' : 'right'}: 24px;
-            width: 400px;
-            height: 600px;
-            max-height: calc(100vh - 150px);
+            width: 420px;
+            height: 680px;
+            max-height: calc(100vh - 130px);
             background-color: var(--color-surface, #181818);
             border: 1px solid var(--color-border-gold, rgba(201, 168, 76, 0.3));
             border-radius: 16px;
@@ -151,6 +151,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            min-height: 0;
           }
 
           .chat-message {
@@ -256,13 +257,15 @@
             padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            width: 100%;
           }
 
           .chat-form-group {
             display: flex;
             flex-direction: column;
             gap: 6px;
+            width: 100%;
           }
 
           .chat-form-group label {
@@ -275,10 +278,12 @@
             background-color: var(--color-bg, #0d0d0d);
             border: 1px solid var(--color-border, #2a2a2a);
             border-radius: 8px;
-            padding: 10px 12px;
+            padding: 12px 14px;
             color: var(--color-text, #f0ede8);
             font-family: inherit;
             font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
           }
 
           .chat-form-group input:focus {
@@ -291,15 +296,15 @@
             background-color: var(--color-gold, #c9a84c);
             border: none;
             border-radius: 8px;
-            padding: 12px 16px;
+            padding: 14px 16px;
             color: var(--color-bg, #0d0d0d);
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.2s;
-            margin-top: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            margin-top: 4px;
+            width: 100%;
+            box-sizing: border-box;
           }
 
           .chat-form-submit:hover:not(:disabled) {
