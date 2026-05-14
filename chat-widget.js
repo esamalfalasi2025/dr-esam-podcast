@@ -424,12 +424,19 @@
         const data = await response.json();
         let reply = data.reply;
 
-        // Check for lead capture signal
-        if (reply.includes('<<LEAD_CAPTURE>>')) {
-          reply = reply.replace('<<LEAD_CAPTURE>>', '').trim();
-          this.addMessage('bot', reply);
-          this.captureMode = true;
-          this.showLeadForm();
+        // Check for recommendation signal
+        const recMatch = reply.match(/<<RECOMMENDATION:(.*?)>>/);
+        if (recMatch) {
+          try {
+            this.discoveryData = JSON.parse(recMatch[1]);
+            reply = reply.replace(/<<RECOMMENDATION:.*?>>/, '').trim();
+            this.addMessage('bot', reply);
+            this.captureMode = true;
+            this.showRecommendationForm();
+          } catch (err) {
+            console.error('Failed to parse recommendation JSON:', err);
+            this.addMessage('bot', reply);
+          }
         } else {
           this.addMessage('bot', reply);
         }
@@ -448,33 +455,38 @@
       this.input.placeholder = loading ? this.getText('typing') : this.getText('placeholder');
     }
 
-    showLeadForm() {
+    showRecommendationForm() {
       // Replace input area with form
       const inputArea = this.panel.querySelector('.chat-input-area');
       inputArea.innerHTML = `
         <div class="chat-form">
           <div class="chat-form-group">
             <label>${this.getText('nameLabel')}</label>
-            <input type="text" id="chat-name" required />
+            <input type="text" id="chat-name" placeholder="First name" required />
+          </div>
+          <div class="chat-form-group">
+            <label>Last Name (optional)</label>
+            <input type="text" id="chat-lastname" placeholder="Last name" />
           </div>
           <div class="chat-form-group">
             <label>${this.getText('emailLabel')}</label>
-            <input type="email" id="chat-email" required />
+            <input type="email" id="chat-email" placeholder="your@email.com" required />
           </div>
-          <button class="chat-form-submit" id="chat-form-submit">${this.getText('submit')}</button>
+          <button class="chat-form-submit" id="chat-form-submit">📊 Get My Recommendation</button>
         </div>
       `;
 
       const submitBtn = document.getElementById('chat-form-submit');
-      submitBtn.addEventListener('click', () => this.submitLead());
+      submitBtn.addEventListener('click', () => this.submitRecommendation());
     }
 
-    async submitLead() {
+    async submitRecommendation() {
       const nameInput = document.getElementById('chat-name');
+      const lastNameInput = document.getElementById('chat-lastname');
       const emailInput = document.getElementById('chat-email');
 
       if (!nameInput.value.trim() || !emailInput.value.trim()) {
-        alert('Please fill in all fields');
+        alert('Please fill in name and email');
         return;
       }
 
@@ -483,37 +495,37 @@
       submitBtn.textContent = this.getText('submitting');
 
       try {
-        const [firstName, ...lastNameParts] = nameInput.value.trim().split(' ');
-        const lastName = lastNameParts.join(' ');
-
-        const response = await fetch('/.netlify/functions/chat-lead', {
+        const response = await fetch('/.netlify/functions/generate-recommendation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            first_name: firstName,
-            last_name: lastName,
-            email: emailInput.value.trim(),
-            service_name: 'AI Podcast Consultation',
-            service_key: 'ai-podcast-consultation'
+            discoveryData: this.discoveryData,
+            firstName: nameInput.value.trim(),
+            lastName: lastNameInput.value.trim(),
+            email: emailInput.value.trim()
           })
         });
 
-        if (!response.ok) throw new Error('Failed to save lead');
+        if (!response.ok) throw new Error('Failed to generate recommendation');
 
-        // Show success message
+        const result = await response.json();
+
+        // Show success message with PDF link
         const inputArea = this.panel.querySelector('.chat-input-area');
-        if (!inputArea.querySelector('.chat-form')) {
-          inputArea.innerHTML = '';
-        } else {
-          inputArea.querySelector('.chat-form').innerHTML = `<div class="chat-success-message">${this.getText('success')}</div>`;
-        }
+        inputArea.innerHTML = `
+          <div class="chat-success-message">
+            <p>✅ Your recommendation has been sent!</p>
+            <p style="font-size: 12px; margin-top: 8px;">Check your email for a PDF download link and next steps.</p>
+            <a href="${result.pdfUrl}" target="_blank" style="display: inline-block; margin-top: 10px; color: #c9a84c; text-decoration: none; font-weight: bold;">📥 Download PDF Now</a>
+          </div>
+        `;
 
-        this.addMessage('bot', 'Your information has been saved. We\'ll get in touch shortly!');
+        this.addMessage('bot', '🎉 Your personalized podcast recommendation has been sent to your email! Download the PDF to see your package, pricing, and next steps.');
       } catch (err) {
-        console.error('Lead capture error:', err);
+        console.error('Recommendation generation error:', err);
         submitBtn.disabled = false;
-        submitBtn.textContent = this.getText('submit');
-        alert('Error saving information. Please try again.');
+        submitBtn.textContent = '📊 Get My Recommendation';
+        this.addMessage('bot', 'Sorry, there was an error. Please try again or contact us at dresampodcast.com');
       }
     }
 
