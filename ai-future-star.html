@@ -1038,17 +1038,43 @@
 
     function openFloor(floorNum) {
       const floor = floors[floorNum];
+      const floorNames = ['Follows rules', 'Learns patterns', 'Recognizes relationships', 'Understands formats', 'Writes content', 'Coordinates tasks', 'Reasons autonomously'];
+
+      let roadmapHtml = '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap;">';
+      for (let i = 1; i <= 7; i++) {
+        const isActive = i === floorNum;
+        roadmapHtml += `
+          <div style="text-align: center;">
+            <div style="
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 700;
+              margin-bottom: 8px;
+              transition: all 0.3s ease;
+              ${isActive ? 'background: #e8c860; color: #0f1b33; box-shadow: 0 0 20px rgba(232, 200, 96, 0.5); transform: scale(1.1);' : 'background: rgba(201, 168, 76, 0.2); color: #c7cedd; border: 2px solid rgba(201, 168, 76, 0.3);'}
+            ">
+              ${i}
+            </div>
+            <div style="font-size: 0.75rem; color: ${isActive ? '#e8c860' : '#9a9490'}; font-weight: ${isActive ? '700' : '400'}; max-width: 70px;">
+              ${floorNames[i-1]}
+            </div>
+          </div>
+          ${i < 7 ? `<div style="flex: 0 0 20px; height: 2px; background: ${i < floorNum ? '#e8c860' : 'rgba(201, 168, 76, 0.2)'}; margin-bottom: 30px;"></div>` : ''}
+        `;
+      }
+      roadmapHtml += '</div>';
+
       const html = `
         <h2 style="font-size: 2rem; margin-bottom: 10px;">⭐ Floor ${floorNum} — ${floor.name}</h2>
         <p style="color: #e8c860; margin-bottom: 25px; font-size: 0.95rem;"><strong>Example: Generate a Monthly Report about AI</strong></p>
 
-        <div style="background: rgba(201, 168, 76, 0.1); border-left: 4px solid #e8c860; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
-          <p style="color: #c7cedd; font-size: 0.9rem; line-height: 1.6;">
-            <strong style="color: #e8c860;">Progress Across Floors:</strong><br>
-            <span style="display: block; margin-top: 8px;">
-              Floor 1: Follows rules | Floor 2: Learns patterns | Floor 3: Recognizes relationships | Floor 4: Understands formats | Floor 5: Writes content | Floor 6: Coordinates tasks | Floor 7: Reasons autonomously
-            </span>
-          </p>
+        <div style="background: rgba(201, 168, 76, 0.1); border-left: 4px solid #e8c860; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
+          <p style="color: #e8c860; font-size: 0.9rem; font-weight: 700; margin-bottom: 15px;">AI Capability Progression Roadmap</p>
+          ${roadmapHtml}
         </div>
 
         <div style="color: #c7cedd; line-height: 1.8;">
