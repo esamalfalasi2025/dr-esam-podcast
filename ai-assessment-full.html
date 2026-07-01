@@ -743,18 +743,7 @@ function renderOrg(){
   fillBtn.onmouseover = () => fillBtn.style.opacity = '0.9';
   fillBtn.onmouseout = () => fillBtn.style.opacity = '1';
   fillBtn.onclick = () => {
-    CONFIG.org = {
-      'Organization Name': 'Global Tech Solutions Inc',
-      'Business Unit / Sector': 'Technology & Software',
-      'Assessment Date': new Date().toLocaleDateString('en-GB').split('/').join('-') + ' ' + new Date().toLocaleTimeString('en-GB'),
-      'Registration No.': '1920-2026',
-      'Assessment Team': 'AI Transformation Office',
-      'Model Version': 'AI Future Star™ v3.1',
-      'Website': 'www.globaltechsolutions.com',
-      'Assessment Scope': 'Enterprise-wide AI maturity, capability, reliability, and governance assessment',
-      'Assessor Name': 'Senior Assessment Lead',
-      'Assessment Notes': 'Initial comprehensive assessment as part of AI transformation initiative. Focus on enterprise-wide adoption readiness.'
-    };
+    // Just refresh the current form with existing data
     renderOrg();
   };
 
@@ -764,9 +753,10 @@ function renderOrg(){
   clearBtn.onmouseover = () => clearBtn.style.opacity = '0.9';
   clearBtn.onmouseout = () => clearBtn.style.opacity = '1';
   clearBtn.onclick = () => {
-    if(confirm('Are you sure you want to clear all organization information?')){
+    if(confirm('Are you sure you want to clear the entire assessment? This will reset all tabs and scores.')){
+      // Clear organization info
       fields.forEach(k => CONFIG.org[k] = '');
-      if(!CONFIG.org['Organization Name']) CONFIG.org['Organization Name'] = 'Dr Esam Podcast Company';
+      CONFIG.org['Organization Name'] = 'Dr Esam Podcast Company';
       const now = new Date();
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -775,7 +765,48 @@ function renderOrg(){
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       CONFIG.org['Assessment Date'] = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+      // Clear Path 1 scores
+      CONFIG.path1.forEach(row => {
+        row.score = 0;
+        row.emr = 'E1';
+        row.evidenceRef = '';
+        row.comment = '';
+      });
+
+      // Clear Path 2 scores
+      CONFIG.path2.forEach(row => {
+        row.score = 0;
+        row.emr = 'E1';
+        row.evidenceRef = '';
+        row.comment = '';
+      });
+
+      // Clear Reliability scores
+      CONFIG.reliability.forEach(row => {
+        row.accuracy = 0;
+        row.safety = 0;
+        row.security = 0;
+        row.explainability = 0;
+        row.emr = 'E1';
+        row.evidenceRef = '';
+        row.comment = '';
+      });
+
+      // Clear Evidence scores
+      CONFIG.evidence.forEach(row => {
+        row.emr = 'E1';
+        row.evidenceRef = '';
+        row.comment = '';
+      });
+
+      // Re-render all tabs
       renderOrg();
+      renderPath1();
+      renderPath2();
+      renderReliability();
+      renderEvidence();
+      renderResults();
     }
   };
 
