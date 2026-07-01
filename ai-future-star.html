@@ -74,6 +74,41 @@
       display: flex;
       gap: 15px;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 1024px) {
+      .navbar__actions {
+        gap: 10px;
+      }
+      .navbar__actions .navbar__btn {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar__inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 12px 15px;
+        gap: 12px;
+      }
+      .navbar__actions {
+        order: 3;
+        width: 100%;
+        gap: 8px;
+      }
+      .navbar__actions .navbar__btn {
+        flex: 1;
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        text-align: center;
+      }
+      .navbar__actions .navbar__btn--gold {
+        flex: 1.2;
+      }
     }
 
     .navbar__nav-icons {
