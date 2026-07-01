@@ -89,41 +89,53 @@
     }
 
     @media (max-width: 768px) {
-      .navbar__inner {
-        flex-direction: column;
-        height: auto;
-        padding: 8px 12px;
-        gap: 8px;
+      .navbar {
+        padding-bottom: 0;
       }
-      .navbar__inner > div {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
+      .navbar__inner {
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        height: auto !important;
+        padding: 8px !important;
+        gap: 6px !important;
+        align-items: stretch !important;
+      }
+      .navbar__inner > div:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
       }
       .navbar__nav-icons {
-        margin-right: 0;
+        margin-right: 0 !important;
+        flex-shrink: 0;
+      }
+      .navbar__nav-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
       }
       .navbar__brand {
         flex: 1;
-        min-width: 0;
-        font-size: 0.95rem;
+        font-size: 0.9rem !important;
+        gap: 8px !important;
       }
       .navbar__logo-img {
-        height: 32px;
+        height: 28px !important;
       }
       .navbar__actions {
-        width: 100%;
-        gap: 6px;
+        width: 100% !important;
+        gap: 6px !important;
+        justify-content: space-between !important;
       }
       .navbar__actions .navbar__btn {
         flex: 1;
-        padding: 8px 10px;
-        font-size: 0.75rem;
-        text-align: center;
+        padding: 8px 8px !important;
+        font-size: 0.7rem !important;
       }
       .navbar__actions .navbar__btn--gold {
-        flex: 1.1;
+        flex: 1;
       }
     }
 
