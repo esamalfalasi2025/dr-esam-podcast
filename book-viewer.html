@@ -123,6 +123,19 @@
     let pdfDoc = null;
     let pageNum = 1;
     let pageCount = 0;
+    let watermarkImg = null;
+
+    // Load watermark image
+    function loadWatermark() {
+      watermarkImg = new Image();
+      watermarkImg.src = 'assets/Podcast watermark .jpeg';
+      watermarkImg.onload = () => {
+        console.log('Watermark loaded');
+      };
+      watermarkImg.onerror = () => {
+        console.log('Could not load watermark image');
+      };
+    }
 
     // Load PDF
     async function loadPDF() {
@@ -158,6 +171,23 @@
         canvasContext: ctx,
         viewport: viewport
       }).promise;
+
+      // Draw watermark on top of the PDF page
+      if (watermarkImg && watermarkImg.complete) {
+        const watermarkScale = Math.min(
+          canvas.width / watermarkImg.width,
+          canvas.height / watermarkImg.height
+        ) * 0.8;
+
+        const watermarkWidth = watermarkImg.width * watermarkScale;
+        const watermarkHeight = watermarkImg.height * watermarkScale;
+        const x = (canvas.width - watermarkWidth) / 2;
+        const y = (canvas.height - watermarkHeight) / 2;
+
+        ctx.globalAlpha = 0.3;
+        ctx.drawImage(watermarkImg, x, y, watermarkWidth, watermarkHeight);
+        ctx.globalAlpha = 1.0;
+      }
     }
 
     function previousPage() {
@@ -209,8 +239,11 @@
       e.preventDefault();
     });
 
-    // Load PDF on page load
-    window.addEventListener('load', loadPDF);
+    // Load PDF and watermark on page load
+    window.addEventListener('load', () => {
+      loadWatermark();
+      loadPDF();
+    });
   </script>
 </body>
 </html>
