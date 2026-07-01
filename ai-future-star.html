@@ -877,7 +877,6 @@
     <div class="modal-content">
       <span class="modal-close" onclick="closeModal()">✕</span>
       <div id="modal-body"></div>
-      <button class="modal-action" onclick="generateReport()">Generate Assessment</button>
     </div>
   </div>
 
@@ -1040,7 +1039,18 @@
     function openFloor(floorNum) {
       const floor = floors[floorNum];
       const html = `
-        <h2 style="font-size: 2rem; margin-bottom: 15px;">⭐ Floor ${floorNum} — ${floor.name}</h2>
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">⭐ Floor ${floorNum} — ${floor.name}</h2>
+        <p style="color: #e8c860; margin-bottom: 25px; font-size: 0.95rem;"><strong>Example: Generate a Monthly Report about AI</strong></p>
+
+        <div style="background: rgba(201, 168, 76, 0.1); border-left: 4px solid #e8c860; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+          <p style="color: #c7cedd; font-size: 0.9rem; line-height: 1.6;">
+            <strong style="color: #e8c860;">Progress Across Floors:</strong><br>
+            <span style="display: block; margin-top: 8px;">
+              Floor 1: Follows rules | Floor 2: Learns patterns | Floor 3: Recognizes relationships | Floor 4: Understands formats | Floor 5: Writes content | Floor 6: Coordinates tasks | Floor 7: Reasons autonomously
+            </span>
+          </p>
+        </div>
+
         <div style="color: #c7cedd; line-height: 1.8;">
           ${floor.content}
         </div>
