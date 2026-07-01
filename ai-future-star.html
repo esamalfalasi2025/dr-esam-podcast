@@ -1116,9 +1116,8 @@
         hotspot.addEventListener('mouseenter', () => {
           const floor = floors[pos.floor];
           tooltip.innerHTML = `
-            <h4>${floor.name}</h4>
-            <p><strong>${floor.title}</strong></p>
-            <p>${floor.businessUse}</p>
+            <h4>Floor ${pos.floor} — ${floor.name}</h4>
+            <p style="font-size: 0.85rem; margin-top: 8px;">Click to view full details</p>
           `;
           tooltip.style.top = pos.topPercent + '%';
           tooltip.classList.add('visible');
@@ -1129,7 +1128,8 @@
           tooltip.classList.remove('visible');
         });
 
-        hotspot.title = `Hover for details`;
+        hotspot.title = `Click to view details`;
+        hotspot.addEventListener('click', () => openFloor(pos.floor));
         hotspots.appendChild(hotspot);
       });
 
