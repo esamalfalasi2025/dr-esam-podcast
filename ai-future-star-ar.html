@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نموذج النجم المستقبلي للذكاء الاصطناعي™ - د. عصام الفلاسي</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap');
+
+    :root {
+      --color-bg: #0d0d0d;
+      --color-surface: #181818;
+      --color-border: #2a2a2a;
+      --color-text: #f0ede8;
+      --color-text-secondary: #9a9490;
+      --color-gold: #c9a84c;
+      --color-gold-hover: #dfc06a;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .navbar__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      transition: color 0.3s ease;
+    }
+
+    .navbar__brand:hover {
+      color: var(--color-gold);
+    }
+
+    .navbar__logo-img {
+      height: 40px;
+      width: auto;
+    }
+
+    .navbar__actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 1024px) {
+      .navbar__actions {
+        gap: 10px;
+      }
+      .navbar__actions .navbar__btn {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding-bottom: 0;
+      }
+      .navbar__inner {
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        height: auto !important;
+        padding: 8px !important;
+        gap: 6px !important;
+        align-items: stretch !important;
+      }
+      .navbar__inner > div:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
+      }
+      .navbar__nav-icons {
+        margin-right: 0 !important;
+        flex-shrink: 0;
+      }
+      .navbar__nav-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
+      }
+      .navbar__brand {
+        flex: 1;
+        font-size: 0.9rem !important;
+        gap: 8px !important;
+      }
+      .navbar__logo-img {
+        height: 28px !important;
+      }
+      .navbar__actions {
+        width: 100% !important;
+        gap: 6px !important;
+        justify-content: space-between !important;
+      }
+      .navbar__actions .navbar__btn {
+        flex: 1;
+        padding: 8px 8px !important;
+        font-size: 0.7rem !important;
+      }
+      .navbar__actions .navbar__btn--gold {
+        flex: 1;
+      }
+    }
+
+    .navbar__nav-icons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .navbar__nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .navbar__nav-btn:hover {
+      background: var(--color-gold);
+      color: var(--color-bg);
+      transform: scale(1.1);
+    }
+
+    .navbar__btn {
+      padding: 10px 20px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .navbar__btn:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold);
+      background: rgba(201, 168, 76, 0.08);
+    }
+
+    .navbar__btn--gold {
+      background: var(--color-gold);
+      color: var(--color-bg);
+      border-color: var(--color-gold);
+    }
+
+    .navbar__btn--gold:hover {
+      background: var(--color-gold-hover);
+      border-color: var(--color-gold-hover);
+      color: var(--color-bg);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 120px 20px 40px 20px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #e8c860;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .header p {
+      font-size: 1rem;
+      color: #c7cedd;
+      margin-bottom: 15px;
+    }
+
+    /* INFOGRAPHIC SECTION */
+    .infographic-section {
+      position: relative;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.3) 0%, rgba(15, 27, 51, 0.3) 100%);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .infographic-image-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .infographic-image {
+      max-width: 70%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(232, 200, 96, 0.2);
+    }
+
+    /* FLOOR HOTSPOTS */
+    .floor-hotspots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .floor-hotspot {
+      position: absolute;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+      border: 2px solid transparent;
+    }
+
+    .floor-hotspot:hover {
+      border-color: #e8c860;
+      background: rgba(232, 200, 96, 0.1);
+    }
+
+    /* FLOOR TOOLTIP */
+    .floor-tooltip {
+      position: absolute;
+      background: linear-gradient(135deg, #1a2a4a 0%, #0f1b33 100%);
+      border: 2px solid #c9a84c;
+      border-radius: 8px;
+      padding: 20px;
+      color: #fff;
+      font-size: 0.9rem;
+      z-index: 500;
+      max-width: 350px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+    }
+
+    .floor-tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .floor-tooltip h4 {
+      color: #e8c860;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .floor-tooltip p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    /* PATH 1 & PATH 2 SECTIONS */
+    .paths-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .path-content {
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.5) 0%, rgba(15, 27, 51, 0.5) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 12px;
+      padding: 40px;
+    }
+
+    .path-title {
+      font-size: 1.8rem;
+      color: #e8c860;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .path-description {
+      color: #c7cedd;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    /* PILLARS */
+    /* ARROW BETWEEN SECTIONS */
+    .section-arrow {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+      color: #c9a84c;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.6;
+    }
+
+    .paths-section {
+      position: relative;
+    }
+
+    /* Enlarge arrow on hover of entire section (triggers when hovering over pillars) */
+    .paths-section:hover .section-arrow {
+      font-size: 4rem;
+      opacity: 1;
+      filter: drop-shadow(0 0 25px rgba(201, 168, 76, 0.7));
+    }
+
+    /* Extra emphasis when hovering specifically over pillars */
+    .pillars-grid:hover ~ .section-arrow {
+      font-size: 4.5rem;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      width: 100%;
+      position: relative;
+    }
+
+    .pillar-card:nth-child(5) {
+      grid-column: 2 / 4;
+    }
+
+    @media (max-width: 1200px) {
+      .pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pillar-card:nth-child(5) {
+        grid-column: 1 / 4;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pillar-card:nth-child(5) {
+        grid-column: 1 / 3;
+      }
+    }
+
+    .pillar-card {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.15) 0%, rgba(201, 168, 76, 0.05) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      border-color: #c9a84c;
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.15);
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.25) 0%, rgba(201, 168, 76, 0.1) 100%);
+    }
+
+    .pillar-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+    }
+
+    .pillar-arabic {
+      font-size: 0.75rem;
+      color: #c7cedd;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* FLOORS DETAILS */
+    .floors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .floor-card {
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.6) 0%, rgba(15, 27, 51, 0.6) 100%);
+      border: 2px solid rgba(201, 168, 76, 0.2);
+      border-radius: 8px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .floor-card:hover {
+      border-color: #c9a84c;
+      box-shadow: 0 15px 40px rgba(201, 168, 76, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .floor-card-number {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #e8c860;
+      margin-bottom: 10px;
+    }
+
+    .floor-card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .floor-card-description {
+      font-size: 0.9rem;
+      color: #c7cedd;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .floor-card-stars {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .floor-card-button {
+      background: linear-gradient(120deg, #c9a84c, #e8c860);
+      color: #0f1b33;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    .floor-card-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(201, 168, 76, 0.3);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      padding: 60px 20px 40px;
+      margin-top: 80px;
+    }
+
+    .footer__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 30px;
+    }
+
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .footer__column {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .footer__column ul li a:hover {
+      color: var(--color-text) !important;
+    }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer__socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer__socials a {
+      color: #9a9490;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer__socials a:hover {
+      color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+      .footer__top {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1a2a4a 0%, #0f1b33 100%);
+      border: 2px solid #c9a84c;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #c9a84c;
+      transition: transform 0.2s;
+    }
+
+    .modal-close:hover {
+      transform: rotate(90deg);
+    }
+
+    .modal h2 {
+      font-size: 2rem;
+      color: #c9a84c;
+      margin-bottom: 20px;
+    }
+
+    .modal p {
+      color: #c7cedd;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .modal-action {
+      background: linear-gradient(120deg, #c9a84c, #e8c860);
+      color: #0f1b33;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .modal-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+    }
+
+    @media (max-width: 1200px) {
+      .paths-section {
+        grid-template-columns: 1fr;
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="navbar__nav-icons">
+          <button class="navbar__nav-btn" onclick="window.history.back()" title="Go Back">←</button>
+          <button class="navbar__nav-btn" onclick="window.location.href='index.html'" title="Go to Home">⌂</button>
+        </div>
+        <a href="index.html" class="navbar__brand">
+          <img src="assets/logo-main.png" alt="DR Esam Podcast" class="navbar__logo-img" />
+          <span>DR ESAM PODCAST</span>
+        </a>
+      </div>
+      <div class="navbar__actions">
+        <a href="#" class="navbar__btn" onclick="openAssessment()">ابدأ التقييم</a>
+        <a href="book-viewer.html" class="navbar__btn navbar__btn--gold">كتاب النجم المستقبلي</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div style="font-size: 2rem; margin-bottom: 15px;">⭐</div>
+      <h1>نموذج النجم المستقبلي للذكاء الاصطناعي™</h1>
+
+      <div style="max-width: 900px; margin: 30px auto; text-align: center;">
+        <p style="font-size: 1.05rem; color: #e8c860; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">
+          "اكتشف المكان الذي تقف فيه مؤسستك بدقة في رحلة التحول الرقمي بالذكاء الاصطناعي، وحدد ما يلزم للوصول إلى المستوى التالي."
+        </p>
+
+        <p style="color: #c7cedd; font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">
+          <strong>نموذج النجم المستقبلي للذكاء الاصطناعي™</strong> هو إطار عمل تقييم شامل يساعد المؤسسات على فهم مستوى نضجها الحالي في الذكاء الاصطناعي وقدراتها الفعلية. بدلاً من التخمين حول موقعك في مشهد الذكاء الاصطناعي، توفر منهجيتنا ثنائية المسار رؤية واضحة عن نقاط قوتك والفجوات الموجودة.
+        </p>
+
+        <p style="color: #c7cedd; font-size: 0.95rem; line-height: 1.8; margin-top: 30px;">
+          <strong style="color: #e8c860;">لماذا يهم ذلك:</strong> تحصل المؤسسات على خارطة طريق دقيقة لتعزيز قدرات الذكاء الاصطناعي لديها، والقضاء على التخمين، واتخاذ قرارات تحكمها البيانات حول أماكن الاستثمار في التحول الرقمي بالذكاء الاصطناعي—مما يضمن أن كل خطوة تقربك نحو الريادة الصناعية.
+        </p>
+
+        <p style="color: #e8c860; margin-top: 25px; font-weight: 700; font-size: 1rem;">— د. عصام الفلاسي</p>
+      </div>
+
+      <p style="color: #c7cedd; font-size: 0.9rem; margin-top: 30px; text-align: center;">رقم التسجيل حق المؤلف 1920-2026<br>مسجل لدى وزارة الاقتصاد والسياحة بدولة الإمارات</p>
+    </div>
+
+    <!-- INFOGRAPHIC IMAGE SECTION -->
+    <div class="infographic-section">
+      <div class="infographic-image-wrapper" id="infographicWrapper">
+        <img src="./assets/AI future star building.png"
+             alt="AI Future Star Model Infographic"
+             class="infographic-image"
+             onload="setupFloorHotspots()">
+        <div class="floor-hotspots" id="floorHotspots"></div>
+      </div>
+      <p style="text-align: center; color: #c7cedd; margin-top: 20px; font-size: 0.9rem;">
+        💡 انقر على طوابق المبنى في الصورة أعلاه لعرض معلومات القدرات التفصيلية
+      </p>
+    </div>
+
+    <!-- PATH 1 & 5 PILLARS SECTIONS -->
+    <div class="paths-section">
+      <!-- ARROW BETWEEN SECTIONS -->
+      <div class="section-arrow">→</div>
+
+      <!-- PATH 1 -->
+      <div class="path-content">
+        <h2 class="path-title">المسار 1</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">تقييم نضج الذكاء الاصطناعي بالمؤسسة</h3>
+        <p class="path-description">
+          <strong>افهم جاهزية مؤسستك للتحول الرقمي بالذكاء الاصطناعي.</strong> يقيم هذا التقييم الشامل مؤسستك عبر 5 أبعاد حرجة لتحديد موقعك الحالي والاستثمارات اللازمة لتعزيز قدرات الذكاء الاصطناعي لديك.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ تحديد فجوات القدرات | ✓ تحديد أولويات الاستثمارات | ✓ بناء خارطة طريق للنجاح
+        </p>
+      </div>
+
+      <!-- 5 PILLARS -->
+      <div class="path-content">
+        <h2 class="path-title">5 أعمدة</h2>
+        <h3 style="color: #e8c860; margin-bottom: 20px; font-size: 1.3rem;">أبعاد التقييم الأساسية</h3>
+        <div class="pillars-grid">
+          <div class="pillar-card" onclick="openPillar(1)">
+            <div class="pillar-name">📊 جاهزية البيانات</div>
+            <div class="pillar-arabic">Data Readiness</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">الجودة والاكتمال والحوكمة</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(2)">
+            <div class="pillar-name">💻 جاهزية البنية التقنية</div>
+            <div class="pillar-arabic">Technology Readiness</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">البنية التحتية والقابلية للتوسع</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(3)">
+            <div class="pillar-name">🤖 تبني الذكاء الاصطناعي</div>
+            <div class="pillar-arabic">AI Adoption</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">حالات الاستخدام والعائد على الاستثمار</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(4)">
+            <div class="pillar-name">⚙️ الأتمتة والوكلاء الذكيون</div>
+            <div class="pillar-arabic">Automation & Agents</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">نضج أتمتة العمليات</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(5)">
+            <div class="pillar-name">🎓 الحوكمة والمهارات</div>
+            <div class="pillar-arabic">Governance & Skills</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">السياسات والامتثال والمواهب</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELIABILITY SECTION -->
+    <div style="margin-bottom: 60px;">
+      <div class="path-content">
+        <h2 class="path-title">الموثوقية</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">تقييم موثوقية أنظمة الذكاء الاصطناعي</h3>
+        <p class="path-description">
+          <strong>تأكد من أن أنظمة الذكاء الاصطناعي لديك موثوقة وموثوق بها.</strong> قيس موثوقية كل طابق من طوابق قدرات الذكاء الاصطناعي بتقييم شامل يقيّم ليس فقط الأداء، بل أيضاً الأمان والحماية والشفافية. هذا يضمن أن استثماراتك في الذكاء الاصطناعي توفر قيمة تجارية بثقة.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ تخفيف مخاطر الذكاء الاصطناعي | ✓ بناء ثقة أصحاب المصلحة | ✓ ضمان الامتثال والحوكمة
+        </p>
+        <div style="display: grid; gap: 15px; margin-top: 20px;">
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ الدقة (صحة 95% فأكثر)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">تحقق من أن تنبؤات وقرارات الذكاء الاصطناعي صحيحة باستمرار، مما يتيح اتخاذ إجراءات تجارية واثقة والحصول على نتائج موثوقة.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ الأمان (الامتثال للسياسات)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">تأكد من توافق عمليات الذكاء الاصطناعي مع سياسات المؤسسة ومعايير الرقابة الداخلية، مما يقلل المخاطر التشغيلية.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ الحماية (حماية من التهديدات)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">حماية أنظمة الذكاء الاصطناعي من التهديدات السيبرانية والثغرات الأمنية، مما يحافظ على بيانات مؤسستك وميزتك التنافسية.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ القابلية للشرح (الشفافية)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">افهم سبب اتخاذ الذكاء الاصطناعي لقرارات محددة، مما يتيح حوكمة أفضل والامتثال وثقة أصحاب المصلحة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATH 2 SECTION - SINGLE UNIFIED FRAME -->
+    <div style="background: linear-gradient(135deg, rgba(26, 42, 74, 0.5) 0%, rgba(15, 27, 51, 0.5) 100%); border: 1px solid rgba(201, 168, 76, 0.2); border-radius: 12px; padding: 40px; margin-bottom: 60px;">
+
+      <div style="margin-bottom: 40px;">
+        <h2 class="path-title">المسار 2</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">تقييم قدرات الذكاء الاصطناعي</h3>
+        <p class="path-description">
+          <strong>قيس قدرات الذكاء الاصطناعي الفعلية لديك عبر 7 مستويات تدريجية.</strong> يمثل كل مستوى—من الذكاء الاصطناعي الكلاسيكي الأساسي إلى الذكاء الاصطناعي الوكلاء المتقدم—مستوى قدرة مميز بمتطلبات وفوائد ومعايير موثوقية خاصة به.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ تقييم القدرات الحالية | ✓ تحديد فرص التقدم | ✓ التخطيط لخارطة الطريق للتحول
+        </p>
+      </div>
+
+      <h3 style="font-size: 1.4rem; color: #e8c860; text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px;">7 مستويات من التميز في الذكاء الاصطناعي</h3>
+      <div class="floors-grid">
+        <div class="floor-card" onclick="openFloor(1)">
+          <div class="floor-card-number">1</div>
+          <div class="floor-card-name">الذكاء الاصطناعي الكلاسيكي</div>
+          <div class="floor-card-description">يتبع قواعد محددة مسبقاً. يقرأ خلاصات RSS ويبحث عن الكلمات الرئيسية ويصدّر إلى PDF.</div>
+          <div class="floor-card-stars">⭐</div>
+          <button class="floor-card-button" onclick="openFloor(1); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(2)">
+          <div class="floor-card-number">2</div>
+          <div class="floor-card-name">التعلم الآلي</div>
+          <div class="floor-card-description">يتعلم المواضيع التي يعطيها المديرون الأولوية. يكيّف التقارير بناءً على السلوك السابق.</div>
+          <div class="floor-card-stars">⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(2); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(3)">
+          <div class="floor-card-number">3</div>
+          <div class="floor-card-name">الشبكات العصبية</div>
+          <div class="floor-card-description">يتعرف على الأنماط. يجمّع المتعاقدين والمواضيع ذات الصلة من نفس النظام البيئي تلقائياً.</div>
+          <div class="floor-card-stars">⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(3); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(4)">
+          <div class="floor-card-number">4</div>
+          <div class="floor-card-name">التعلم العميق</div>
+          <div class="floor-card-description">يعالج جميع أنواع المحتوى: ملفات PDF والفيديو والبودكاست والصور والأوراق البحثية.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(4); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(5)">
+          <div class="floor-card-number">5</div>
+          <div class="floor-card-name">الذكاء الاصطناعي التوليدي</div>
+          <div class="floor-card-description">يكتب ملخصات تنفيذية احترافية والاتجاهات والمخاطر والفرص والتوصيات.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(5); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(6)">
+          <div class="floor-card-number">6</div>
+          <div class="floor-card-name">ذكاء الوكلاء</div>
+          <div class="floor-card-description">تنسق وكلاء متعددة: البحث والتحقق والتلخيص والرسوم البيانية وإنشاء PDF والبريد الإلكتروني.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(6); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(7)">
+          <div class="floor-card-number">7</div>
+          <div class="floor-card-name">الذكاء الاصطناعي الوكيل</div>
+          <div class="floor-card-description">فريق مستقل يقرر المصادر وأولويات الأخبار العاجلة والمواضيع والتحسين المستمر للذات.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(7); event.stopPropagation();">عرض التفاصيل</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <h3 style="color: #f0ede8; font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px;">النجم المستقبلي للذكاء الاصطناعي™</h3>
+            <p style="color: #9a9490; font-size: 0.9rem;">منصة تقييم قدرات الذكاء الاصطناعي للمؤسسات</p>
+          </div>
+          <div class="footer__column">
+            <h4 style="color: #e8c860; margin-bottom: 12px; font-weight: 600;">روابط سريعة</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">عن النموذج</a></li>
+              <li><a href="ai-assessment-full.html" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">ابدأ التقييم</a></li>
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">التوثيق</a></li>
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">تواصل معنا</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p style="font-size: 13px; color: #9a9490;">© 2026 د. عصام الفلاسي. جميع الحقوق محفوظة. | النجم المستقبلي للذكاء الاصطناعي™ علامة تجارية مسجلة.</p>
+          <div class="footer__socials">
+            <a href="https://twitter.com/dresam" target="_blank" rel="noopener noreferrer" aria-label="Twitter" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/dr.esam.alfalasi" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163C8.756 0 8.335.012 7.052.07 2.695.278.273 2.882.06 7.047.009 8.333 0 8.742 0 12s.008 3.668.058 4.948c.214 4.192 2.614 6.609 6.859 6.82 1.261.058 1.69.072 4.888.072 3.195 0 3.622-.013 4.887-.072 4.268-.216 6.683-2.618 6.877-6.82.05-1.28.061-1.689.061-4.948 0-3.259-.008-3.668-.061-4.948C23.538 2.723 21.137.312 16.996.10 15.71.01 15.286 0 12 0z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@Dr.EsamAlFalasi" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@dxbesam" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.26 6.26 0 0 0-1-.1 6.15 6.15 0 1 0 10.19 5.2V8.5a8.06 8.06 0 0 0 4.53-1.81v-3z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">✕</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const floors = {
+      1: {
+        name: 'الذكاء الاصطناعي الكلاسيكي',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd;">يتبع النظام قواعس ثابتة محددة مسبقاً. تخبره بالضبط ما يجب أن يفعله، خطوة بخطوة.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>لإنشاء تقرير الأخبار الشهري للذكاء الاصطناعي:</strong></p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>جمع الأخبار من مصدر الأخبار أ للشركة</li>
+              <li>جمع الأخبار من مصدر الأخبار ب للشركة</li>
+              <li>البحث عن جميع المقالات التي تذكر "الذكاء الاصطناعي"</li>
+              <li>وضع المقالات المطابقة في وثيقة</li>
+              <li>إنشاء ملف PDF</li>
+              <li>إرساله إلى المديرين التنفيذيين</li>
+            </ul>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>المشكلة:</strong> إذا لم تذكر أي مقالة "الذكاء الاصطناعي" بالضبط، فسيتم فقدان أخبار الذكاء الاصطناعي المهمة. لا يمكن للنظام التفكير أو التكيف—فهو يتبع فقط التعليمات الدقيقة التي أعطيتها له.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أتمتة المهام المحددة والمتكررة بدون أي مرونة.</p>
+        `
+      },
+      2: {
+        name: 'التعلم الآلي',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">يتعلم النظام من الأنماط في سلوكك السابق.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>بعد ملاحظة أنماط قراءة المديرين التنفيذيين لمدة 3 أشهر:</strong></p>
+            <p style="color: #c7cedd; margin-bottom: 10px;">يلاحظ النظام أن المديرين التنفيذيين يقضون معظم وقتهم في قراءة:</p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>شركات التكنولوجيا الكبرى (جوجل وميكروسوفت وأمازون)</li>
+              <li>ابتكارات الشركات الناشئة</li>
+              <li>اتجاهات الصناعة</li>
+            </ul>
+            <p style="color: #c7cedd; margin-top: 10px;">لذلك تعطي التقارير المستقبلية الأولوية لهذه المواضيع أولاً تلقائياً.</p>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>التحسن:</strong> يتكيف النظام بناءً على ما تهتم به فعلياً، وليس ما أخبرته به للقيام به.</p>
+          <p style="color: #c7cedd; margin-top: 10px;"><strong>القيد:</strong> لا يزال لا يفهم الأخبار حقاً—فهو يتعرف فقط على الأنماط من الماضي.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أنظمة تتحسن بمرور الوقت من خلال التعلم من سلوكك.</p>
+        `
+      },
+      3: {
+        name: 'الشبكات العصبية',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">يتعرف النظام على العلاقات والاتصالات بين مواضيع مختلفة.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>يفهم النظام أن هذه الأسماء المختلفة كلها جزء من نفس الشركة:</strong></p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>أخبار "Google AI"</li>
+              <li>أخبار "Google DeepMind"</li>
+              <li>أخبار "Gemini"</li>
+            </ul>
+            <p style="color: #c7cedd; margin-top: 10px;">لذلك يجمّعها معاً في التقرير بدلاً من اعتبارها مواضيع منفصلة.</p>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>التحسن:</strong> يفهم النظام الاتصالات التي لم تعلمه إياها بشكل صريح.</p>
+          <p style="color: #c7cedd; margin-top: 10px;"><strong>القيد:</strong> يتعرف على الأنماط لكنه لا يفهم حقاً ماذا تعني لعملك.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أنظمة تكتشف العلاقات وتنظم المعلومات بذكاء.</p>
+        `
+      },
+      4: {
+        name: 'التعلم العميق',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">يعالج النظام ويفهم المعلومات بتنسيقات عديدة مختلفة، وليس فقط النصوص.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>يمكن لتقرير الذكاء الاصطناعي الشهري أن يتضمن الآن:</strong></p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>المقالات المكتوبة ومنشورات المدونة</li>
+              <li>مقاطع الفيديو من YouTube</li>
+              <li>الصوت من البودكاست</li>
+              <li>الأوراق البحثية (ملفات PDF)</li>
+              <li>العروض التقديمية والشرائح</li>
+              <li>الصور والرسوم البيانية</li>
+            </ul>
+            <p style="color: #c7cedd; margin-top: 10px;">يستخرج الذكاء الاصطناعي الرؤى الرئيسية من كل هذا، حتى لو كانت بصيغ مختلفة تماماً.</p>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>التحسن:</strong> تحصل على تقرير كامل وشامل لا يفقد المعلومات لمجرد أنها في فيديو أو بودكاست.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أنظمة تعمل مع جميع معلوماتك، بغض النظر عن الصيغة.</p>
+        `
+      },
+      5: {
+        name: 'الذكاء الاصطناعي التوليدي',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">لا يقتصر النظام على جمع المعلومات—بل يكتب تحليلاً ورؤى أصلية.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>يتضمن تقرير الذكاء الاصطناعي الشهري لديك الآن:</strong></p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>ملخص تنفيذي مكتوب بواسطة الذكاء الاصطناعي للنتائج الرئيسية</li>
+              <li>تحليل اتجاهات الصناعة الناشئة</li>
+              <li>المخاطر والتحديات المحتملة في المستقبل</li>
+              <li>فرص الأعمال المحددة</li>
+              <li>الإجراءات الموصى بها للقيادة</li>
+            </ul>
+            <p style="color: #c7cedd; margin-top: 10px;">يبدو وكأنه كتبه محلل متمرس—لأن الذكاء الاصطناعي ينشئ كتابة أصلية، وليس مجرد مجموعات من المقالات.</p>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>التحسن:</strong> تتلقى ليس معلومات خام، بل ذكاء مركب جاهز لاتخاذ القرارات.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">ذكاء اصطناعي ينشئ تحليلاً ورؤى أصلية وقيّمة.</p>
+        `
+      },
+      6: {
+        name: 'ذكاء الوكلاء',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">تعمل وكلاء متخصصة متعددة من الذكاء الاصطناعي معاً لإكمال سير عمل معقد من البداية إلى النهاية دون أي تدخل بشري.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>يتم إنشاء تقرير الذكاء الاصطناعي الشهري بالكامل بواسطة وكلاء الذكاء الاصطناعي:</strong></p>
+            <div style="margin-left: 20px;">
+              <p style="color: #c7cedd; margin: 8px 0;">🔍 الوكيل 1: يبحث عن أخبار الذكاء الاصطناعي من مئات المصادر</p>
+              <p style="color: #c7cedd; margin: 8px 0;">✓ الوكيل 2: يتحقق من موثوقية المصادر ودقتها</p>
+              <p style="color: #c7cedd; margin: 8px 0;">📝 الوكيل 3: يلخص كل مقالة</p>
+              <p style="color: #c7cedd; margin: 8px 0;">📊 الوكيل 4: ينشئ الرسوم البيانية والمرئيات</p>
+              <p style="color: #c7cedd; margin: 8px 0;">✍️ الوكيل 5: يكتب الملخص التنفيذي والتوصيات</p>
+              <p style="color: #c7cedd; margin: 8px 0;">📧 الوكيل 6: ينشئ ملف PDF جميل ويرسله بالبريد الإلكتروني للمديرين التنفيذيين</p>
+            </div>
+            <p style="color: #c7cedd; margin-top: 15px;">لا توجد نقاط تلامس بشرية مطلوبة—يتم إنشاء التقرير بالكامل تلقائياً.</p>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>التحسن:</strong> العمليات المعقدة المتعددة الخطوات التي كانت تتطلب فريقاً في السابق تُعالج الآن بالكامل بواسطة الذكاء الاصطناعي.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أتمتة كاملة لسير العمل التجاري المعقد مع فرق الذكاء الاصطناعي تعمل معاً.</p>
+        `
+      },
+      7: {
+        name: 'الذكاء الاصطناعي الوكيل',
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">كيف يعمل</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">يفكر النظام ويتصرف مثل فريق إدارة تنفيذي متمرس—لا يقتصر على اتباع التعليمات، بل يتخذ قرارات استراتيجية.</p>
+
+          <p style="margin: 20px 0 15px;"><strong style="color: #e8c860;">مثال عملي حقيقي:</strong></p>
+          <div style="background: rgba(201, 168, 76, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <p style="color: #c7cedd; margin-bottom: 10px;"><strong>الهدف: "إبقاء المديرين التنفيذيين مطلعين على الذكاء الاصطناعي"</strong></p>
+            <p style="color: #c7cedd; margin-bottom: 10px;">يقرر النظام بشكل مستقل:</p>
+            <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+              <li>أي مصادر الأخبار الأكثر موثوقية وأهمية للمراقبة</li>
+              <li>عندما تكون الأخبار العاجلة مهمة جداً بحيث تحتاج إلى إبلاغ فوري (لا تنتظر التقرير الشهري)</li>
+              <li>أي مواضيع الذكاء الاصطناعي الأكثر أهمية لاستراتيجية عملك</li>
+              <li>ما إذا كان يجب الخوض أعمق في موضوع بحث إضافي</li>
+              <li>ما إذا كان يجب التشاور مع خبراء خارجيين في مواضيع معينة</li>
+              <li>ما إذا كان جودة التقرير تفي بمعايير المديرين التنفيذيين</li>
+              <li>كيفية تحسين التقارير المستقبلية بناءً على ما نجح في التقارير السابقة</li>
+            </ul>
+          </div>
+
+          <p style="color: #c7cedd;"><strong>الفرق:</strong> يتعلم النظام بشكل مستمر ويتحسن. عندما يظهر بائع أو تقنية جديدة للذكاء الاصطناعي، يقيم تلقائياً ما إذا كان يجب تضمينه في التقارير المستقبلية.</p>
+          <p style="color: #c7cedd; margin-top: 10px;">تبقى المهمة كما هي، لكن الاستراتيجية تتطور مع تطور العالم.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">ما تحصل عليه</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">أنظمة ذكاء اصطناعي تستدل بشكل مستقل وتتعلم بشكل مستمر وتتحسن نحو أهداف عملك.</p>
+        `
+      }
+    };
+
+    const pillars = {
+      1: {
+        name: 'جاهزية البيانات',
+        content: `
+          <h3 style="color: #e8c860; margin: 15px 0;">ما يقيّمه هذا العمود</h3>
+          <p>قدرة مؤسستك على جمع وتنظيم وتوفير بيانات نظيفة لأنظمة الذكاء الاصطناعي. جودة البيانات الضعيفة تقوّض كل قدرة ذكاء اصطناعي فوقها.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">مجالات التقييم الرئيسية</h3>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li><strong style="color: #e8c860;">جودة البيانات:</strong> دقة واكتمال واتساق بياناتك</li>
+            <li><strong style="color: #e8c860;">اكتمال البيانات:</strong> هل لديك البيانات اللازمة لنماذج الذكاء الاصطناعي للتعلم بفعالية؟</li>
+            <li><strong style="color: #e8c860;">تكامل البيانات:</strong> هل يمكنك دمج البيانات من مصادر متعددة بسلاسة؟</li>
+            <li><strong style="color: #e8c860;">توفر البيانات:</strong> هل البيانات متاحة عند الحاجة دون تأخيرات مفرطة؟</li>
+            <li><strong style="color: #e8c860;">حوكمة البيانات:</strong> هل لديك سياسات لإدارة البيانات والخصوصية والامتثال؟</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">لماذا يهم ذلك</h3>
+          <p>البيانات هي أساس الذكاء الاصطناعي. تواجه المؤسسات ذات جاهزية البيانات الضعيفة:</p>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>نماذج تتعلم من بيانات غير مكتملة أو منحازة</li>
+            <li>انتهاكات الامتثال إذا كانت حوكمة البيانات مفقودة</li>
+            <li>عدم القدرة على تدريب نماذج الذكاء الاصطناعي المتقدمة</li>
+            <li>عائد استثمار أقل على استثمارات الذكاء الاصطناعي</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">الخطوات التالية</h3>
+          <p>قوّ جاهزية البيانات من خلال إجراء تدقيق للبيانات وتنفيذ سياسات حوكمة البيانات والاستثمار في البنية التحتية لتكامل البيانات.</p>
+        `
+      },
+      2: {
+        name: 'جاهزية البنية التقنية',
+        content: `
+          <h3 style="color: #e8c860; margin: 15px 0;">ما يقيّمه هذا العمود</h3>
+          <p>البنية التحتية التقنية لمؤسستك لدعم أنظمة الذكاء الاصطناعي. يتضمن هذا قدرات السحابة وتكامل الأنظمة والأمان والقابلية للتوسع.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">مجالات التقييم الرئيسية</h3>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li><strong style="color: #e8c860;">بنية السحابة التحتية:</strong> هل لديك موارد سحابية قابلة للتوسع لأعباء عمل الذكاء الاصطناعي؟</li>
+            <li><strong style="color: #e8c860;">واجهات البرمجة والتكامل:</strong> هل يمكن لأنظمة الذكاء الاصطناعي الاتصال بتطبيقاتك التجارية؟</li>
+            <li><strong style="color: #e8c860;">الأمان:</strong> هل أنظمتك محمية من التهديدات المحددة للذكاء الاصطناعي؟</li>
+            <li><strong style="color: #e8c860;">القابلية للتوسع:</strong> هل يمكن لبنيتك التحتية التعامل مع متطلبات الذكاء الاصطناعي المتزايدة؟</li>
+            <li><strong style="color: #e8c860;">تكامل الأنظمة:</strong> هل أدواتك تعمل معاً بسلاسة؟</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">لماذا يهم ذلك</h3>
+          <p>جاهزية البنية التقنية الضعيفة تحد من نشر الذكاء الاصطناعي:</p>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>لا يمكن نشر نماذج الذكاء الاصطناعي على نطاق واسع</li>
+            <li>ثغرات الأمان تعرّض مؤسستك للهجمات</li>
+            <li>فجوات التكامل تمنع الذكاء الاصطناعي من تحسين العمليات التجارية</li>
+            <li>تكاليف عالية من بنية تحتية غير فعالة</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">الخطوات التالية</h3>
+          <p>قيّم نضج السحابة لديك وحدّث الأنظمة القديمة وطبّق معمارية موجهة نحو واجهات البرمجة لتمكين تكامل الذكاء الاصطناعي.</p>
+        `
+      },
+      3: {
+        name: 'تبني الذكاء الاصطناعي',
+        content: `
+          <h3 style="color: #e8c860; margin: 15px 0;">ما يقيّمه هذا العمود</h3>
+          <p>قدرة مؤسستك على تحديد وتنفيذ وتشغيل حالات استخدام الذكاء الاصطناعي التي توفر قيمة تجارية.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">مجالات التقييم الرئيسية</h3>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li><strong style="color: #e8c860;">حالات الاستخدام:</strong> هل لديك فرص ذكاء اصطناعي محددة متوافقة مع أولويات الأعمال؟</li>
+            <li><strong style="color: #e8c860;">معدل التبني:</strong> ما نسبة مؤسستك التي تستخدم أدوات الذكاء الاصطناعي؟</li>
+            <li><strong style="color: #e8c860;">دقة النموذج:</strong> هل تؤدي نماذج الذكاء الاصطناعي بشكل موثوق في الإنتاج؟</li>
+            <li><strong style="color: #e8c860;">التأثير التشغيلي:</strong> هل حلول الذكاء الاصطناعي تحسن الكفاءة والجودة؟</li>
+            <li><strong style="color: #e8c860;">العائد على الاستثمار:</strong> هل استثمارات الذكاء الاصطناعي تحقق عوائد مالية قابلة للقياس؟</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">لماذا يهم ذلك</h3>
+          <p>تبني الذكاء الاصطناعي الضعيف يعني فشل استثمارات الذكاء الاصطناعي في توفير قيمة:</p>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>مشاريع تجريبية لا تصل أبداً إلى الإنتاج</li>
+            <li>النماذج تأدي بشكل أقل من المتوقع في سيناريوهات العالم الحقيقي</li>
+            <li>يقاوم الموظفون أدوات الذكاء الاصطناعي التي لا يفهمونها</li>
+            <li>عدم وجود عائد على مبادرات الذكاء الاصطناعي المكلفة</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">الخطوات التالية</h3>
+          <p>ابدأ بحالات الاستخدام الثر تأثيراً وقيس النجاح بمؤشرات رئيسية واضحة وبناء خارطة طريق التبني مع موافقة أصحاب المصلحة.</p>
+        `
+      },
+      4: {
+        name: 'الأتمتة والوكلاء الذكيون',
+        content: `
+          <h3 style="color: #e8c860; margin: 15px 0;">ما يقيّمه هذا العمود</h3>
+          <p>مستوى نضج مؤسستك في أتمتة العمليات التجارية ونشر وكلاء ذكاء اصطناعي مستقلة لتنفيذ سير العمل متعدد الخطوات.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">مجالات التقييم الرئيسية</h3>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li><strong style="color: #e8c860;">أتمتة العمليات:</strong> أي العمليات اليدوية تمت أتمتتها؟</li>
+            <li><strong style="color: #e8c860;">نشر الوكلاء:</strong> هل تستخدم وكلاء ذكاء اصطناعي لسير العمل المعقد؟</li>
+            <li><strong style="color: #e8c860;">نجاح المهام:</strong> ما معدل نجاح المهام المؤتمتة؟</li>
+            <li><strong style="color: #e8c860;">مستوى الاستقلالية:</strong> كم يمكن لوكلاء الذكاء الاصطناعي أن تفعل دون تدخل بشري؟</li>
+            <li><strong style="color: #e8c860;">تكامل الأدوات:</strong> هل لديك الوكلاء إمكانية الوصول إلى الأنظمة والأدوات الضرورية؟</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">لماذا يهم ذلك</h3>
+          <p>بدون نضج الأتمتة، تفقد مكاسب الكفاءة التي يوفرها الذكاء الاصطناعي:</p>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>العمل اليدوي يستمر رغم توفر الذكاء الاصطناعي</li>
+            <li>لا يمكن أتمتة العمليات متعددة الخطوات بالكامل</li>
+            <li>يقضي الموظفون وقتهم على المهام المتكررة بدلاً من العمل الاستراتيجي</li>
+            <li>توفيرات التكاليف من الذكاء الاصطناعي تبقى غير محققة</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">الخطوات التالية</h3>
+          <p>خريطة عمليات عملك وحدد فرص الأتمتة واستثمر في أتمتة العمليات الآلية وأنظمة وكلاء الذكاء الاصطناعي.</p>
+        `
+      },
+      5: {
+        name: 'الحوكمة والمهارات',
+        content: `
+          <h3 style="color: #e8c860; margin: 15px 0;">ما يقيّمه هذا العمود</h3>
+          <p>قدرة مؤسستك على إدارة مخاطر الذكاء الاصطناعي بمسؤولية من خلال الحوكمة وبناء مواهب الذكاء الاصطناعي وضمان ممارسات الذكاء الاصطناعي الأخلاقية والمتوافقة.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">مجالات التقييم الرئيسية</h3>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li><strong style="color: #e8c860;">سياسات الذكاء الاصطناعي:</strong> هل لديك سياسات واضحة لاستخدام الذكاء الاصطناعي المسؤول؟</li>
+            <li><strong style="color: #e8c860;">إدارة المخاطر:</strong> كيف تحدد وتخفف المخاطر المتعلقة بالذكاء الاصطناعي؟</li>
+            <li><strong style="color: #e8c860;">التدريب والمواهب:</strong> هل لديك ممارسون ماهرون في الذكاء الاصطناعي وموظفون مدربون؟</li>
+            <li><strong style="color: #e8c860;">الأخلاقيات والشفافية:</strong> هل أنظمة الذكاء الاصطناعي عادلة وقابلة للشرح وخالية من الانحياز؟</li>
+            <li><strong style="color: #e8c860;">الامتثال التنظيمي:</strong> هل تمتثل للوائح الذكاء الاصطناعي (GDPR و AI Act وغيرها)؟</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">لماذا يهم ذلك</h3>
+          <p>الحوكمة والمهارات الضعيفة تخلق مخاطر تنظيمية كبيرة:</p>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>أنظمة الذكاء الاصطناعي تتخذ قرارات منحازة تضر العملاء</li>
+            <li>انتهاكات تنظيمية تؤدي إلى غرامات وإجراءات قانونية</li>
+            <li>نقص المواهب يمنع تقدم الذكاء الاصطناعي</li>
+            <li>فقدان ثقة أصحاب المصلحة بأنظمة الذكاء الاصطناعي</li>
+          </ul>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">الخطوات التالية</h3>
+          <p>أنشئ مجلس أخلاقيات الذكاء الاصطناعي وطوّر أطر العمل للحوكمة واستثمر في برامج التدريب وبناء أو استحواذ على مواهب الذكاء الاصطناعي.</p>
+        `
+      }
+    };
+
+    function openFloor(floorNum) {
+      const floor = floors[floorNum];
+      const floorNames = ['يتبع القواعد', 'يتعلم الأنماط', 'يتعرف على العلاقات', 'يفهم الصيغ', 'يكتب المحتوى', 'ينسق المهام', 'يستدل بشكل مستقل'];
+
+      let roadmapHtml = '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap;">';
+      for (let i = 1; i <= 7; i++) {
+        const isActive = i === floorNum;
+        roadmapHtml += `
+          <div style="text-align: center;">
+            <div style="
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 700;
+              margin-bottom: 8px;
+              transition: all 0.3s ease;
+              ${isActive ? 'background: #e8c860; color: #0f1b33; box-shadow: 0 0 20px rgba(232, 200, 96, 0.5); transform: scale(1.1);' : 'background: rgba(201, 168, 76, 0.2); color: #c7cedd; border: 2px solid rgba(201, 168, 76, 0.3);'}
+            ">
+              ${i}
+            </div>
+            <div style="font-size: 0.75rem; color: ${isActive ? '#e8c860' : '#9a9490'}; font-weight: ${isActive ? '700' : '400'}; max-width: 70px;">
+              ${floorNames[i-1]}
+            </div>
+          </div>
+          ${i < 7 ? `<div style="flex: 0 0 20px; height: 2px; background: ${i < floorNum ? '#e8c860' : 'rgba(201, 168, 76, 0.2)'}; margin-bottom: 30px;"></div>` : ''}
+        `;
+      }
+      roadmapHtml += '</div>';
+
+      const html = `
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">⭐ الطابق ${floorNum} — ${floor.name}</h2>
+        <p style="color: #e8c860; margin-bottom: 25px; font-size: 0.95rem;"><strong>مثال: إنشاء تقرير شهري عن الذكاء الاصطناعي</strong></p>
+
+        <div style="background: rgba(201, 168, 76, 0.1); border-left: 4px solid #e8c860; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
+          <p style="color: #e8c860; font-size: 0.9rem; font-weight: 700; margin-bottom: 15px;">خارطة طريق تطور قدرات الذكاء الاصطناعي</p>
+          ${roadmapHtml}
+        </div>
+
+        <div style="color: #c7cedd; line-height: 1.8;">
+          ${floor.content}
+        </div>
+      `;
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function openPillar(pillarNum) {
+      const pillar = pillars[pillarNum];
+      const html = `
+        <h2 style="font-size: 2rem; margin-bottom: 15px;">📊 العمود ${pillarNum} — ${pillar.name}</h2>
+        <p style="color: #e8c860; margin-bottom: 25px; font-size: 0.95rem;"><strong>المسار 1: تقييم نضج الذكاء الاصطناعي بالمؤسسة</strong></p>
+
+        <div style="color: #c7cedd; line-height: 1.8;">
+          ${pillar.content}
+        </div>
+      `;
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    function generateReport() {
+      alert('📊 تقرير تقييم النجم المستقبلي للذكاء الاصطناعي\n\nيتضمن التقييم الشامل لديك:\n\n✓ المسار 1: درجة النضج (5 أبعاد)\n✓ المسار 2: مستوى القدرة (7 طوابق)\n✓ تحليل الفجوات\n✓ التوصيات\n✓ خارطة الطريق للمستوى التالي\n✓ الملخص التنفيذي\n\nسيتم إنشاء التقرير وإرساله بالبريد الإلكتروني قريباً!');
+    }
+
+    function openAssessment() {
+      window.location.href = 'ai-assessment-full.html';
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Setup floor hotspots on the infographic image
+    function setupFloorHotspots() {
+      const wrapper = document.getElementById('infographicWrapper');
+      const image = wrapper.querySelector('img');
+
+      if (!image || !image.complete) return;
+
+      // Create tooltip element
+      const tooltip = document.createElement('div');
+      tooltip.className = 'floor-tooltip';
+      tooltip.id = 'floorTooltip';
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(tooltip);
+
+      // Approximate positions of floors on the image (% from top)
+      const floorPositions = [
+        { floor: 7, topPercent: 18, heightPercent: 12 },
+        { floor: 6, topPercent: 30, heightPercent: 12 },
+        { floor: 5, topPercent: 42, heightPercent: 12 },
+        { floor: 4, topPercent: 54, heightPercent: 12 },
+        { floor: 3, topPercent: 66, heightPercent: 12 },
+        { floor: 2, topPercent: 78, heightPercent: 12 },
+        { floor: 1, topPercent: 90, heightPercent: 10 }
+      ];
+
+      const hotspots = document.getElementById('floorHotspots');
+
+      floorPositions.forEach(pos => {
+        const hotspot = document.createElement('div');
+        hotspot.className = 'floor-hotspot';
+        hotspot.style.top = pos.topPercent + '%';
+        hotspot.style.height = pos.heightPercent + '%';
+        hotspot.style.left = '25%';
+        hotspot.style.width = '50%';
+
+        // Hover to show tooltip
+        hotspot.addEventListener('mouseenter', () => {
+          const floor = floors[pos.floor];
+          tooltip.innerHTML = `
+            <h4>الطابق ${pos.floor} — ${floor.name}</h4>
+            <p style="font-size: 0.85rem; margin-top: 8px;">انقر لعرض التفاصيل الكاملة</p>
+          `;
+          tooltip.style.top = pos.topPercent + '%';
+          tooltip.classList.add('visible');
+        });
+
+        // Hide tooltip when mouse leaves
+        hotspot.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+        });
+
+        hotspot.title = `انقر لعرض التفاصيل`;
+        hotspot.addEventListener('click', () => openFloor(pos.floor));
+        hotspots.appendChild(hotspot);
+      });
+
+      hotspots.style.display = 'block';
+    }
+
+    // Call setup when page loads
+    window.addEventListener('load', setupFloorHotspots);
+
+    // Arrow enlarge on pillar hover
+    const pillarsBox = document.querySelector('.paths-section .path-content:last-child');
+    const arrow = document.querySelector('.section-arrow');
+
+    if (pillarsBox && arrow) {
+      pillarsBox.addEventListener('mouseenter', () => {
+        arrow.style.fontSize = '4.5rem';
+        arrow.style.opacity = '1';
+        arrow.style.filter = 'drop-shadow(0 0 30px rgba(201, 168, 76, 0.8))';
+      });
+
+      pillarsBox.addEventListener('mouseleave', () => {
+        arrow.style.fontSize = '2.5rem';
+        arrow.style.opacity = '0.6';
+        arrow.style.filter = 'drop-shadow(0 0 0px rgba(201, 168, 76, 0))';
+      });
+    }
+  </script>
+</body>
+</html>
