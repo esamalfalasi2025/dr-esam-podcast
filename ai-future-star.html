@@ -90,34 +90,40 @@
 
     @media (max-width: 768px) {
       .navbar__inner {
-        flex-wrap: wrap;
+        flex-direction: column;
         height: auto;
-        padding: 12px 15px;
+        padding: 8px 12px;
         gap: 8px;
+      }
+      .navbar__inner > div {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
       }
       .navbar__nav-icons {
-        order: 1;
         margin-right: 0;
-        margin-bottom: 8px;
       }
       .navbar__brand {
-        order: 2;
         flex: 1;
         min-width: 0;
+        font-size: 0.95rem;
+      }
+      .navbar__logo-img {
+        height: 32px;
       }
       .navbar__actions {
-        order: 3;
         width: 100%;
-        gap: 8px;
+        gap: 6px;
       }
       .navbar__actions .navbar__btn {
         flex: 1;
-        padding: 10px 12px;
-        font-size: 0.8rem;
+        padding: 8px 10px;
+        font-size: 0.75rem;
         text-align: center;
       }
       .navbar__actions .navbar__btn--gold {
-        flex: 1.2;
+        flex: 1.1;
       }
     }
 
