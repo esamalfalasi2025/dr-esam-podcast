@@ -158,17 +158,45 @@
       if (pageNum < pageCount) renderPage(pageNum + 1);
     }
 
+    // Disable print dialog
+    window.addEventListener('beforeprint', (e) => {
+      e.preventDefault();
+      alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+    });
+
+    // Override print function
+    window.print = function() {
+      alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+      return false;
+    };
+
     // Disable keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) {
+      // Block Ctrl+P / Cmd+P
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
         e.preventDefault();
+        e.stopPropagation();
+        alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+        return false;
       }
-    });
+      // Block Ctrl+S / Cmd+S
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        alert('Downloading is not permitted for this document. This is a view-only document with restricted access.');
+        return false;
+      }
+    }, true);
 
     // Disable right-click
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       return false;
+    });
+
+    // Prevent text selection and copying
+    document.addEventListener('copy', (e) => {
+      e.preventDefault();
     });
 
     // Load PDF on page load
