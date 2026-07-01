@@ -128,12 +128,14 @@
     // Load watermark image
     function loadWatermark() {
       watermarkImg = new Image();
-      watermarkImg.src = 'assets/Podcast watermark .jpeg';
+      watermarkImg.crossOrigin = "anonymous";
+      watermarkImg.src = 'assets/Podcast watermark.jpeg';
       watermarkImg.onload = () => {
-        console.log('Watermark loaded');
+        console.log('✓ Watermark loaded successfully', watermarkImg.width, 'x', watermarkImg.height);
+        renderPage(pageNum); // Re-render current page with watermark
       };
       watermarkImg.onerror = () => {
-        console.log('Could not load watermark image');
+        console.error('✗ Error loading watermark from:', watermarkImg.src);
       };
     }
 
@@ -199,31 +201,35 @@
     }
 
     // Disable print dialog
-    window.addEventListener('beforeprint', (e) => {
-      e.preventDefault();
-      alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+    window.addEventListener('beforeprint', function(e) {
+      console.log('Print attempt detected');
+      alert('Printing is disabled. This is a view-only document with restricted access.');
     });
 
     // Override print function
+    const originalPrint = window.print;
     window.print = function() {
-      alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+      console.log('Print function called');
+      alert('Printing is disabled. This is a view-only document with restricted access.');
       return false;
     };
 
     // Disable keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
       // Block Ctrl+P / Cmd+P
-      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+        console.log('Ctrl+P blocked');
         e.preventDefault();
         e.stopPropagation();
-        alert('Printing is not permitted for this document. This is a view-only document with restricted access.');
+        alert('Printing is disabled. This is a view-only document.');
         return false;
       }
       // Block Ctrl+S / Cmd+S
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+        console.log('Ctrl+S blocked');
         e.preventDefault();
         e.stopPropagation();
-        alert('Downloading is not permitted for this document. This is a view-only document with restricted access.');
+        alert('Downloading is disabled. This is a view-only document.');
         return false;
       }
     }, true);
