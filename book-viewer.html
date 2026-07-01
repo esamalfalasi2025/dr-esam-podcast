@@ -12,6 +12,16 @@
       box-sizing: border-box;
     }
 
+    /* Make document unreadable when printing */
+    @media print {
+      body {
+        display: none !important;
+      }
+      * {
+        display: none !important;
+      }
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #0d0d0d;
