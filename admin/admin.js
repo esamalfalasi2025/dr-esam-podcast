@@ -211,6 +211,7 @@ function loadContent() {
   fillHero();
   fillAbout();
   fillPlatforms();
+  fillAIModel();
   renderEpisodes();
   renderTiers();
 }
@@ -267,6 +268,20 @@ function fillPlatforms() {
   set('p-instagram', p.instagram);
   set('p-apple',     p.apple);
   set('p-google',    p.google);
+}
+
+function fillAIModel() {
+  const ai = content.aiModel || {};
+  set('ai-title-en',          ai.titleEn || '');
+  set('ai-title-ar',          ai.titleAr || '');
+  set('ai-subtitle-en',       ai.subtitleEn || '');
+  set('ai-subtitle-ar',       ai.subtitleAr || '');
+  set('ai-path1-en',          ai.path1En || '');
+  set('ai-path1-ar',          ai.path1Ar || '');
+  set('ai-path2-en',          ai.path2En || '');
+  set('ai-path2-ar',          ai.path2Ar || '');
+  set('ai-reliability-en',    ai.reliabilityEn || '');
+  set('ai-reliability-ar',    ai.reliabilityAr || '');
 }
 
 // ──────────────────────────────────────────────────
@@ -548,6 +563,19 @@ function saveAll() {
   // Services CTA
   content.services.ctaEn = get('svc-cta-en');
   content.services.ctaAr = get('svc-cta-ar');
+  // AI Future Star Model
+  content.aiModel = {
+    titleEn:        get('ai-title-en'),
+    titleAr:        get('ai-title-ar'),
+    subtitleEn:     get('ai-subtitle-en'),
+    subtitleAr:     get('ai-subtitle-ar'),
+    path1En:        get('ai-path1-en'),
+    path1Ar:        get('ai-path1-ar'),
+    path2En:        get('ai-path2-en'),
+    path2Ar:        get('ai-path2-ar'),
+    reliabilityEn:  get('ai-reliability-en'),
+    reliabilityAr:  get('ai-reliability-ar')
+  };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
 
