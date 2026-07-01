@@ -743,7 +743,7 @@ function renderOrg(){
   fillBtn.onmouseover = () => fillBtn.style.opacity = '0.9';
   fillBtn.onmouseout = () => fillBtn.style.opacity = '1';
   fillBtn.onclick = () => {
-    // Populate with example data
+    // Populate organization with example data
     CONFIG.org['Organization Name'] = 'Global Tech Solutions Inc';
     CONFIG.org['Business Unit / Sector'] = 'Technology & Software';
     const now = new Date();
@@ -761,7 +761,48 @@ function renderOrg(){
     CONFIG.org['Assessment Scope'] = 'Enterprise-wide AI maturity, capability, reliability, and governance assessment';
     CONFIG.org['Assessor Name'] = 'Senior Assessment Lead';
     CONFIG.org['Assessment Notes'] = 'Initial comprehensive assessment as part of AI transformation initiative.';
+
+    // Populate Path 1 with example scores
+    CONFIG.path1.forEach(row => {
+      row.score = 75 + Math.floor(Math.random() * 15);
+      row.emr = 'E4';
+      row.evidenceRef = 'EV-' + String(CONFIG.path1.indexOf(row) + 1).padStart(3, '0');
+      row.comment = 'Capability is documented and regularly reviewed with supporting evidence.';
+    });
+
+    // Populate Path 2 with example scores
+    CONFIG.path2.forEach((row, idx) => {
+      row.score = 75 + Math.floor(Math.random() * 15);
+      row.emr = 'E4';
+      row.evidenceRef = 'EV-' + String(100 + idx + 1).padStart(3, '0');
+      row.comment = 'Floor capability is demonstrated and documented in operational systems.';
+    });
+
+    // Populate Reliability with example scores
+    CONFIG.reliability.forEach((row, idx) => {
+      row.accuracy = 80 + Math.floor(Math.random() * 10);
+      row.safety = 78 + Math.floor(Math.random() * 12);
+      row.security = 82 + Math.floor(Math.random() * 10);
+      row.explainability = 75 + Math.floor(Math.random() * 15);
+      row.emr = 'E4';
+      row.evidenceRef = 'EV-REL-' + String(idx + 1).padStart(2, '0');
+      row.comment = 'Reliability testing completed with formal documentation.';
+    });
+
+    // Populate Evidence with example data
+    CONFIG.evidence.forEach((row, idx) => {
+      row.emr = 'E4';
+      row.evidenceRef = 'EV-EV-' + String(idx + 1).padStart(2, '0');
+      row.comment = 'Evidence reviewed and approved by assessment team.';
+    });
+
+    // Re-render all tabs
     renderOrg();
+    renderPath1();
+    renderPath2();
+    renderReliability();
+    renderEvidence();
+    renderResults();
   };
 
   const clearBtn = document.createElement('button');
