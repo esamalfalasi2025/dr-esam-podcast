@@ -109,6 +109,9 @@
       <button id="prev-btn" onclick="previousPage()">← Previous</button>
       <span class="page-info"><span id="page-num">1</span> / <span id="page-count">0</span></span>
       <button id="next-btn" onclick="nextPage()">Next →</button>
+      <button onclick="zoomOut()" title="Zoom Out">−</button>
+      <button onclick="resetZoom()" title="Reset Zoom">100%</button>
+      <button onclick="zoomIn()" title="Zoom In">+</button>
       <a href="ai-future-star.html">Back</a>
     </div>
   </div>
@@ -124,6 +127,7 @@
     let pageNum = 1;
     let pageCount = 0;
     let watermarkImg = null;
+    let currentScale = 1.5;
 
     // Load watermark image
     function loadWatermark() {
@@ -165,7 +169,7 @@
       const canvas = document.getElementById('pdf-viewer');
       const ctx = canvas.getContext('2d');
 
-      const viewport = page.getViewport({ scale: 1.5 });
+      const viewport = page.getViewport({ scale: currentScale });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
@@ -174,19 +178,19 @@
         viewport: viewport
       }).promise;
 
-      // Draw watermark on top of the PDF page
+      // Draw watermark on top of the PDF page (very light so text is readable)
       if (watermarkImg && watermarkImg.complete) {
         const watermarkScale = Math.min(
           canvas.width / watermarkImg.width,
           canvas.height / watermarkImg.height
-        ) * 0.8;
+        ) * 0.5;
 
         const watermarkWidth = watermarkImg.width * watermarkScale;
         const watermarkHeight = watermarkImg.height * watermarkScale;
         const x = (canvas.width - watermarkWidth) / 2;
         const y = (canvas.height - watermarkHeight) / 2;
 
-        ctx.globalAlpha = 0.3;
+        ctx.globalAlpha = 0.12;
         ctx.drawImage(watermarkImg, x, y, watermarkWidth, watermarkHeight);
         ctx.globalAlpha = 1.0;
       }
@@ -198,6 +202,23 @@
 
     function nextPage() {
       if (pageNum < pageCount) renderPage(pageNum + 1);
+    }
+
+    function zoomIn() {
+      currentScale += 0.2;
+      if (currentScale > 3) currentScale = 3;
+      renderPage(pageNum);
+    }
+
+    function zoomOut() {
+      currentScale -= 0.2;
+      if (currentScale < 0.8) currentScale = 0.8;
+      renderPage(pageNum);
+    }
+
+    function resetZoom() {
+      currentScale = 1.5;
+      renderPage(pageNum);
     }
 
     // Disable print dialog
