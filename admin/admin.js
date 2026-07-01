@@ -99,7 +99,27 @@ const DEFAULTS = {
     path2En: 'Measure your actual AI capabilities across 7 progressive levels. Each level—from foundational Classical AI through advanced Agentic AI—represents a distinct capability plateau with its own requirements, benefits, and reliability standards.',
     path2Ar: 'قيس قدرات الذكاء الاصطناعي الفعلية لديك عبر 7 مستويات تدريجية. يمثل كل مستوى—من الذكاء الاصطناعي الكلاسيكي الأساسي إلى الذكاء الاصطناعي الوكلاء المتقدم—مستوى قدرة مميز بمتطلبات وفوائد ومعايير موثوقية خاصة به.',
     reliabilityEn: 'Ensure your AI systems are trustworthy and dependable. Measure the reliability of each AI capability floor with a comprehensive assessment that evaluates not just performance, but also safety, security, and transparency. This ensures your AI investments deliver business value with confidence.',
-    reliabilityAr: 'تأكد من أن أنظمة الذكاء الاصطناعي لديك موثوقة وموثوق بها. قيس موثوقية كل طابق من طوابق قدرات الذكاء الاصطناعي بتقييم شامل يقيّم ليس فقط الأداء، بل أيضاً الأمان والحماية والشفافية. هذا يضمن أن استثماراتك في الذكاء الاصطناعي توفر قيمة تجارية بثقة.'
+    reliabilityAr: 'تأكد من أن أنظمة الذكاء الاصطناعي لديك موثوقة وموثوق بها. قيس موثوقية كل طابق من طوابق قدرات الذكاء الاصطناعي بتقييم شامل يقيّم ليس فقط الأداء، بل أيضاً الأمان والحماية والشفافية. هذا يضمن أن استثماراتك في الذكاء الاصطناعي توفر قيمة تجارية بثقة.',
+    pillar1En: '📊 Data Readiness',
+    pillar1Ar: 'جاهزية البيانات',
+    pillar1DescEn: 'Quality, completeness & governance',
+    pillar1DescAr: 'الجودة والاكتمال والحوكمة',
+    pillar2En: '💻 Technology Readiness',
+    pillar2Ar: 'البنية التقنية',
+    pillar2DescEn: 'Infrastructure & scalability',
+    pillar2DescAr: 'البنية التحتية والقابلية للتوسع',
+    pillar3En: '🤖 AI Adoption',
+    pillar3Ar: 'استخدام الذكاء الاصطناعي',
+    pillar3DescEn: 'Use cases & ROI impact',
+    pillar3DescAr: 'حالات الاستخدام والعائد على الاستثمار',
+    pillar4En: '⚙️ Automation & Agents',
+    pillar4Ar: 'الأتمتة والوكالء الذكيون',
+    pillar4DescEn: 'Process automation maturity',
+    pillar4DescAr: 'نضج أتمتة العمليات',
+    pillar5En: '🎓 Governance & Skills',
+    pillar5Ar: 'الحوكمة والمهارات',
+    pillar5DescEn: 'Policies, compliance & talent',
+    pillar5DescAr: 'السياسات والامتثال والمواهب'
   }
 };
 
@@ -294,6 +314,13 @@ function fillAIModel() {
   set('ai-path2-ar',          ai.path2Ar || '');
   set('ai-reliability-en',    ai.reliabilityEn || '');
   set('ai-reliability-ar',    ai.reliabilityAr || '');
+  // Pillars
+  for (let i = 1; i <= 5; i++) {
+    set(`ai-pillar${i}-en`,      ai[`pillar${i}En`] || '');
+    set(`ai-pillar${i}-ar`,      ai[`pillar${i}Ar`] || '');
+    set(`ai-pillar${i}-desc-en`, ai[`pillar${i}DescEn`] || '');
+    set(`ai-pillar${i}-desc-ar`, ai[`pillar${i}DescAr`] || '');
+  }
 }
 
 // ──────────────────────────────────────────────────
@@ -586,7 +613,27 @@ function saveAll() {
     path2En:        get('ai-path2-en'),
     path2Ar:        get('ai-path2-ar'),
     reliabilityEn:  get('ai-reliability-en'),
-    reliabilityAr:  get('ai-reliability-ar')
+    reliabilityAr:  get('ai-reliability-ar'),
+    pillar1En:      get('ai-pillar1-en'),
+    pillar1Ar:      get('ai-pillar1-ar'),
+    pillar1DescEn:  get('ai-pillar1-desc-en'),
+    pillar1DescAr:  get('ai-pillar1-desc-ar'),
+    pillar2En:      get('ai-pillar2-en'),
+    pillar2Ar:      get('ai-pillar2-ar'),
+    pillar2DescEn:  get('ai-pillar2-desc-en'),
+    pillar2DescAr:  get('ai-pillar2-desc-ar'),
+    pillar3En:      get('ai-pillar3-en'),
+    pillar3Ar:      get('ai-pillar3-ar'),
+    pillar3DescEn:  get('ai-pillar3-desc-en'),
+    pillar3DescAr:  get('ai-pillar3-desc-ar'),
+    pillar4En:      get('ai-pillar4-en'),
+    pillar4Ar:      get('ai-pillar4-ar'),
+    pillar4DescEn:  get('ai-pillar4-desc-en'),
+    pillar4DescAr:  get('ai-pillar4-desc-ar'),
+    pillar5En:      get('ai-pillar5-en'),
+    pillar5Ar:      get('ai-pillar5-ar'),
+    pillar5DescEn:  get('ai-pillar5-desc-en'),
+    pillar5DescAr:  get('ai-pillar5-desc-ar')
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
