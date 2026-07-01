@@ -119,7 +119,12 @@ const DEFAULTS = {
     pillar5En: '🎓 Governance & Skills',
     pillar5Ar: 'الحوكمة والمهارات',
     pillar5DescEn: 'Policies, compliance & talent',
-    pillar5DescAr: 'السياسات والامتثال والمواهب'
+    pillar5DescAr: 'السياسات والامتثال والمواهب',
+    pillar1ContentEn: `<h3 style="color: #e8c860; margin: 15px 0;">What This Pillar Assesses</h3><p>Your organization's ability to collect, organize, and provide clean data to AI systems. Poor data quality undermines every AI capability above it.</p><h3 style="color: #e8c860; margin: 20px 0 15px;">Key Evaluation Areas</h3><ul style="margin-left: 20px; line-height: 1.8;"><li><strong style="color: #e8c860;">Data Quality:</strong> Accuracy, completeness, and consistency of your data</li><li><strong style="color: #e8c860;">Data Completeness:</strong> Do you have the data needed for AI models to learn effectively?</li><li><strong style="color: #e8c860;">Data Integration:</strong> Can you combine data from multiple sources seamlessly?</li><li><strong style="color: #e8c860;">Data Availability:</strong> Is data accessible when needed without excessive delays?</li><li><strong style="color: #e8c860;">Data Governance:</strong> Do you have policies for data management, privacy, and compliance?</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Why It Matters</h3><p>Data is the foundation of AI. Organizations with poor data readiness face:</p><ul style="margin-left: 20px; line-height: 1.8;"><li>Models that learn from incomplete or biased data</li><li>Compliance violations if data governance is missing</li><li>Inability to train advanced AI models</li><li>Lower ROI on AI investments</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Next Steps</h3><p>Strengthen data readiness by conducting a data audit, implementing data governance policies, and investing in data integration infrastructure.</p>`,
+    pillar2ContentEn: `<h3 style="color: #e8c860; margin: 15px 0;">What This Pillar Assesses</h3><p>Your organization's technical infrastructure to support AI systems. This includes cloud capabilities, system integration, security, and scalability.</p><h3 style="color: #e8c860; margin: 20px 0 15px;">Key Evaluation Areas</h3><ul style="margin-left: 20px; line-height: 1.8;"><li><strong style="color: #e8c860;">Cloud Infrastructure:</strong> Do you have scalable cloud resources for AI workloads?</li><li><strong style="color: #e8c860;">APIs & Integration:</strong> Can AI systems connect to your business applications?</li><li><strong style="color: #e8c860;">Security:</strong> Are your systems protected against AI-specific threats?</li><li><strong style="color: #e8c860;">Scalability:</strong> Can your infrastructure handle growing AI demands?</li><li><strong style="color: #e8c860;">System Integration:</strong> Do your tools work together seamlessly?</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Why It Matters</h3><p>Weak technology readiness limits AI deployment:</p><ul style="margin-left: 20px; line-height: 1.8;"><li>AI models cannot be deployed at scale</li><li>Security vulnerabilities expose your organization to attacks</li><li>Integration gaps prevent AI from improving business processes</li><li>High costs from inefficient infrastructure</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Next Steps</h3><p>Assess your cloud maturity, modernize legacy systems, and implement API-first architecture to enable AI integration.</p>`,
+    pillar3ContentEn: `<h3 style="color: #e8c860; margin: 15px 0;">What This Pillar Assesses</h3><p>Your organization's ability to identify, implement, and operationalize AI use cases that deliver business value.</p><h3 style="color: #e8c860; margin: 20px 0 15px;">Key Evaluation Areas</h3><ul style="margin-left: 20px; line-height: 1.8;"><li><strong style="color: #e8c860;">Use Cases:</strong> Do you have identified AI opportunities aligned with business priorities?</li><li><strong style="color: #e8c860;">Adoption Rate:</strong> What percentage of your organization uses AI tools?</li><li><strong style="color: #e8c860;">Model Accuracy:</strong> Are your AI models performing reliably in production?</li><li><strong style="color: #e8c860;">Operational Impact:</strong> Are AI solutions improving efficiency and quality?</li><li><strong style="color: #e8c860;">ROI:</strong> Are AI investments generating measurable financial returns?</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Why It Matters</h3><p>Poor AI adoption means your AI investments fail to deliver value:</p><ul style="margin-left: 20px; line-height: 1.8;"><li>Pilot projects never reach production</li><li>Models underperform in real-world scenarios</li><li>Employees resist AI tools they don't understand</li><li>Zero return on expensive AI initiatives</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Next Steps</h3><p>Start with high-impact use cases, measure success with clear KPIs, and build an adoption roadmap with stakeholder buy-in.</p>`,
+    pillar4ContentEn: `<h3 style="color: #e8c860; margin: 15px 0;">What This Pillar Assesses</h3><p>Your organization's maturity in automating business processes and deploying autonomous AI agents to execute multi-step workflows.</p><h3 style="color: #e8c860; margin: 20px 0 15px;">Key Evaluation Areas</h3><ul style="margin-left: 20px; line-height: 1.8;"><li><strong style="color: #e8c860;">Process Automation:</strong> Which manual processes have been automated?</li><li><strong style="color: #e8c860;">Agent Deployment:</strong> Are you using AI agents for complex workflows?</li><li><strong style="color: #e8c860;">Task Success:</strong> What is the success rate of automated tasks?</li><li><strong style="color: #e8c860;">Autonomy Level:</strong> How much can AI agents do without human intervention?</li><li><strong style="color: #e8c860;">Tool Integration:</strong> Do agents have access to necessary systems and tools?</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Why It Matters</h3><p>Without automation maturity, you miss the efficiency gains AI offers:</p><ul style="margin-left: 20px; line-height: 1.8;"><li>Manual work continues despite AI availability</li><li>Multi-step processes cannot be fully automated</li><li>Staff spend time on repetitive tasks instead of strategic work</li><li>Cost savings from AI remain unrealized</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Next Steps</h3><p>Map your business processes, identify automation opportunities, and invest in robotic process automation (RPA) and AI agent platforms.</p>`,
+    pillar5ContentEn: `<h3 style="color: #e8c860; margin: 15px 0;">What This Pillar Assesses</h3><p>Your organization's ability to manage AI risks responsibly through governance, build AI talent, and ensure ethical and compliant AI practices.</p><h3 style="color: #e8c860; margin: 20px 0 15px;">Key Evaluation Areas</h3><ul style="margin-left: 20px; line-height: 1.8;"><li><strong style="color: #e8c860;">AI Policies:</strong> Do you have clear policies for responsible AI use?</li><li><strong style="color: #e8c860;">Risk Management:</strong> How do you identify and mitigate AI-related risks?</li><li><strong style="color: #e8c860;">Training & Talent:</strong> Do you have skilled AI practitioners and trained staff?</li><li><strong style="color: #e8c860;">Ethics & Transparency:</strong> Are your AI systems fair, explainable, and unbiased?</li><li><strong style="color: #e8c860;">Regulatory Compliance:</strong> Do you comply with AI regulations (GDPR, AI Act, etc.)?</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Why It Matters</h3><p>Weak governance and skills create significant organizational risks:</p><ul style="margin-left: 20px; line-height: 1.8;"><li>AI systems make biased decisions that harm customers</li><li>Regulatory violations lead to fines and legal action</li><li>Lack of talent prevents AI advancement</li><li>Loss of stakeholder trust in AI systems</li></ul><h3 style="color: #e8c860; margin: 20px 0 15px;">Next Steps</h3><p>Establish an AI ethics board, develop governance frameworks, invest in training programs, and build or acquire AI talent.</p>`
   }
 };
 
@@ -316,10 +321,11 @@ function fillAIModel() {
   set('ai-reliability-ar',    ai.reliabilityAr || '');
   // Pillars
   for (let i = 1; i <= 5; i++) {
-    set(`ai-pillar${i}-en`,      ai[`pillar${i}En`] || '');
-    set(`ai-pillar${i}-ar`,      ai[`pillar${i}Ar`] || '');
-    set(`ai-pillar${i}-desc-en`, ai[`pillar${i}DescEn`] || '');
-    set(`ai-pillar${i}-desc-ar`, ai[`pillar${i}DescAr`] || '');
+    set(`ai-pillar${i}-en`,        ai[`pillar${i}En`] || '');
+    set(`ai-pillar${i}-ar`,        ai[`pillar${i}Ar`] || '');
+    set(`ai-pillar${i}-desc-en`,   ai[`pillar${i}DescEn`] || '');
+    set(`ai-pillar${i}-desc-ar`,   ai[`pillar${i}DescAr`] || '');
+    set(`ai-pillar${i}-content-en`, ai[`pillar${i}ContentEn`] || '');
   }
 }
 
@@ -618,22 +624,27 @@ function saveAll() {
     pillar1Ar:      get('ai-pillar1-ar'),
     pillar1DescEn:  get('ai-pillar1-desc-en'),
     pillar1DescAr:  get('ai-pillar1-desc-ar'),
+    pillar1ContentEn: get('ai-pillar1-content-en'),
     pillar2En:      get('ai-pillar2-en'),
     pillar2Ar:      get('ai-pillar2-ar'),
     pillar2DescEn:  get('ai-pillar2-desc-en'),
     pillar2DescAr:  get('ai-pillar2-desc-ar'),
+    pillar2ContentEn: get('ai-pillar2-content-en'),
     pillar3En:      get('ai-pillar3-en'),
     pillar3Ar:      get('ai-pillar3-ar'),
     pillar3DescEn:  get('ai-pillar3-desc-en'),
     pillar3DescAr:  get('ai-pillar3-desc-ar'),
+    pillar3ContentEn: get('ai-pillar3-content-en'),
     pillar4En:      get('ai-pillar4-en'),
     pillar4Ar:      get('ai-pillar4-ar'),
     pillar4DescEn:  get('ai-pillar4-desc-en'),
     pillar4DescAr:  get('ai-pillar4-desc-ar'),
+    pillar4ContentEn: get('ai-pillar4-content-en'),
     pillar5En:      get('ai-pillar5-en'),
     pillar5Ar:      get('ai-pillar5-ar'),
     pillar5DescEn:  get('ai-pillar5-desc-en'),
-    pillar5DescAr:  get('ai-pillar5-desc-ar')
+    pillar5DescAr:  get('ai-pillar5-desc-ar'),
+    pillar5ContentEn: get('ai-pillar5-content-en')
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
