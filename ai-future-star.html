@@ -885,52 +885,147 @@
     const floors = {
       1: {
         name: 'Classical AI',
-        title: 'Rule-Based Systems',
-        description: 'The system follows predefined rules. Example: Read RSS feeds, search for keywords like "OpenAI", copy matching articles, export to PDF. No reasoning, understanding, or adaptation. Everything is rule-based.',
-        capability: '"Follow my predefined instructions."',
-        businessUse: 'Generate Monthly AI Executive Report - Rule-based collection only'
+        content: `
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">How it works</h3>
+          <p>The system follows predefined rules.</p>
+          <p style="margin: 15px 0;"><strong style="color: #e8c860;">Example:</strong></p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>Read RSS feed A.</li>
+            <li>Read RSS feed B.</li>
+            <li>Search for the keyword "OpenAI".</li>
+            <li>Copy matching articles.</li>
+            <li>Export to PDF.</li>
+          </ul>
+          <p style="margin-top: 15px; color: #c7cedd;">If the keyword does not exist, the report misses the news.</p>
+          <p style="color: #c7cedd;">No reasoning. No understanding. No adaptation. Everything is rule-based.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Follow my predefined instructions."</p>
+        `
       },
       2: {
         name: 'Machine Learning',
-        title: 'Predictive Analytics',
-        description: 'The system learns which news articles executives usually open. After several months it discovers that OpenAI, Microsoft, Google, and Anthropic receive highest attention. Future reports automatically prioritize these topics.',
-        capability: '"Learn from previous reports."',
-        businessUse: 'Generate Monthly AI Executive Report - Learning from executive behavior'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">The system learns which news articles executives usually open.</p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">After several months it discovers that:</p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>OpenAI</li>
+            <li>Microsoft</li>
+            <li>Google</li>
+            <li>Anthropic</li>
+          </ul>
+          <p style="color: #c7cedd;">receive the highest attention.</p>
+          <p style="color: #c7cedd; margin-top: 15px;">Future reports automatically prioritize these topics.</p>
+          <p style="color: #c7cedd; margin-top: 15px;">Still, it does not understand the news. It only learns from historical behavior.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Learn from previous reports."</p>
+        `
       },
       3: {
         name: 'Neural Networks',
-        title: 'Pattern Recognition',
-        description: 'The system recognizes patterns and relationships. It understands that Gemini Flash, Gemini Pro, Google AI, and Google DeepMind all belong to the same ecosystem. It groups related news together automatically.',
-        capability: '"Recognize patterns."',
-        businessUse: 'Generate Monthly AI Executive Report - Understanding topic relationships'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">The system now begins recognizing patterns.</p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">Instead of searching only for keywords, it identifies relationships.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">Example:</h3>
+          <p style="color: #c7cedd; margin-bottom: 15px;">It understands that</p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>Gemini Flash</li>
+            <li>Gemini Pro</li>
+            <li>Google AI</li>
+            <li>Google DeepMind</li>
+          </ul>
+          <p style="color: #c7cedd;">all belong to the same ecosystem.</p>
+          <p style="color: #c7cedd; margin-top: 15px;">It groups related news together automatically.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Recognize patterns."</p>
+        `
       },
       4: {
         name: 'Deep Learning',
-        title: 'Complex Understanding',
-        description: 'The system understands different content types: PDFs, YouTube videos, research papers, podcasts, images, and presentations. It extracts knowledge regardless of format.',
-        capability: '"Understand unstructured information."',
-        businessUse: 'Generate Monthly AI Executive Report - Extracting knowledge from all sources'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">The system understands different content types.</p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">It can process:</p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>PDFs</li>
+            <li>YouTube videos</li>
+            <li>Research papers</li>
+            <li>Podcasts</li>
+            <li>Images</li>
+            <li>Presentations</li>
+          </ul>
+          <p style="color: #c7cedd;">It extracts knowledge regardless of format.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Understand unstructured information."</p>
+        `
       },
       5: {
         name: 'Generative AI',
-        title: 'Creative Content Generation',
-        description: 'Instead of collecting news, the AI writes. It produces Executive Summary, Key Trends, Risks, Opportunities, and Recommendations. The report reads like it was written by a professional analyst.',
-        capability: '"Create original executive content."',
-        businessUse: 'Generate Monthly AI Executive Report - AI-written analysis'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">Instead of collecting news, the AI writes.</p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">It produces:</p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>Executive Summary</li>
+            <li>Key Trends</li>
+            <li>Risks</li>
+            <li>Opportunities</li>
+            <li>Recommendations</li>
+          </ul>
+          <p style="color: #c7cedd;">The report reads like it was written by a professional analyst.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Create original executive content."</p>
+        `
       },
       6: {
         name: 'Agent AI',
-        title: 'Autonomous Agents',
-        description: 'The AI performs multiple tasks autonomously. Agent 1 searches news → Agent 2 validates sources → Agent 3 summarizes → Agent 4 creates charts → Agent 5 generates PDF → Agent 6 emails executives. Each agent has defined responsibility with minimal human intervention.',
-        capability: '"Execute multiple coordinated tasks autonomously."',
-        businessUse: 'Generate Monthly AI Executive Report - Full workflow automation'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">The AI no longer performs one task. It plans and executes multiple tasks autonomously.</p>
+
+          <h3 style="color: #e8c860; margin: 20px 0 15px;">Example:</h3>
+          <p style="color: #c7cedd;">Agent 1: Searches AI news</p>
+          <p style="color: #c7cedd;">↓</p>
+          <p style="color: #c7cedd;">Agent 2: Validates sources</p>
+          <p style="color: #c7cedd;">↓</p>
+          <p style="color: #c7cedd;">Agent 3: Summarizes articles</p>
+          <p style="color: #c7cedd;">↓</p>
+          <p style="color: #c7cedd;">Agent 4: Creates charts</p>
+          <p style="color: #c7cedd;">↓</p>
+          <p style="color: #c7cedd;">Agent 5: Generates the executive PDF</p>
+          <p style="color: #c7cedd;">↓</p>
+          <p style="color: #c7cedd;">Agent 6: Emails the report to executives</p>
+
+          <p style="color: #c7cedd; margin-top: 15px;">Each agent has a defined responsibility. The system completes the workflow with minimal human intervention.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Execute multiple coordinated tasks autonomously."</p>
+        `
       },
       7: {
         name: 'Agentic AI',
-        title: 'Multi-Agent Intelligence',
-        description: 'The system behaves like an executive team. Starting with the goal "Keep executives informed about AI", it independently decides which sources to monitor, whether breaking news requires immediate reports, which topics are strategically important, and continuously improves itself.',
-        capability: '"Reason, plan, collaborate, execute, evaluate, and continuously improve toward achieving organizational goals."',
-        businessUse: 'Generate Monthly AI Executive Report - Full autonomous goal achievement'
+        content: `
+          <p style="color: #c7cedd; margin-bottom: 15px;">The system behaves like an executive team.</p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">It begins with a goal: <strong>"Keep executives informed about Artificial Intelligence."</strong></p>
+          <p style="color: #c7cedd; margin-bottom: 15px;">It then decides independently:</p>
+          <ul style="margin-left: 20px; color: #c7cedd; line-height: 1.8;">
+            <li>Which sources should be monitored.</li>
+            <li>Whether breaking news requires an immediate report.</li>
+            <li>Which AI topics are strategically important.</li>
+            <li>Whether additional research is necessary.</li>
+            <li>Whether external experts should be consulted.</li>
+            <li>Whether report quality is sufficient.</li>
+            <li>Whether previous reports should influence future reports.</li>
+          </ul>
+          <p style="color: #c7cedd; margin-top: 15px;">It continuously improves itself.</p>
+          <p style="color: #c7cedd; margin-top: 15px;">If a new AI vendor appears, the system automatically evaluates whether it should become part of future reports.</p>
+          <p style="color: #c7cedd; margin-top: 15px;">The objective remains constant. The strategy continuously evolves.</p>
+
+          <h3 style="color: #e8c860; margin: 25px 0 15px;">Executive Capability</h3>
+          <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">"Reason, plan, collaborate, execute, evaluate, and continuously improve toward achieving organizational goals."</p>
+        `
       }
     };
 
@@ -945,14 +1040,10 @@
     function openFloor(floorNum) {
       const floor = floors[floorNum];
       const html = `
-        <h2>${floorNum}. ${floor.name}</h2>
-        <h3 style="color: #c7cedd; margin-bottom: 20px; font-size: 1.2rem;">${floor.title}</h3>
-        <p style="margin-bottom: 20px;"><strong style="color: #e8c860;">Business Use Case: Monthly AI Executive Report</strong></p>
-        <p style="margin-bottom: 20px; color: #c7cedd;">${floor.businessUse}</p>
-        <p style="margin-bottom: 15px;"><strong style="color: #e8c860;">How It Works:</strong></p>
-        <p style="margin-bottom: 20px; color: #c7cedd;">${floor.description}</p>
-        <p style="margin-bottom: 15px;"><strong style="color: #e8c860;">Executive Capability:</strong></p>
-        <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">${floor.capability}</p>
+        <h2 style="font-size: 2rem; margin-bottom: 15px;">⭐ Floor ${floorNum} — ${floor.name}</h2>
+        <div style="color: #c7cedd; line-height: 1.8;">
+          ${floor.content}
+        </div>
       `;
       document.getElementById('modal-body').innerHTML = html;
       document.getElementById('modal').classList.add('active');
