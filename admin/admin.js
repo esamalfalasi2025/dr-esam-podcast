@@ -88,6 +88,18 @@ const DEFAULTS = {
     ],
     ctaEn: 'Get a Quote on WhatsApp',
     ctaAr: 'احصل على عرض سعر عبر واتساب'
+  },
+  aiModel: {
+    titleEn: 'AI Future Star Model™',
+    titleAr: 'نموذج النجم المستقبلي للذكاء الاصطناعي™',
+    subtitleEn: 'Unlock your organization\'s AI potential by discovering exactly where you stand in your AI transformation journey and what it takes to reach the next level.',
+    subtitleAr: 'اكتشف المكان الذي تقف فيه مؤسستك بدقة في رحلة التحول الرقمي بالذكاء الاصطناعي، وحدد ما يلزم للوصول إلى المستوى التالي.',
+    path1En: 'Understand your organizational readiness for AI transformation. This comprehensive evaluation assesses your organization across 5 critical dimensions to identify where you stand today and what investments are needed to advance your AI capabilities.',
+    path1Ar: 'افهم جاهزية مؤسستك للتحول الرقمي بالذكاء الاصطناعي. يقيم هذا التقييم الشامل مؤسستك عبر 5 أبعاد حرجة لتحديد موقعك الحالي والاستثمارات اللازمة لتعزيز قدرات الذكاء الاصطناعي لديك.',
+    path2En: 'Measure your actual AI capabilities across 7 progressive levels. Each level—from foundational Classical AI through advanced Agentic AI—represents a distinct capability plateau with its own requirements, benefits, and reliability standards.',
+    path2Ar: 'قيس قدرات الذكاء الاصطناعي الفعلية لديك عبر 7 مستويات تدريجية. يمثل كل مستوى—من الذكاء الاصطناعي الكلاسيكي الأساسي إلى الذكاء الاصطناعي الوكلاء المتقدم—مستوى قدرة مميز بمتطلبات وفوائد ومعايير موثوقية خاصة به.',
+    reliabilityEn: 'Ensure your AI systems are trustworthy and dependable. Measure the reliability of each AI capability floor with a comprehensive assessment that evaluates not just performance, but also safety, security, and transparency. This ensures your AI investments deliver business value with confidence.',
+    reliabilityAr: 'تأكد من أن أنظمة الذكاء الاصطناعي لديك موثوقة وموثوق بها. قيس موثوقية كل طابق من طوابق قدرات الذكاء الاصطناعي بتقييم شامل يقيّم ليس فقط الأداء، بل أيضاً الأمان والحماية والشفافية. هذا يضمن أن استثماراتك في الذكاء الاصطناعي توفر قيمة تجارية بثقة.'
   }
 };
 
