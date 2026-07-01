@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Future Star™ Assessment – Ministry of Economy</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --navy:#0f1b33; --navy2:#16284a; --gold:#c9a227; --gold-light:#e8c860;
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1c2230; --muted:#6b7280;
+    --pass:#1f9d55; --fail:#d64545; --warn:#e0a721;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:linear-gradient(120deg,var(--navy),var(--navy2));color:#fff;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  header .header-left{flex:1;}
+  header h1{margin:0;font-size:1.4rem;letter-spacing:.03em;}
+  header h1 span{color:var(--gold-light);}
+  header .meta{margin-top:6px;font-size:.85rem;color:#c7cedd;}
+  header .header-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  header .header-actions button{padding:10px 16px;border-radius:6px;border:none;font-weight:600;cursor:pointer;font-size:.85rem;transition:all 0.2s;white-space:nowrap;}
+  header .header-actions button.primary{background:var(--gold-light);color:var(--navy);}
+  header .header-actions button.primary:hover{opacity:0.9;transform:translateY(-2px);}
+  header .header-actions button.secondary{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);}
+  header .header-actions button.secondary:hover{background:rgba(255,255,255,0.25);}
+  .wrap{max-width:1280px;margin:0 auto;padding:22px;}
+  .dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px;position:sticky;top:0;z-index:20;}
+  .kpi{background:var(--card);border-radius:10px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:3px solid var(--gold);}
+  .kpi .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .kpi .value{font-size:1.55rem;font-weight:700;color:var(--navy);margin-top:2px;}
+  .kpi .sub{font-size:.75rem;color:var(--muted);margin-top:2px;}
+  section{background:var(--card);border-radius:10px;margin-bottom:18px;box-shadow:0 1px 6px rgba(0,0,0,.05);overflow:hidden;}
+  section > .head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:#fafbfc;border-bottom:1px solid #eee;}
+  section > .head h2{margin:0;font-size:1rem;color:var(--navy);}
+  section > .head .badge{font-size:.78rem;background:var(--navy);color:#fff;padding:3px 10px;border-radius:12px;}
+  section > .body{padding:14px 18px;display:none;}
+  section.open > .body{display:block;}
+  .chev{transition:transform .2s;color:var(--muted);}
+  section.open .chev{transform:rotate(180deg);}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;}
+  th{text-align:left;color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #eee;}
+  td{padding:6px 8px;border-bottom:1px solid #f1f1f1;vertical-align:middle;}
+  tr.dimhead td{background:#f6f7fa;font-weight:700;color:var(--navy);}
+  input[type=number]{width:64px;padding:4px 6px;border:1px solid #ccc;border-radius:5px;}
+  select{padding:4px 6px;border:1px solid #ccc;border-radius:5px;}
+  .floor-score{font-weight:700;color:var(--navy);}
+  .gate-pass{color:var(--pass);font-weight:700;}
+  .gate-fail{color:var(--fail);font-weight:700;}
+  .pill{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.74rem;font-weight:600;}
+  .pill.pass{background:#e4f7ea;color:var(--pass);}
+  .pill.fail{background:#fbe7e7;color:var(--fail);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .insight{background:#fbf7ec;border-left:4px solid var(--gold);padding:12px 16px;border-radius:6px;font-size:.88rem;line-height:1.5;margin-top:10px;}
+  .cert-track{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+
+  /* ---- Executive Dashboard (image-matched) ---- */
+  .ed-card{background:#fff;border:1px solid #e3e6ea;border-radius:8px;overflow:hidden;margin-bottom:18px;}
+  .ed-card .ed-title{background:var(--navy);color:#fff;font-weight:700;font-size:.85rem;padding:9px 14px;text-transform:uppercase;letter-spacing:.04em;}
+  .ed-card table{font-size:.86rem;}
+  .ed-card table th{background:var(--gold);color:var(--navy);text-transform:none;font-size:.82rem;padding:8px 12px;}
+  .ed-card table td{padding:9px 12px;}
+  .ed-card table td:first-child{font-weight:600;color:var(--navy);width:46%;}
+  .ed-status-leading{color:var(--pass);font-weight:700;}
+  .ed-cap-cell{font-weight:700;color:var(--navy);}
+  .ed-gate-pass{color:var(--pass);font-weight:700;}
+  .ed-gate-fail{color:var(--fail);font-weight:700;}
+  .ed-chart-wrap{padding:14px;}
+  .ed-floor-table td:nth-child(2){white-space:nowrap;}
+  .ed-floor-table tr.current-row{background:#e7f3ea;font-weight:700;}
+  .ed-floor-table .icon-pass{color:var(--pass);font-weight:900;}
+  .ed-floor-table .icon-fail{color:var(--fail);font-weight:900;}
+  .ed-legend{display:flex;gap:18px;padding:8px 14px;font-size:.78rem;color:var(--muted);border-top:1px solid #eee;}
+  .ed-current-banner{margin:0 14px 14px;padding:8px 12px;border:1px solid var(--navy);border-radius:6px;font-size:.82rem;font-weight:600;color:var(--navy);background:#f3f5f9;}
+  .ed-chevrons{display:flex;gap:4px;padding:14px;}
+  .chevron{flex:1;text-align:center;padding:8px 4px;font-weight:700;font-size:.9rem;background:#e7eaef;color:#8d93a0;position:relative;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%,10% 50%);}
+  .chevron.passed{background:#bcd9c4;color:#1d5631;}
+  .chevron.current{background:#2f8f55;color:#fff;}
+  .chevron.target{background:#e3b450;color:#5a4406;}
+  .ed-gap-labels{display:flex;justify-content:space-around;padding:0 14px 10px;text-align:center;font-size:.78rem;color:var(--muted);}
+  .ed-gap-labels b{display:block;color:var(--navy);font-size:.85rem;}
+  .ed-gap-boxes{display:flex;gap:10px;padding:0 14px 16px;}
+  .ed-gap-box{flex:1;border:1px solid #e3e6ea;border-radius:6px;text-align:center;padding:10px;}
+  .ed-gap-box .num{font-size:1.5rem;font-weight:800;color:var(--navy);}
+  .ed-gap-box .lbl{font-size:.75rem;color:var(--muted);}
+  .ed-reco-row{display:flex;gap:10px;padding:10px 14px;border-top:1px solid #f1f1f1;align-items:flex-start;}
+  .ed-reco-row .ico{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;}
+  .ed-reco-row .lab{font-weight:700;color:var(--navy);font-size:.8rem;width:120px;flex-shrink:0;}
+  .ed-reco-row .val{font-size:.82rem;color:var(--ink);}
+  .ed-insight-card{display:flex;gap:14px;background:#fff;border:1px solid #e3e6ea;border-radius:8px;padding:16px;align-items:flex-start;}
+  .ed-insight-card .ico{width:46px;height:46px;border-radius:50%;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .ed-insight-card h4{margin:0 0 4px;color:var(--navy);}
+  .ed-insight-card p{margin:0;font-size:.88rem;line-height:1.55;color:#333;}
+  .cert-chip{padding:6px 14px;border-radius:16px;font-size:.78rem;font-weight:700;border:2px solid #ddd;color:#999;}
+  .cert-chip.achieved{border-color:var(--gold);color:var(--navy);background:#fff8e6;}
+  .cert-chip.next{border-color:var(--navy);color:var(--navy);background:#eef1f8;}
+  footer{text-align:center;color:var(--muted);font-size:.78rem;padding:18px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+
+  /* ---- Step wizard ---- */
+  .stepper{display:flex;gap:4px;margin-bottom:22px;}
+  .step-tab{flex:1;text-align:center;padding:10px 4px;font-size:.78rem;font-weight:700;color:#9aa0ab;background:#e7eaef;border-radius:6px;position:relative;}
+  .step-tab .n{display:block;width:24px;height:24px;line-height:24px;border-radius:50%;background:#cfd3da;color:#fff;margin:0 auto 4px;font-size:.78rem;}
+  .step-tab.done{color:var(--navy);background:#eef4ef;}
+  .step-tab.done .n{background:var(--pass);}
+  .step-tab.active{color:#fff;background:var(--navy);}
+  .step-tab.active .n{background:var(--gold);color:var(--navy);}
+  .step-panel{display:none;}
+  .step-panel.active{display:block;}
+  .step-intro{font-size:.86rem;color:var(--muted);margin-bottom:14px;}
+  .step-nav{display:flex;justify-content:space-between;margin-top:18px;}
+  .nav-btn{padding:10px 22px;border-radius:6px;border:none;font-size:.86rem;font-weight:700;cursor:pointer;}
+  .nav-btn.primary{background:var(--navy);color:#fff;}
+  .nav-btn.primary:hover{background:var(--navy2);}
+  .nav-btn.ghost{background:#eceef1;color:var(--navy);}
+  .nav-btn.ghost:hover{background:#dfe2e7;}
+  .nav-btn:disabled{opacity:.4;cursor:default;}
+  .step-card{background:var(--card);border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.05);padding:18px 20px;}
+  .step-card h2{margin:0 0 4px;color:var(--navy);font-size:1.05rem;}
+  .rel-locked{opacity:.4;pointer-events:none;background:#f6f6f7 !important;}
+
+  /* ---- Reference / rules info boxes ---- */
+  .ref-box{border:1px solid #e3e6ea;border-radius:8px;margin-bottom:16px;overflow:hidden;background:#fbfbfc;}
+  .ref-box .ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;cursor:pointer;background:#eef1f6;}
+  .ref-box .ref-head b{color:var(--navy);font-size:.86rem;}
+  .ref-box .ref-chev{transition:transform .2s;color:var(--muted);}
+  .ref-box.open .ref-chev{transform:rotate(180deg);}
+  .ref-box .ref-content{display:none;padding:14px;font-size:.82rem;color:#333;}
+  .ref-box.open .ref-content{display:block;}
+  .ref-content table{width:auto;margin:8px 0;}
+  .ref-content th{background:var(--gold);color:var(--navy);padding:5px 10px;}
+  .ref-content td{padding:5px 10px;}
+  .ref-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:8px;}
+  .ref-chip{background:#fff;border:1px solid #e3e6ea;border-radius:6px;padding:8px 10px;font-size:.8rem;}
+  .ref-chip b{color:var(--navy);}
+
+  /* LOGIN MODAL */
+  .login-modal{display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;font-family:'Segoe UI',Arial,sans-serif;}
+  .login-modal.hidden{display:none !important;}
+  .login-container{background:#fff;border-radius:12px;padding:40px;width:100%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.3);}
+  .login-container h1{margin:0 0 10px;font-size:1.8rem;color:#0f1b33;text-align:center;}
+  .login-container .subtitle{text-align:center;color:#6b7280;margin-bottom:30px;font-size:0.9rem;}
+  .login-form{display:flex;flex-direction:column;}
+  .login-form.hidden{display:none !important;}
+  .login-form-group{margin-bottom:20px;}
+  .login-form-group label{display:block;margin-bottom:8px;font-weight:600;color:#0f1b33;font-size:0.9rem;}
+  .login-form-group input{width:100%;padding:12px;border:1px solid #ccc;border-radius:6px;font-size:1rem;font-family:inherit;}
+  .login-form-group input:focus{outline:none;border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,0.1);}
+  .login-btn{background:#c9a227;color:#fff;padding:12px;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:1rem;transition:all 0.3s;}
+  .login-btn:hover{background:#dfc06a;transform:translateY(-2px);}
+  .login-error{color:#d64545;font-size:0.85rem;margin-top:10px;text-align:center;}
+  .login-success{color:#1f9d55;font-size:0.85rem;margin-top:10px;text-align:center;}
+  .login-loading{text-align:center;color:#6b7280;}
+  .login-type-btn{padding:10px 20px;border:1px solid #ccc;background:#f5f5f5;cursor:pointer;border-radius:6px;font-weight:600;color:#0f1b33;transition:all 0.3s;}
+  .login-type-btn.active{background:#c9a227;color:#fff;border-color:#c9a227;}
+  .login-type-btn:hover{border-color:#c9a227;}
+
+  @media print{
+    #stepper, .step-nav, #report-actions, header .header-actions{display:none !important;}
+    header{background:#fff;padding:100px 40px;text-align:center;border:none;margin-bottom:0;page-break-after:always;display:block;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+    header .header-left{display:block;}
+    header h1{color:var(--navy);font-size:2.8rem;margin-bottom:40px;font-weight:700;}
+    header h1 span{color:var(--gold);}
+    header .meta{color:var(--navy);font-size:1.2rem;margin-top:30px;line-height:2;font-weight:500;}
+    .step-panel{display:block !important;}
+    body{background:#fff;}
+    .ref-box .ref-content{display:block !important;}
+    section, .step-card, .ed-card{box-shadow:none;border:1px solid #ddd;break-inside:avoid;}
+    .wrap{padding:40px;}
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+<!-- LOGIN MODAL -->
+<div class="login-modal" id="login-modal">
+  <div class="login-container">
+    <h1>AI Future Star™</h1>
+    <p class="subtitle">Assessment Access</p>
+
+    <!-- Login Type Selector -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <button type="button" class="login-type-btn active" id="btn-client" onclick="document.getElementById('client-login-form').classList.remove('hidden'); document.getElementById('admin-login-form').classList.add('hidden'); this.classList.add('active'); document.getElementById('btn-admin').classList.remove('active'); return false;">Client</button>
+      <button type="button" class="login-type-btn" id="btn-admin" onclick="document.getElementById('admin-login-form').classList.remove('hidden'); document.getElementById('client-login-form').classList.add('hidden'); this.classList.add('active'); document.getElementById('btn-client').classList.remove('active'); return false;">Admin</button>
+    </div>
+
+    <!-- Client Login Form -->
+    <form class="login-form" id="client-login-form" onsubmit="handleLogin(event, 'client')">
+      <div class="login-form-group">
+        <label for="client-email">Email Address</label>
+        <input type="email" id="client-email" placeholder="Enter your email" required />
+      </div>
+      <div class="login-form-group">
+        <label for="client-password">Password</label>
+        <input type="password" id="client-password" placeholder="Enter password" required />
+      </div>
+      <button type="submit" class="login-btn" id="client-btn">Access Assessment</button>
+      <div id="client-message"></div>
+    </form>
+
+    <!-- Admin Login Form -->
+    <form class="login-form hidden" id="admin-login-form" onsubmit="handleLogin(event, 'admin')">
+      <div class="login-form-group">
+        <label for="admin-username">Username</label>
+        <input type="text" id="admin-username" placeholder="Enter username" required />
+      </div>
+      <div class="login-form-group">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" placeholder="Enter password" required />
+      </div>
+      <button type="submit" class="login-btn" id="admin-btn">Admin Access</button>
+      <div id="admin-message"></div>
+    </form>
+  </div>
+</div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:15px;">
+    <button onclick="window.history.back()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;" title="Go Back">←</button>
+    <button onclick="window.location.href='index.html'" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;" title="Go to Home">⌂</button>
+  </div>
+  <div class="header-left">
+    <h1>AI <span>Future Star™</span> Assessment</h1>
+    <div class="meta" id="org-meta"></div>
+  </div>
+  <div class="header-actions" id="header-actions" style="display:none;">
+    <button class="primary" id="btn-header-pdf" onclick="downloadReportPDF()">⬇ PDF</button>
+    <button class="secondary" id="btn-header-json" onclick="downloadReportJSON()">⬇ JSON</button>
+    <button class="secondary" id="btn-header-email" onclick="emailReport()">✉ Email</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="stepper" id="stepper"></div>
+
+  <div class="step-panel active" data-step="0">
+    <div class="step-card">
+      <h2>Step 1 – Organization Information</h2>
+      <div class="step-intro">Confirm who is being assessed, the scope, and the assessor before scoring begins.</div>
+      <div id="info-org"></div>
+      <div id="org-body"></div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="1">
+    <div class="step-card">
+      <h2>Step 2 – Path 1: AI Maturity Assessment</h2>
+      <div class="step-intro">Score each sub-indicator 0–100 and assign an Evidence Maturity Rating (EMR). Dimension scores update live as you type.</div>
+      <div id="info-path1"></div>
+      <div id="path1-body"></div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="2">
+    <div class="step-card">
+      <h2>Step 3 – Path 2: AI Capability Assessment</h2>
+      <div class="step-intro">Score each capability floor's indicators. A floor's score is the average of its sub-indicators.</div>
+      <div id="info-path2"></div>
+      <div id="path2-body"></div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="3">
+    <div class="step-card">
+      <h2>Step 4 – Reliability Assessment (AI Trust Score)</h2>
+      <div class="step-intro">Score Accuracy, Safety, Security, and Explainability for each floor. A floor only passes its gate if Capability ≥ 80 AND this Reliability score meets the required threshold.</div>
+      <div id="info-rel"></div>
+      <div id="rel-body"></div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="4">
+    <div class="step-card">
+      <h2>Step 5 – Evidence Register</h2>
+      <div class="step-intro">Review the supporting evidence behind the scores entered. Evidence coverage feeds into Assessment Confidence.</div>
+      <div id="info-evidence"></div>
+      <div id="evidence-body"></div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="5">
+    <div class="dash" id="dashboard"></div>
+    <div class="step-card" style="margin-bottom:18px;">
+      <h2>Gate Validation</h2>
+      <div id="gate-body"></div>
+    </div>
+    <div id="info-results"></div>
+    <div class="step-card" id="report-actions" style="margin-bottom:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <h2 style="margin:0;flex-basis:100%;">Report Actions</h2>
+      <button class="nav-btn primary" id="btn-download-pdf" onclick="downloadReportPDF()">⬇ Download Report (PDF)</button>
+      <button class="nav-btn ghost" id="btn-download-json" onclick="downloadReportJSON()">⬇ Download Data (.json)</button>
+      <button class="nav-btn ghost" id="btn-email" onclick="emailReport()">✉ Email Report</button>
+    </div>
+    <div id="exec-body"></div>
+  </div>
+
+  <div class="step-nav">
+    <button class="nav-btn ghost" id="btn-back" onclick="goStep(currentStep-1)">← Back</button>
+    <button class="nav-btn primary" id="btn-next" onclick="goStep(currentStep+1)">Next ▶</button>
+  </div>
+</div>
+<footer>AI Future Star™ Assessment Engine – scores recalculate live as you edit. Gate rule: Capability Score ≥ 80 AND AI Trust Score ≥ required threshold for the floor.</footer>
+
+<script>
+// Define core functions first before anything else
+function switchLoginType(type) {
+  console.log('switchLoginType called with:', type);
+  const clientForm = document.getElementById('client-login-form');
+  const adminForm = document.getElementById('admin-login-form');
+  const typeButtons = document.querySelectorAll('.login-type-btn');
+
+  console.log('clientForm:', clientForm);
+  console.log('adminForm:', adminForm);
+  console.log('adminForm classes before:', adminForm ? adminForm.className : 'N/A');
+
+  if (!clientForm || !adminForm) {
+    console.error('Forms not found!');
+    return;
+  }
+
+  typeButtons.forEach(btn => btn.classList.remove('active'));
+
+  if (type === 'admin') {
+    console.log('Switching to admin form');
+    adminForm.classList.remove('hidden');
+    clientForm.classList.add('hidden');
+    console.log('adminForm classes after remove:', adminForm.className);
+    console.log('clientForm classes after add:', clientForm.className);
+    if (typeButtons[1]) typeButtons[1].classList.add('active');
+    setTimeout(() => {
+      const usernameField = document.getElementById('admin-username');
+      if (usernameField) usernameField.focus();
+    }, 100);
+  } else {
+    console.log('Switching to client form');
+    clientForm.classList.remove('hidden');
+    adminForm.classList.add('hidden');
+    if (typeButtons[0]) typeButtons[0].classList.add('active');
+    setTimeout(() => {
+      const emailField = document.getElementById('client-email');
+      if (emailField) emailField.focus();
+    }, 100);
+  }
+}
+
+const CONFIG = {"org": {"Organization Name": "Dr Esam Podcast Company", "Business Unit / Sector": "", "Assessment Date": "", "Registration No.": "1920-2026", "Assessment Team": "Dr Esam Podcast", "Model Version": null, "Website": "moet.gov.ae", "Assessment Scope": "Enterprise AI maturity, capability, reliability, and governance assessment", "Assessor Name": "Dr Esam AlFalasi", "Assessment Notes": "Pilot assessment using AI Future Star™ Assessment Toolkit v3.1"}, "path1": [{"dimension": "Data Readiness", "sub": "Data Quality", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Data Readiness", "sub": "Data Completeness", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Data Readiness", "sub": "Data Integration", "weight": 20, "score": 90, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Data Readiness", "sub": "Data Availability", "weight": 20, "score": 90, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Data Readiness", "sub": "Data Governance", "weight": 20, "score": 90, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Technology Readiness", "sub": "Cloud Readiness", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Technology Readiness", "sub": "API Readiness", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Technology Readiness", "sub": "System Integration", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Technology Readiness", "sub": "Cybersecurity", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Technology Readiness", "sub": "Scalability", "weight": 20, "score": 85, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Adoption", "sub": "AI Use Cases", "weight": 20, "score": 80, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Adoption", "sub": "Adoption Rate", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Adoption", "sub": "Model Accuracy", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Adoption", "sub": "Operational Impact", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Adoption", "sub": "Business Value / ROI", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Automation & Agents", "sub": "Process Automation", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Automation & Agents", "sub": "Task Automation", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Automation & Agents", "sub": "Agent Deployment", "weight": 20, "score": 60, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Automation & Agents", "sub": "Tool Integration", "weight": 20, "score": 60, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "Automation & Agents", "sub": "Autonomy", "weight": 20, "score": 50, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Governance & Skills", "sub": "AI Policies", "weight": 20, "score": 75, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Governance & Skills", "sub": "Responsible AI & Ethics", "weight": 20, "score": 70, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Governance & Skills", "sub": "AI Risk Management", "weight": 20, "score": 70, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Governance & Skills", "sub": "Compliance & Regulatory Readiness", "weight": 20, "score": 70, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"dimension": "AI Governance & Skills", "sub": "Workforce AI Literacy & Capability", "weight": 20, "score": 70, "emr": "E4", "evidenceRef": "EV-001 | Data Governance Policy", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}], "path2": [{"floorNo": 1, "floor": "⭐ Classical AI", "primary": "Rule Accuracy", "sub": "Rule Accuracy", "score": 100, "emr": "E4", "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 1, "floor": "⭐ Classical AI", "primary": "Rule Accuracy", "sub": "Rule Coverage", "score": 100, "emr": "E4", "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 1, "floor": "⭐ Classical AI", "primary": "Rule Accuracy", "sub": "Rule Compliance", "score": 100, "emr": "E4", "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "primary": "Prediction Accuracy", "sub": "Prediction Accuracy", "score": 75, "emr": "E4", "evidenceRef": "EV-027 | ML Model Documentation", "comment": "Machine Learning capabilities are implemented across selected business functions."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "primary": "Prediction Accuracy", "sub": "Recall", "score": 75, "emr": "E4", "evidenceRef": "EV-027 | ML Model Documentation", "comment": "Machine Learning capabilities are implemented across selected business functions."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "primary": "Prediction Accuracy", "sub": "Model Stability", "score": 75, "emr": "E4", "evidenceRef": "EV-027 | ML Model Documentation", "comment": "Machine Learning capabilities are implemented across selected business functions."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "primary": "Recognition Accuracy", "sub": "Pattern Recognition", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "primary": "Recognition Accuracy", "sub": "Classification Accuracy", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "primary": "Recognition Accuracy", "sub": "Correlation Quality", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "primary": "Understanding Accuracy", "sub": "Text Understanding", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "primary": "Understanding Accuracy", "sub": "Image Understanding", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "primary": "Understanding Accuracy", "sub": "Audio/Video Understanding", "score": 70, "emr": "E4", "evidenceRef": "EV-028 | Neural Network Architecture", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "primary": "Content Quality Score", "sub": "Accuracy", "score": 70, "emr": "E4", "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "primary": "Content Quality Score", "sub": "Relevance", "score": 70, "emr": "E4", "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "primary": "Content Quality Score", "sub": "Creativity / Usefulness", "score": 70, "emr": "E4", "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "primary": "Task Completion Rate", "sub": "Task Completion", "score": 40, "emr": "E4", "evidenceRef": "EV-018 | Agent Architecture Evidence", "comment": "No production agent architecture evidence is available."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "primary": "Task Completion Rate", "sub": "Autonomy", "score": 40, "emr": "E4", "evidenceRef": "EV-019 | Tool Connectivity Evidence", "comment": "AI tools are not yet integrated with enterprise tools for autonomous execution."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "primary": "Task Completion Rate", "sub": "Tool Integration", "score": 40, "emr": "E4", "evidenceRef": "EV-020 | Autonomous Decision Log", "comment": "No autonomous decision logs are available because agentic operation is not in production."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "primary": "Goal Success Rate", "sub": "Goal Achievement", "score": 20, "emr": "E4", "evidenceRef": "EV-018 | Agent Architecture Evidence", "comment": "No production agent architecture evidence is available."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "primary": "Goal Success Rate", "sub": "Multi-Agent Collaboration", "score": 20, "emr": "E4", "evidenceRef": "EV-019 | Tool Connectivity Evidence", "comment": "AI tools are not yet integrated with enterprise tools for autonomous execution."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "primary": "Goal Success Rate", "sub": "Self-Optimization", "score": 20, "emr": "E4", "evidenceRef": "EV-020 | Autonomous Decision Log", "comment": "No autonomous decision logs are available because agentic operation is not in production."}], "reliability": [{"floorNo": 1, "floor": "⭐ Classical AI", "indicator": "Accuracy", "score": null, "emr": null, "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 1, "floor": "⭐ Classical AI", "indicator": "Safety", "score": null, "emr": null, "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 1, "floor": "⭐ Classical AI", "indicator": "Security", "score": null, "emr": null, "evidenceRef": "EV-009 | Security Monitoring Evidence", "comment": "Enterprise cybersecurity controls are mature and aligned with digital operations."}, {"floorNo": 1, "floor": "⭐ Classical AI", "indicator": "Explainability", "score": 100, "emr": "E4", "evidenceRef": "EV-026 | Rules Engine Documentation", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "indicator": "Accuracy", "score": 70, "emr": "E4", "evidenceRef": "EV-037 | ML Accuracy Evidence", "comment": "Machine Learning accuracy is demonstrated within initiatives but requires enterprise monitoring."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "indicator": "Safety", "score": 65, "emr": "E4", "evidenceRef": "EV-038 | ML Safety Evidence", "comment": "Machine Learning safety relies on human validation and operational controls."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "indicator": "Security", "score": 65, "emr": "E4", "evidenceRef": "EV-039 | ML Security Evidence", "comment": "ML-specific model security controls are limited."}, {"floorNo": 2, "floor": "⭐⭐ Machine Learning", "indicator": "Explainability", "score": 100, "emr": "E4", "evidenceRef": "EV-027 | ML Model Documentation", "comment": "Machine Learning capabilities are implemented across selected business functions."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "indicator": "Accuracy", "score": 70, "emr": "E4", "evidenceRef": "EV-033 | Neural Network Accuracy Evidence", "comment": "Enterprise-wide monitoring and continuous validation mechanisms need to be strengthened."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "indicator": "Safety", "score": 60, "emr": "E4", "evidenceRef": "EV-035 | AI Safety Assessment", "comment": "Safety controls primarily rely on human review and approval processes."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "indicator": "Security", "score": 65, "emr": "E4", "evidenceRef": "EV-036 | AI Security Assessment", "comment": "AI-specific security practices require further formalization."}, {"floorNo": 3, "floor": "⭐⭐⭐ Neural Networks", "indicator": "Explainability", "score": 60, "emr": "E4", "evidenceRef": "EV-034 | Neural Network Explainability Evidence", "comment": "Explainability exists for selected solutions but is not governed as an enterprise framework."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "indicator": "Accuracy", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "indicator": "Safety", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "indicator": "Security", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 4, "floor": "⭐⭐⭐⭐ Deep Learning", "indicator": "Explainability", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "indicator": "Accuracy", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "indicator": "Safety", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "indicator": "Security", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 5, "floor": "⭐⭐⭐⭐⭐ Generative AI", "indicator": "Explainability", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "indicator": "Accuracy", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "indicator": "Safety", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "indicator": "Security", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 6, "floor": "⭐⭐⭐⭐⭐⭐ Agent AI", "indicator": "Explainability", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "indicator": "Accuracy", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "indicator": "Safety", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "indicator": "Security", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"floorNo": 7, "floor": "⭐⭐⭐⭐⭐⭐⭐ Agentic AI", "indicator": "Explainability", "score": null, "emr": null, "evidenceRef": "EV-040 | Benchmarking Report", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}], "requiredTrust": {"1": {"capability": "Classical AI", "requiredTrust": 70}, "2": {"capability": "Machine Learning", "requiredTrust": 75}, "3": {"capability": "Neural Networks", "requiredTrust": 80}, "4": {"capability": "Deep Learning", "requiredTrust": 85}, "5": {"capability": "Generative AI", "requiredTrust": 90}, "6": {"capability": "Agent AI", "requiredTrust": 95}, "7": {"capability": "Agentic AI", "requiredTrust": 95}}, "certifications": [{"name": "Bronze", "minMaturity": 40, "minCapability": "Classical AI", "minTrust": 70, "minEMR": "E2"}, {"name": "Silver", "minMaturity": 60, "minCapability": "Machine Learning", "minTrust": 75, "minEMR": "E3"}, {"name": "Gold", "minMaturity": 75, "minCapability": "Neural Networks", "minTrust": 80, "minEMR": "E4"}, {"name": "Platinum", "minMaturity": 85, "minCapability": "Deep Learning", "minTrust": 85, "minEMR": "E4"}, {"name": "Diamond", "minMaturity": 95, "minCapability": "Agent AI / Agentic AI", "minTrust": 95, "minEMR": "E5"}], "evidence": [{"id": "EV-018", "title": "Agent Architecture Evidence", "type": "Architecture", "owner": "AI Office", "emr": "E1", "status": "Missing", "linked": "Agent Deployment", "comment": "No production agent architecture evidence is available."}, {"id": "EV-019", "title": "Tool Connectivity Evidence", "type": "System Record", "owner": "IT Architecture", "emr": "E1", "status": "Missing", "linked": "Tool Integration", "comment": "AI tools are not yet integrated with enterprise tools for autonomous execution."}, {"id": "EV-020", "title": "Autonomous Decision Log", "type": "System Log", "owner": "AI Office", "emr": "E1", "status": "Missing", "linked": "Autonomy", "comment": "No autonomous decision logs are available because agentic operation is not in production."}, {"id": "EV-029", "title": "Draft Deep Learning Evidence", "type": "Draft", "owner": "AI Office", "emr": "E2", "status": "Missing", "linked": "Deep Learning", "comment": "Deep learning evidence is not approved as an enterprise capability."}, {"id": "EV-030", "title": "Draft GenAI Evidence", "type": "Draft", "owner": "AI Office", "emr": "E2", "status": "Missing", "linked": "Generative AI", "comment": "Generative AI evidence is localized and not yet enterprise-governed."}, {"id": "EV-023", "title": "AI-specific Risk Register", "type": "Risk Register", "owner": "Risk Office", "emr": "E3", "status": "Partial", "linked": "AI Risk Management", "comment": "AI risks are covered within traditional risk mechanisms; a dedicated AI risk register is partially available."}, {"id": "EV-024", "title": "AI Regulatory Mapping", "type": "Compliance Report", "owner": "Compliance", "emr": "E3", "status": "Partial", "linked": "AI Regulatory Readiness", "comment": "Regulatory mapping exists but requires expansion for future AI-specific requirements."}, {"id": "EV-025", "title": "AI Training Records", "type": "Training Record", "owner": "HR / Learning", "emr": "E3", "status": "Available", "linked": "Workforce AI Capability", "comment": "AI training records exist, but enterprise competency measurement requires further maturity."}, {"id": "EV-001", "title": "Data Governance Policy", "type": "Policy", "owner": "Data Office", "emr": "E4", "status": "Available", "linked": "Data Quality", "comment": "Data quality is formally governed and monitored through dashboards and periodic reporting."}, {"id": "EV-002", "title": "Data Completeness KPI Report", "type": "KPI Report", "owner": "Data Office", "emr": "E4", "status": "Available", "linked": "Data Completeness", "comment": "Data completeness is monitored through mandatory field controls and periodic reports."}, {"id": "EV-003", "title": "Enterprise Integration Architecture", "type": "Architecture", "owner": "IT Architecture", "emr": "E4", "status": "Available", "linked": "Data Integration", "comment": "Enterprise systems are integrated through APIs and centralized integration services."}, {"id": "EV-004", "title": "Data Access Dashboard", "type": "Dashboard", "owner": "Data Office", "emr": "E4", "status": "Available", "linked": "Data Availability", "comment": "Critical business data is accessible through dashboards, APIs, and governed access mechanisms."}, {"id": "EV-005", "title": "Data Governance Framework", "type": "Framework", "owner": "Data Office", "emr": "E4", "status": "Available", "linked": "Data Governance", "comment": "A formal data governance framework is established with defined ownership and stewardship."}, {"id": "EV-006", "title": "Cloud Architecture Report", "type": "Architecture", "owner": "Infrastructure Team", "emr": "E4", "status": "Available", "linked": "Cloud Readiness", "comment": "Cloud infrastructure is mature and supports enterprise workloads."}, {"id": "EV-007", "title": "API Catalogue", "type": "System Record", "owner": "Integration Team", "emr": "E4", "status": "Available", "linked": "API Readiness", "comment": "Enterprise APIs are standardized, secured, and broadly available."}, {"id": "EV-008", "title": "System Integration Map", "type": "Architecture", "owner": "Integration Team", "emr": "E4", "status": "Available", "linked": "System Integration", "comment": "Core enterprise systems are integrated and exchange data effectively."}, {"id": "EV-009", "title": "Security Monitoring Evidence", "type": "Dashboard", "owner": "Cybersecurity", "emr": "E4", "status": "Available", "linked": "Cybersecurity", "comment": "Enterprise cybersecurity controls are mature and aligned with digital operations."}, {"id": "EV-010", "title": "Capacity Monitoring Report", "type": "Report", "owner": "Infrastructure Team", "emr": "E4", "status": "Available", "linked": "Scalability", "comment": "The technology platform is scalable and supported by cloud infrastructure."}, {"id": "EV-011", "title": "AI Use Case Inventory", "type": "AI Documentation", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "AI Use Cases", "comment": "The organization has implemented multiple AI use cases that deliver measurable value."}, {"id": "EV-012", "title": "AI Usage Statistics", "type": "System Report", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "AI Utilization", "comment": "AI adoption is expanding across selected business units but is not yet enterprise-wide."}, {"id": "EV-013", "title": "Model Accuracy Report", "type": "KPI Report", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "AI Model Accuracy", "comment": "AI models demonstrate acceptable accuracy levels within selected initiatives."}, {"id": "EV-014", "title": "Benefits Realization Report", "type": "Report", "owner": "Business Owner", "emr": "E4", "status": "Available", "linked": "Business Impact", "comment": "AI initiatives have delivered measurable operational impact in selected areas."}, {"id": "EV-015", "title": "AI Portfolio Inventory", "type": "AI Documentation", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "Enterprise Coverage", "comment": "AI initiatives generate visible service improvement but are not yet enterprise-wide."}, {"id": "EV-016", "title": "Automation Process Inventory", "type": "Report", "owner": "Operations", "emr": "E4", "status": "Available", "linked": "Process Automation", "comment": "Process automation is implemented across several business workflows."}, {"id": "EV-017", "title": "Task Automation Register", "type": "Report", "owner": "Operations", "emr": "E4", "status": "Available", "linked": "Task Automation", "comment": "AI does not yet connect multiple tasks end-to-end to achieve complete outcomes."}, {"id": "EV-021", "title": "AI Policy / Governance Standard", "type": "Policy", "owner": "AI Governance", "emr": "E4", "status": "Available", "linked": "AI Policies", "comment": "AI policies exist, but future-focused AI evolution risk policy requires strengthening."}, {"id": "EV-022", "title": "Responsible AI Principles and KPI", "type": "Policy / KPI", "owner": "AI Governance", "emr": "E4", "status": "Available", "linked": "Responsible AI", "comment": "Responsible AI principles exist but are not yet measured consistently."}, {"id": "EV-026", "title": "Rules Engine Documentation", "type": "AI Documentation", "owner": "Application Owner", "emr": "E4", "status": "Available", "linked": "Classical AI", "comment": "Rules-based decision logic is deeply embedded across core business workflows."}, {"id": "EV-027", "title": "ML Model Documentation", "type": "AI Documentation", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "Machine Learning", "comment": "Machine Learning capabilities are implemented across selected business functions."}, {"id": "EV-028", "title": "Neural Network Architecture", "type": "AI Documentation", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "Neural Networks", "comment": "Neural network capabilities exist but are not yet enterprise-wide."}, {"id": "EV-033", "title": "Neural Network Accuracy Evidence", "type": "KPI Report", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "Accuracy", "comment": "Enterprise-wide monitoring and continuous validation mechanisms need to be strengthened."}, {"id": "EV-034", "title": "Neural Network Explainability Evidence", "type": "AI Documentation", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "Explainability", "comment": "Explainability exists for selected solutions but is not governed as an enterprise framework."}, {"id": "EV-035", "title": "AI Safety Assessment", "type": "Assessment", "owner": "AI Governance", "emr": "E4", "status": "Available", "linked": "Safety", "comment": "Safety controls primarily rely on human review and approval processes."}, {"id": "EV-036", "title": "AI Security Assessment", "type": "Assessment", "owner": "Cybersecurity", "emr": "E4", "status": "Available", "linked": "Security", "comment": "AI-specific security practices require further formalization."}, {"id": "EV-037", "title": "ML Accuracy Evidence", "type": "KPI Report", "owner": "AI Office", "emr": "E4", "status": "Available", "linked": "ML Accuracy", "comment": "Machine Learning accuracy is demonstrated within initiatives but requires enterprise monitoring."}, {"id": "EV-038", "title": "ML Safety Evidence", "type": "Assessment", "owner": "AI Governance", "emr": "E4", "status": "Available", "linked": "ML Safety", "comment": "Machine Learning safety relies on human validation and operational controls."}, {"id": "EV-039", "title": "ML Security Evidence", "type": "Assessment", "owner": "Cybersecurity", "emr": "E4", "status": "Available", "linked": "ML Security", "comment": "ML-specific model security controls are limited."}, {"id": "EV-040", "title": "Benchmarking Report", "type": "Benchmark", "owner": "Strategy Office", "emr": "E5", "status": "Missing", "linked": "Benchmarking", "comment": "Benchmarking evidence is not yet available for continuous improvement at the highest maturity level."}, {"id": "EV-041", "title": "Continuous Improvement Program", "type": "Program", "owner": "Transformation Office", "emr": "E5", "status": "Missing", "linked": "Improvement", "comment": "Continuous improvement evidence is required to support higher confidence and advanced certification."}]};
+// Set Assessment Date to current date and time (12-hour format)
+const now = new Date();
+const dateYear = now.getFullYear();
+const dateMonth = String(now.getMonth() + 1).padStart(2, '0');
+const dateDay = String(now.getDate()).padStart(2, '0');
+let dateHours = now.getHours();
+const ampm = dateHours >= 12 ? 'PM' : 'AM';
+dateHours = dateHours % 12;
+dateHours = dateHours ? dateHours : 12;
+const dateHoursStr = String(dateHours).padStart(2, '0');
+const dateMinutes = String(now.getMinutes()).padStart(2, '0');
+const dateSeconds = String(now.getSeconds()).padStart(2, '0');
+CONFIG.org['Assessment Date'] = `${dateDay}-${dateMonth}-${dateYear} ${dateHoursStr}:${dateMinutes}:${dateSeconds} ${ampm}`;
+
+// ===== AUTHENTICATION =====
+const PASSWORD = 'Dresam2026';
+const ADMIN_USERNAME = 'admin';
+const SUPABASE_URL = 'https://dqwtpzuzhvgqfjlbkyhu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxd3RwenV6aHZncWZqbGJreWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwMzM0NzAsImV4cCI6MjA0ODYwOTQ3MH0.HgfJQM6Qxs8Y0rV7xr9wqV0Z5uB8L9Xc7jxK2m5nH8E';
+
+// Initialize Supabase if available
+let supabaseClient = null;
+if (typeof window !== 'undefined' && window.supabase) {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch (err) {
+    console.warn('Supabase initialization failed:', err);
+  }
+}
+
+async function handleLogin(event, loginType) {
+  event.preventDefault();
+
+  if (loginType === 'admin') {
+    handleAdminLogin();
+  } else {
+    handleClientLogin();
+  }
+}
+
+function handleAdminLogin() {
+  const username = document.getElementById('admin-username').value;
+  const password = document.getElementById('admin-password').value;
+  const messageEl = document.getElementById('admin-message');
+  const loginBtn = document.getElementById('admin-btn');
+
+  loginBtn.disabled = true;
+
+  if (username !== ADMIN_USERNAME) {
+    messageEl.innerHTML = '<p class="login-error">Invalid username</p>';
+    loginBtn.disabled = false;
+    return;
+  }
+
+  if (password !== PASSWORD) {
+    messageEl.innerHTML = '<p class="login-error">Invalid password</p>';
+    loginBtn.disabled = false;
+    return;
+  }
+
+  sessionStorage.setItem('ai-assessment-auth', JSON.stringify({ type: 'admin', username: username, timestamp: Date.now() }));
+  messageEl.innerHTML = '<p class="login-success">Admin access granted! Loading...</p>';
+  setTimeout(() => {
+    document.getElementById('login-modal').classList.add('hidden');
+    loginBtn.disabled = false;
+  }, 500);
+}
+
+async function handleClientLogin() {
+  const email = document.getElementById('client-email').value;
+  const password = document.getElementById('client-password').value;
+  const messageEl = document.getElementById('client-message');
+  const loginBtn = document.getElementById('client-btn');
+
+  messageEl.innerHTML = '<p class="login-loading">Verifying...</p>';
+  loginBtn.disabled = true;
+
+  try {
+    if (password !== PASSWORD) {
+      messageEl.innerHTML = '<p class="login-error">Invalid password</p>';
+      loginBtn.disabled = false;
+      return;
+    }
+
+    if (!supabaseClient) {
+      messageEl.innerHTML = '<p class="login-error">Database connection unavailable</p>';
+      loginBtn.disabled = false;
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from('subscribers')
+      .select('email')
+      .eq('email', email)
+      .single();
+
+    if (error || !data) {
+      messageEl.innerHTML = '<p class="login-error">Email not found in subscription list</p>';
+      loginBtn.disabled = false;
+      return;
+    }
+
+    sessionStorage.setItem('ai-assessment-auth', JSON.stringify({ type: 'client', email: email, timestamp: Date.now() }));
+    messageEl.innerHTML = '<p class="login-success">Access granted! Loading...</p>';
+    setTimeout(() => {
+      document.getElementById('login-modal').classList.add('hidden');
+      loginBtn.disabled = false;
+    }, 500);
+  } catch (err) {
+    messageEl.innerHTML = '<p class="login-error">Connection error. Please try again.</p>';
+    loginBtn.disabled = false;
+  }
+}
+
+// Check if already authenticated
+function checkAuthentication() {
+  const auth = sessionStorage.getItem('ai-assessment-auth');
+  if (auth) {
+    document.getElementById('login-modal').classList.add('hidden');
+  }
+}
+
+// Run auth check
+checkAuthentication();
+
+const SCALE_LABEL = {0:'Not Implemented',25:'Initial',50:'Developing',75:'Managed',100:'Optimized'};
+const EMR_VAL = {E1:1,E2:2,E3:3,E4:4,E5:5};
+const FLOOR_STARS = {1:'⭐',2:'⭐⭐',3:'⭐⭐⭐',4:'⭐⭐⭐⭐',5:'⭐⭐⭐⭐⭐',6:'⭐⭐⭐⭐⭐⭐',7:'⭐⭐⭐⭐⭐⭐⭐'};
+
+const STEP_LABELS = ['Organization','Path 1: Maturity','Path 2: Capability','Reliability','Evidence','Results'];
+let currentStep = 0;
+
+function renderStepper(){
+  const el = document.getElementById('stepper');
+  el.innerHTML='';
+  STEP_LABELS.forEach((label,i)=>{
+    const tab=document.createElement('div');
+    tab.className='step-tab'+(i===currentStep?' active':(i<currentStep?' done':''));
+    tab.innerHTML = `<span class="n">${i<currentStep?'✓':i+1}</span>${label}`;
+    tab.style.cursor='pointer';
+    tab.onclick=()=>goStep(i);
+    el.appendChild(tab);
+  });
+}
+
+function goStep(i){
+  if(i<0 || i>=STEP_LABELS.length) return;
+  currentStep = i;
+  document.querySelectorAll('.step-panel').forEach(p=>{
+    p.classList.toggle('active', Number(p.dataset.step)===i);
+  });
+  renderStepper();
+  document.getElementById('btn-back').disabled = (i===0);
+  const nextBtn = document.getElementById('btn-next');
+  if(i===STEP_LABELS.length-1){ nextBtn.textContent='Finish ✓'; nextBtn.onclick=()=>{}; nextBtn.disabled=true; }
+  else { nextBtn.textContent='Next ▶'; nextBtn.disabled=false; nextBtn.onclick=()=>goStep(currentStep+1); }
+  const headerActions = document.getElementById('header-actions');
+  if(headerActions) headerActions.style.display = (i===STEP_LABELS.length-1) ? 'flex' : 'none';
+  if(i===STEP_LABELS.length-1) recalc();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function scoreInput(val, onChange){
+  const sel = document.createElement('input');
+  sel.type='number'; sel.min=0; sel.max=100; sel.step=5; sel.value = val ?? '';
+  sel.addEventListener('input', ()=>{ onChange(sel.value===''?null:Number(sel.value)); recalc(); });
+  return sel;
+}
+function emrSelect(val, onChange){
+  const s = document.createElement('select');
+  ['','E1','E2','E3','E4','E5'].forEach(e=>{
+    const o=document.createElement('option'); o.value=e; o.textContent=e||'–';
+    if(e===val) o.selected=true; s.appendChild(o);
+  });
+  s.addEventListener('change', ()=>{ onChange(s.value||null); recalc(); });
+  return s;
+}
+function evidenceLabel(e){ return `${e.id} | ${e.title}`; }
+
+function evidenceSelect(row, commentInput, onChange){
+  const s = document.createElement('select');
+  s.style.minWidth='150px'; s.style.maxWidth='220px';
+  function populate(){
+    s.innerHTML='';
+    const matches = CONFIG.evidence.filter(e=>!row.emr || e.emr===row.emr);
+    const blank=document.createElement('option'); blank.value=''; blank.textContent='– select evidence –'; s.appendChild(blank);
+    matches.forEach(e=>{
+      const o=document.createElement('option'); o.value=evidenceLabel(e); o.textContent=evidenceLabel(e);
+      if(evidenceLabel(e)===row.evidenceRef) o.selected=true;
+      s.appendChild(o);
+    });
+    if(row.evidenceRef && !matches.some(e=>evidenceLabel(e)===row.evidenceRef)){
+      const o=document.createElement('option'); o.value=row.evidenceRef; o.textContent=row.evidenceRef+' (EMR mismatch)'; o.selected=true; s.appendChild(o);
+    }
+  }
+  populate();
+  s.addEventListener('change', ()=>{
+    row.evidenceRef = s.value || null; onChange(row.evidenceRef);
+    const id = (s.value||'').split(' | ')[0];
+    const ev = CONFIG.evidence.find(e=>e.id===id);
+    if(ev && commentInput){ commentInput.value = ev.comment || ''; row.comment = ev.comment || ''; }
+    recalc();
+  });
+  s._repopulate = populate;
+  return s;
+}
+function commentInput(row){
+  const inp = document.createElement('textarea');
+  inp.rows=2; inp.style.cssText='width:100%;min-width:150px;max-width:220px;font:inherit;border:1px solid #ccc;border-radius:5px;padding:4px 6px;';
+  inp.value = row.comment || '';
+  inp.addEventListener('input', ()=>{ row.comment = inp.value; });
+  return inp;
+}
+
+function refBox(id, title, contentHtml, openByDefault){
+  return `<div class="ref-box${openByDefault?' open':''}" id="${id}">
+    <div class="ref-head" onclick="this.parentElement.classList.toggle('open')"><b>ℹ ${title}</b><span class="ref-chev">⋀</span></div>
+    <div class="ref-content">${contentHtml}</div>
+  </div>`;
+}
+
+function renderInfoBoxes(){
+  document.getElementById('info-org').innerHTML = refBox('ib-org','Assessor Journey – How This Works',`
+    <p>This tool follows the AI Future Star™ assessment journey: confirm organization details, score AI Maturity (Path 1)
+    and AI Capability (Path 2), score Reliability for each capability floor, review supporting evidence, then view the
+    Gate Validation, Certification, and Executive Dashboard results.</p>
+    <table><tr><th>Step</th><th>What you're doing</th><th>Why it matters</th></tr>
+    <tr><td>1. Organization</td><td>Who is being assessed, scope, assessor</td><td>Defines the assessment boundary and accountability</td></tr>
+    <tr><td>2. Path 1</td><td>Score data, technology, adoption, automation, governance</td><td>Measures readiness to adopt and scale AI</td></tr>
+    <tr><td>3. Path 2</td><td>Score each of the 7 capability floors</td><td>Measures what AI can actually do today</td></tr>
+    <tr><td>4. Reliability</td><td>Score Accuracy / Safety / Security / Explainability</td><td>Reliability gates prevent unsafe advancement</td></tr>
+    <tr><td>5. Evidence</td><td>Review supporting evidence and EMR</td><td>Prevents score inflation; drives Assessment Confidence</td></tr>
+    <tr><td>6. Results</td><td>Gate Validation, Certification, Executive Dashboard</td><td>Converts the assessment into executive decisions</td></tr>
+    </table>`, false);
+
+  document.getElementById('info-path1').innerHTML = refBox('ib-p1','Scoring Scale & Maturity Classification',`
+    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+      <div>
+        <h4 style="margin-bottom: 12px; color: #0d0d0d; font-weight: 600;">Scoring Scale</h4>
+        <table><tr><th>Score</th><th>Meaning</th></tr>
+        <tr><td>0</td><td>Not Implemented</td></tr><tr><td>25</td><td>Initial</td></tr>
+        <tr><td>50</td><td>Developing</td></tr><tr><td>75</td><td>Managed</td></tr><tr><td>100</td><td>Optimized</td></tr></table>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 12px; color: #0d0d0d; font-weight: 600;">Maturity Classification</h4>
+        <table><tr><th>Maturity Score</th><th>Classification</th></tr>
+        <tr><td>90–100</td><td>Leading</td></tr><tr><td>75–89</td><td>Advanced</td></tr>
+        <tr><td>60–74</td><td>Established</td></tr><tr><td>40–59</td><td>Developing</td></tr><tr><td>0–39</td><td>Emerging</td></tr></table>
+      </div>
+    </div>
+    <p style="margin-top: 20px;">Each of the five dimensions (Data Readiness, Technology Readiness, AI Adoption, Automation &amp; Agents,
+    AI Governance &amp; Skills) is the average of its sub-indicators, each weighted 20% within the dimension.
+    Overall AI Maturity is the average of the five dimension scores.</p>`, true);
+
+  let path2Rows='';
+  for(let f=1; f<=7; f++) path2Rows += `<tr><td>${f}</td><td>${FLOOR_STARS[f]}</td><td>${CONFIG.requiredTrust[f]?.capability||''}</td><td>≥80</td><td>≥${CONFIG.requiredTrust[f]?.requiredTrust??''}</td></tr>`;
+  document.getElementById('info-path2').innerHTML = refBox('ib-p2','Capability Floors & Gate Rule',`
+    <p><b>Gate Rule:</b> PASS = Capability Score ≥ 80 AND Reliability (AI Trust) Score ≥ the floor's required threshold.
+    Floors must pass consecutively. You cannot reach a higher floor by skipping a lower one.</p>
+    <table><tr><th>Floor</th><th>Stars</th><th>Capability</th><th>Capability Req.</th><th>Reliability Req.</th></tr>${path2Rows}</table>`, true);
+
+  document.getElementById('info-rel').innerHTML = refBox('ib-rel','Reliability Indicators & Required Thresholds',`
+    <div class="ref-grid">
+      <div class="ref-chip"><b>Accuracy</b> – how correct the AI's outputs/decisions are.</div>
+      <div class="ref-chip"><b>Safety</b> – controls preventing harmful or unintended outcomes.</div>
+      <div class="ref-chip"><b>Security</b> – protection against misuse, tampering, or attack.</div>
+      <div class="ref-chip"><b>Explainability</b> – how understandable and auditable the AI's decisions are.</div>
+    </div>
+    <p style="margin-top:10px;">A floor's Reliability Score is the average of these four indicators. The required
+    threshold rises with capability – higher floors demand stronger reliability evidence before certification.</p>
+    <table><tr><th>Floor</th><th>Required Reliability (AI Trust)</th></tr>${
+      Array.from({length:7},(_,i)=>i+1).map(f=>`<tr><td>${FLOOR_STARS[f]} ${CONFIG.requiredTrust[f]?.capability||''}</td><td>≥ ${CONFIG.requiredTrust[f]?.requiredTrust??''}</td></tr>`).join('')
+    }</table>`, true);
+
+  document.getElementById('info-evidence').innerHTML = refBox('ib-ev','Evidence Maturity Rating (EMR) & Confidence',`
+    <table><tr><th>EMR</th><th>Meaning</th></tr>
+    <tr><td>E1</td><td>No / minimal evidence – claim only, not yet documented</td></tr>
+    <tr><td>E2</td><td>Draft evidence – exists but not approved or governed</td></tr>
+    <tr><td>E3</td><td>Partial evidence – available but incomplete or not fully reviewed</td></tr>
+    <tr><td>E4</td><td>Available evidence – documented, reviewed, and approved</td></tr>
+    <tr><td>E5</td><td>Benchmarked evidence – validated against external/industry benchmarks</td></tr></table>
+    <p>Assessment Confidence (ACL) is derived from the average EMR across all entered ratings:
+    &lt;2 Low · 2–3.49 Medium · 3.5–4.49 High · ≥4.5 Very High. Evidence Coverage = Available evidence ÷ Total evidence.</p>`, true);
+
+  let certRows = CONFIG.certifications.map(c=>`<tr><td>${c.name}</td><td>≥${c.minMaturity}</td><td>${c.minCapability}</td><td>≥${c.minTrust}</td><td>≥${c.minEMR}</td></tr>`).join('');
+  document.getElementById('info-results').innerHTML = refBox('ib-res','Certification Engine – Tier Requirements',`
+    <table><tr><th>Certification</th><th>Min Maturity</th><th>Min Capability</th><th>Min AI Trust</th><th>Min EMR</th></tr>${certRows}</table>
+    <p>A tier is achieved only when Maturity, Final Capability Floor, that floor's AI Trust Score, and average EMR all
+    meet or exceed the tier's requirements. AI Capability Index = Final Capability Floor number + (AI Trust Score ÷ 100).</p>`, true);
+}
+
+function buildReportSummaryText(){
+  const dims = {}; CONFIG.path1.forEach(r=>{ (dims[r.dimension] ??= []).push(r.score); });
+  const maturity = avg(Object.values(dims).map(s=>avg(s)));
+  return `AI Future Star (TM) Assessment Summary\n`+
+    `Organization: ${CONFIG.org['Organization Name']||''}\n`+
+    `Assessment Date: ${CONFIG.org['Assessment Date']||''}\n`+
+    `Assessor: ${CONFIG.org['Assessor Name']||''}\n\n`+
+    `AI Maturity: ${maturity===null?'-':maturity.toFixed(1)} (${maturityClass(maturity)})\n`+
+    `See the attached/downloaded report for full Gate Validation, Capability, Reliability, and Certification results.`;
+}
+
+function downloadReportPDF(){
+  window.print();
+}
+
+function downloadReportJSON(){
+  const blob = new Blob([JSON.stringify(CONFIG, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = (CONFIG.org['Organization Name']||'assessment').replace(/\s+/g,'_')+'_AI_Future_Star_Assessment.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function emailReport(){
+  const subject = encodeURIComponent(`AI Future Star Assessment – ${CONFIG.org['Organization Name']||''}`);
+  const body = encodeURIComponent(buildReportSummaryText()+
+    '\n\n(Tip: use "Download Report (PDF)" first and attach the saved PDF to this email – browsers cannot attach files automatically.)');
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function renderOrg(){
+  const body = document.getElementById('org-body');
+  body.innerHTML='';
+  const fields = ['Organization Name','Business Unit / Sector','Assessment Date','Registration No.',
+    'Assessment Team','Model Version','Website','Assessment Scope','Assessor Name','Assessment Notes'];
+  const sectorOptions = ['Select Sector','Media & Broadcasting','Technology & Software','Finance & Banking','Healthcare','Education','Government','Telecommunications','Retail & E-commerce','Manufacturing','Energy & Utilities','Transportation & Logistics','Real Estate','Hospitality & Tourism','Agriculture','Other'];
+
+  fields.forEach(k=>{
+    if(!(k in CONFIG.org)) CONFIG.org[k] = '';
+  });
+
+  if(!CONFIG.org['Organization Name']) CONFIG.org['Organization Name'] = 'Dr Esam Podcast Company';
+
+  // Set Assessment Date to current date and time
+  if(!CONFIG.org['Assessment Date'] || CONFIG.org['Assessment Date'] === ''){
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    CONFIG.org['Assessment Date'] = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  const t = document.createElement('table');
+  Object.keys(CONFIG.org).forEach(k=>{
+    const tr=document.createElement('tr');
+    const tdLabel=document.createElement('td');
+    tdLabel.style.cssText='font-weight:600;color:var(--navy);width:240px;';
+    tdLabel.textContent=k;
+    const tdInput=document.createElement('td');
+    const longField = k==='Assessment Scope' || k==='Assessment Notes';
+
+    let inp;
+    if(k==='Business Unit / Sector'){
+      inp = document.createElement('select');
+      sectorOptions.forEach(opt=>{
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = opt;
+        if(CONFIG.org[k] === opt) option.selected = true;
+        inp.appendChild(option);
+      });
+      inp.addEventListener('change', ()=>{
+        CONFIG.org[k] = inp.value;
+        document.getElementById('org-meta').textContent =
+          `${CONFIG.org['Organization Name']||''} · ${CONFIG.org['Assessment Scope']||''}`;
+      });
+    } else {
+      inp = document.createElement(longField?'textarea':'input');
+      if(!longField) inp.type='text';
+      else inp.rows=2;
+      inp.value = CONFIG.org[k] || '';
+      inp.addEventListener('input', ()=>{
+        CONFIG.org[k] = inp.value;
+        document.getElementById('org-meta').textContent =
+          `${CONFIG.org['Organization Name']||''} · ${CONFIG.org['Assessment Scope']||''}`;
+      });
+    }
+
+    inp.style.cssText='width:100%;max-width:480px;padding:6px 8px;border:1px solid #ccc;border-radius:5px;font:inherit;';
+    tdInput.appendChild(inp);
+    tr.appendChild(tdLabel); tr.appendChild(tdInput);
+    t.appendChild(tr);
+  });
+  body.appendChild(t);
+  document.getElementById('org-meta').textContent =
+    `${CONFIG.org['Organization Name']||''} · ${CONFIG.org['Assessment Scope']||''}`;
+}
+
+function renderPath1(){
+  const body = document.getElementById('path1-body');
+  body.innerHTML='';
+  const wrap = document.createElement('div'); wrap.style.cssText='display:flex;gap:16px;flex-direction:column;align-items:stretch;';
+
+  const tableWrap = document.createElement('div'); tableWrap.style.cssText='overflow-x:auto;';
+  const t = document.createElement('table');
+  t.innerHTML = '<tr style="background-color:#c9a84c;color:#0d0d0d;font-weight:600;"><th>Dimension</th><th>Sub-Indicator</th><th>Weight %</th><th>Score</th><th>EMR</th>'+
+    '<th>Evidence Ref</th><th>Assessor Comment</th><th>Weighted Contribution</th><th>EMR Value</th></tr>';
+  CONFIG.path1.forEach(row=>{
+    const tr=document.createElement('tr');
+    const tdDim=document.createElement('td'); tdDim.textContent=row.dimension; tdDim.style.fontWeight='600'; tdDim.style.color='var(--navy)';
+    const tdSub=document.createElement('td'); tdSub.textContent=row.sub;
+    const tdWeight=document.createElement('td'); tdWeight.textContent=row.weight;
+    const tdScore=document.createElement('td'); tdScore.appendChild(scoreInput(row.score, v=>row.score=v));
+    const tdComment=document.createElement('td');
+    const cInput = commentInput(row);
+    const tdEvidence=document.createElement('td');
+    const evSel = evidenceSelect(row, cInput, v=>row.evidenceRef=v);
+    tdEvidence.appendChild(evSel);
+    tdComment.appendChild(cInput);
+    const tdEmr=document.createElement('td');
+    const emrSel = emrSelect(row.emr, v=>{ row.emr=v; evSel._repopulate(); });
+    tdEmr.appendChild(emrSel);
+    const tdWC=document.createElement('td'); tdWC.id='wc-p1-'+CONFIG.path1.indexOf(row);
+    const tdEmrVal=document.createElement('td'); tdEmrVal.id='ev-p1-'+CONFIG.path1.indexOf(row);
+    tr.append(tdDim,tdSub,tdWeight,tdScore,tdEmr,tdEvidence,tdComment,tdWC,tdEmrVal);
+    t.appendChild(tr);
+  });
+  tableWrap.appendChild(t);
+
+  const summaryWrap = document.createElement('div'); summaryWrap.style.cssText='width:100%;';
+  const sumCard = document.createElement('div'); sumCard.className='ed-card';
+  sumCard.innerHTML = `<div class="ed-title">Dimension Summary</div>
+    <table id="path1-summary-table">
+      <tr><th>Dimension</th><th>Score</th><th>Wtd. Contr.</th><th>Avg EMR</th></tr>
+    </table>
+    <table style="margin-top:6px;">
+      <tr><td>Overall Maturity Score</td><td id="p1-overall"></td></tr>
+      <tr><td>Maturity Classification</td><td id="p1-class"></td></tr>
+      <tr><td>AGMI (Governance Score)</td><td id="p1-agmi"></td></tr>
+      <tr><td>Average EMR</td><td id="p1-avgemr"></td></tr>
+      <tr><td>Score Display</td><td id="p1-scoredisplay"></td></tr>
+    </table>`;
+  summaryWrap.appendChild(sumCard);
+
+  wrap.appendChild(tableWrap); wrap.appendChild(summaryWrap);
+  body.appendChild(wrap);
+}
+
+function renderPath2(){
+  const body = document.getElementById('path2-body');
+  body.innerHTML='';
+  const note = document.createElement('div'); note.className='step-intro';
+  note.style.marginBottom='12px';
+  note.innerHTML = 'Floors are evaluated bottom-up: a floor opens only once every floor below it has passed its full gate (Capability ≥ 80 AND Reliability ≥ required threshold). The first floor that fails stops evaluation of every floor above it. Floor Score is the average of its sub-indicators.';
+  body.appendChild(note);
+
+  const tableWrap = document.createElement('div'); tableWrap.style.overflowX='auto';
+  const t = document.createElement('table');
+  t.innerHTML = '<tr style="background-color:#c9a84c;color:#0d0d0d;font-weight:600;"><th>Floor No.</th><th>Floor</th><th>Primary Indicator</th><th>Sub-Indicator</th><th>Score</th><th>EMR</th><th>Evidence Ref</th><th>Suggested Comment</th></tr>';
+  window._path2FloorInputs = {};
+  CONFIG.path2.forEach(row=>{
+    if(!window._path2FloorInputs[row.floorNo]) window._path2FloorInputs[row.floorNo] = [];
+    const tr=document.createElement('tr'); tr.className='path2-floor-row-'+row.floorNo;
+    const tdNo=document.createElement('td'); tdNo.textContent=row.floorNo;
+    const tdFloor=document.createElement('td'); tdFloor.textContent=`${FLOOR_STARS[row.floorNo]} ${row.floor}`; tdFloor.style.cssText='font-weight:600;color:var(--navy);white-space:nowrap;';
+    const tdP=document.createElement('td'); tdP.textContent=row.primary;
+    const tdSub=document.createElement('td'); tdSub.textContent=row.sub;
+    const scoreEl = scoreInput(row.score, v=>row.score=v);
+    const tdScore=document.createElement('td'); tdScore.appendChild(scoreEl);
+    const tdComment=document.createElement('td'); const cInput=commentInput(row); tdComment.appendChild(cInput);
+    const tdEvidence=document.createElement('td'); const evSel=evidenceSelect(row,cInput,v=>row.evidenceRef=v); tdEvidence.appendChild(evSel);
+    const emrEl = emrSelect(row.emr, v=>{ row.emr=v; evSel._repopulate(); });
+    const tdEmr=document.createElement('td'); tdEmr.appendChild(emrEl);
+    tr.append(tdNo, tdFloor, tdP, tdSub, tdScore, tdEmr, tdEvidence, tdComment);
+    t.appendChild(tr);
+    window._path2FloorInputs[row.floorNo].push(scoreEl, emrEl, evSel, cInput);
+  });
+  tableWrap.appendChild(t);
+  body.appendChild(tableWrap);
+
+  const sumCard = document.createElement('div'); sumCard.className='ed-card'; sumCard.style.marginTop='16px';
+  sumCard.innerHTML = `<div class="ed-title">Path 2 – Capability Results</div>
+    <table id="path2-summary-table" style="min-width:700px;">
+      <tr><th style="width:40px;">Floor No.</th><th style="white-space:nowrap;">Floor</th><th>Capability Score</th><th>Primary Indicator</th></tr>
+    </table>`;
+  body.appendChild(sumCard);
+}
+
+function renderReliability(){
+  const body = document.getElementById('rel-body');
+  body.innerHTML='';
+  const note = document.createElement('div'); note.className='step-intro';
+  note.style.marginBottom='12px';
+  note.innerHTML = 'Floors must pass consecutively: a floor stays open only once every floor below it has passed its capability gate (Capability Score ≥ 80). Floors above the first failing one are locked until that floor passes.';
+  body.appendChild(note);
+  const t = document.createElement('table');
+  t.innerHTML = '<tr style="background-color:#c9a84c;color:#0d0d0d;font-weight:600;"><th>Floor</th><th>Reliability Indicator</th><th>Score</th><th>EMR</th><th>Evidence Ref</th><th>Assessor Comment</th></tr>';
+  let lastFloor=null;
+  window._relFloorInputs = {};
+  CONFIG.reliability.forEach(row=>{
+    if(row.floorNo!==lastFloor){
+      const dh=document.createElement('tr'); dh.className='dimhead rel-floor-row-'+row.floorNo;
+      dh.innerHTML = `<td colspan="6">${FLOOR_STARS[row.floorNo]} ${row.floor} <span id="trust-score-${row.floorNo}" style="float:right" class="floor-score"></span>`+
+        `<span id="lock-note-${row.floorNo}" style="float:right;margin-right:14px;color:var(--fail);font-weight:600;font-size:.78rem;"></span></td>`;
+      t.appendChild(dh); lastFloor=row.floorNo;
+      window._relFloorInputs[row.floorNo] = [];
+    }
+    const tr=document.createElement('tr'); tr.className='rel-floor-row-'+row.floorNo;
+    const tdInd=document.createElement('td'); tdInd.textContent=row.indicator;
+    const scoreEl = scoreInput(row.score, v=>row.score=v);
+    const tdScore=document.createElement('td'); tdScore.appendChild(scoreEl);
+    const tdComment=document.createElement('td'); const cInput=commentInput(row); tdComment.appendChild(cInput);
+    const tdEvidence=document.createElement('td'); const evSel=evidenceSelect(row,cInput,v=>row.evidenceRef=v); tdEvidence.appendChild(evSel);
+    const emrEl = emrSelect(row.emr, v=>{ row.emr=v; evSel._repopulate(); });
+    const tdEmr=document.createElement('td'); tdEmr.appendChild(emrEl);
+    tr.append(tdInd, tdScore, tdEmr, tdEvidence, tdComment);
+    t.appendChild(tr);
+    window._relFloorInputs[row.floorNo].push(scoreEl, emrEl, evSel, cInput);
+  });
+  body.appendChild(t);
+}
+
+let evidenceFilter = { status:'', emr:'', search:'' };
+let evidenceSort = { col:'id', dir:1 };
+
+function renderEvidence(){
+  const body = document.getElementById('evidence-body');
+  body.innerHTML='';
+
+  const bar = document.createElement('div');
+  bar.style.cssText='display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;';
+  const statuses = [...new Set(CONFIG.evidence.map(e=>e.status).filter(Boolean))];
+  const emrs = [...new Set(CONFIG.evidence.map(e=>e.emr).filter(Boolean))].sort();
+
+  const mkSelect = (label, options, current, onChange) => {
+    const wrap=document.createElement('div'); wrap.style.cssText='display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--muted);';
+    const lab=document.createElement('span'); lab.textContent=label;
+    const sel=document.createElement('select'); sel.style.cssText='padding:5px 8px;border:1px solid #ccc;border-radius:5px;';
+    const blank=document.createElement('option'); blank.value=''; blank.textContent='All'; sel.appendChild(blank);
+    options.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===current) op.selected=true; sel.appendChild(op); });
+    sel.addEventListener('change', ()=>{ onChange(sel.value); renderEvidence(); });
+    wrap.append(lab, sel); return wrap;
+  };
+
+  bar.appendChild(mkSelect('Status:', statuses, evidenceFilter.status, v=>evidenceFilter.status=v));
+  bar.appendChild(mkSelect('EMR:', emrs, evidenceFilter.emr, v=>evidenceFilter.emr=v));
+
+  const searchWrap=document.createElement('div'); searchWrap.style.cssText='display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--muted);';
+  const searchLab=document.createElement('span'); searchLab.textContent='Search:';
+  const searchInp=document.createElement('input'); searchInp.type='text'; searchInp.placeholder='ID, title, or linked indicator…';
+  searchInp.value = evidenceFilter.search; searchInp.style.cssText='padding:5px 8px;border:1px solid #ccc;border-radius:5px;min-width:220px;';
+  searchInp.addEventListener('input', ()=>{ evidenceFilter.search = searchInp.value; renderEvidenceRows(); });
+  searchWrap.append(searchLab, searchInp);
+  bar.appendChild(searchWrap);
+
+  const clearBtn=document.createElement('button'); clearBtn.className='nav-btn ghost'; clearBtn.style.padding='6px 14px'; clearBtn.textContent='Clear Filters';
+  clearBtn.onclick=()=>{ evidenceFilter={status:'',emr:'',search:''}; renderEvidence(); };
+  bar.appendChild(clearBtn);
+
+  body.appendChild(bar);
+
+  const countEl = document.createElement('div');
+  countEl.id='evidence-count'; countEl.style.cssText='font-size:.78rem;color:var(--muted);margin-bottom:6px;';
+  body.appendChild(countEl);
+
+  const tableWrap = document.createElement('div'); tableWrap.id='evidence-table-wrap';
+  body.appendChild(tableWrap);
+  renderEvidenceRows();
+}
+
+function evidenceSortHeader(label, col){
+  const th = document.createElement('th');
+  th.style.cursor='pointer'; th.style.userSelect='none';
+  const arrow = evidenceSort.col===col ? (evidenceSort.dir===1?' ▲':' ▼') : '';
+  th.innerHTML = `${label}<span style="color:var(--gold);">${arrow}</span>`;
+  th.onclick = ()=>{
+    if(evidenceSort.col===col) evidenceSort.dir *= -1; else { evidenceSort.col=col; evidenceSort.dir=1; }
+    renderEvidenceRows();
+  };
+  return th;
+}
+
+function renderEvidenceRows(){
+  const wrap = document.getElementById('evidence-table-wrap');
+  if(!wrap) return;
+  wrap.innerHTML='';
+  let rows = CONFIG.evidence.filter(e=>{
+    if(evidenceFilter.status && e.status!==evidenceFilter.status) return false;
+    if(evidenceFilter.emr && e.emr!==evidenceFilter.emr) return false;
+    if(evidenceFilter.search){
+      const q = evidenceFilter.search.toLowerCase();
+      const hay = `${e.id} ${e.title} ${e.linked}`.toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  rows.sort((a,b)=>{
+    const av = (a[evidenceSort.col]||'').toString().toLowerCase();
+    const bv = (b[evidenceSort.col]||'').toString().toLowerCase();
+    return av<bv? -1*evidenceSort.dir : av>bv? 1*evidenceSort.dir : 0;
+  });
+
+  const countEl = document.getElementById('evidence-count');
+  if(countEl) countEl.textContent = `Showing ${rows.length} of ${CONFIG.evidence.length} evidence items`;
+
+  const t = document.createElement('table');
+  const trh = document.createElement('tr');
+  trh.style.cssText='background-color:#c9a84c;color:#0d0d0d;font-weight:600;';
+  trh.appendChild(evidenceSortHeader('ID','id'));
+  trh.appendChild(evidenceSortHeader('Title','title'));
+  trh.appendChild(evidenceSortHeader('EMR','emr'));
+  trh.appendChild(evidenceSortHeader('Status','status'));
+  trh.appendChild(evidenceSortHeader('Linked Indicator','linked'));
+  t.appendChild(trh);
+
+  const statusColor = { Available:'var(--pass)', Partial:'var(--warn)', Missing:'var(--fail)' };
+  rows.forEach(e=>{
+    const tr=document.createElement('tr');
+    const color = statusColor[e.status] || 'var(--muted)';
+    tr.innerHTML = `<td>${e.id}</td><td>${e.title}</td><td>${e.emr||''}</td>`+
+      `<td><span class="pill" style="background:${color}22;color:${color};">${e.status||''}</span></td>`+
+      `<td>${e.linked||''}</td>`;
+    t.appendChild(tr);
+  });
+  wrap.appendChild(t);
+}
+
+function avg(arr){ const v = arr.filter(x=>x!==null && x!==undefined && x!==''); return v.length? v.reduce((a,b)=>a+Number(b),0)/v.length : null; }
+
+function maturityClass(score){
+  if(score===null) return '–';
+  if(score>=90) return 'Leading';
+  if(score>=75) return 'Advanced';
+  if(score>=60) return 'Established';
+  if(score>=40) return 'Developing';
+  return 'Emerging';
+}
+function aclBand(emr){
+  if(emr===null) return '–';
+  if(emr>=4.5) return 'Very High';
+  if(emr>=3.5) return 'High';
+  if(emr>=2) return 'Medium';
+  return 'Low';
+}
+function coverageRating(pct){
+  if(pct===null) return '–';
+  if(pct>=85) return 'Excellent';
+  if(pct>=70) return 'Good';
+  if(pct>=50) return 'Fair';
+  return 'Poor';
+}
+
+function recalc(){
+  CONFIG.path1.forEach((r,i)=>{
+    const wc = (r.score!==null && r.weight!==null) ? (r.score*r.weight/100) : null;
+    const wcEl = document.getElementById('wc-p1-'+i);
+    if(wcEl) wcEl.textContent = wc===null?'–':wc.toFixed(1);
+    const evEl = document.getElementById('ev-p1-'+i);
+    if(evEl) evEl.textContent = r.emr ? EMR_VAL[r.emr] : '–';
+  });
+
+  const dims = {};
+  CONFIG.path1.forEach(r=>{ (dims[r.dimension] ??= []).push(r); });
+  const dimScores = {};
+  Object.entries(dims).forEach(([d,rows])=>{
+    const s = avg(rows.map(r=>r.score)); dimScores[d]=s;
+    const el = document.getElementById('dim-score-'+d.replace(/\s/g,''));
+    if(el) el.textContent = s===null?'–':s.toFixed(1);
+  });
+  const maturity = avg(Object.values(dimScores));
+
+  const sumTable = document.getElementById('path1-summary-table');
+  if(sumTable){
+    sumTable.querySelectorAll('tr.dim-sum-row').forEach(r=>r.remove());
+    Object.entries(dims).forEach(([d,rows])=>{
+      const s = dimScores[d];
+      const dimWeighted = s===null? null : s/5;
+      const emrAvg = avg(rows.map(r=>r.emr? EMR_VAL[r.emr]:null));
+      const tr=document.createElement('tr'); tr.className='dim-sum-row';
+      tr.innerHTML = `<td>${d}</td><td>${s===null?'–':s.toFixed(1)}</td><td>${dimWeighted===null?'–':dimWeighted.toFixed(1)}</td><td>${emrAvg===null?'–':emrAvg.toFixed(1)}</td>`;
+      sumTable.appendChild(tr);
+    });
+    const overallEl=document.getElementById('p1-overall'); if(overallEl) overallEl.textContent = maturity===null?'–':maturity.toFixed(1);
+    const classEl=document.getElementById('p1-class'); if(classEl) classEl.textContent = maturityClass(maturity);
+    const agmiDim = dimScores['AI Governance & Skills'];
+    const agmiEl=document.getElementById('p1-agmi'); if(agmiEl) agmiEl.textContent = agmiDim===null?'–':agmiDim.toFixed(0);
+    const allEmrP1 = CONFIG.path1.map(r=>r.emr?EMR_VAL[r.emr]:null);
+    const avgEmrP1 = avg(allEmrP1);
+    const avgEmrEl=document.getElementById('p1-avgemr'); if(avgEmrEl) avgEmrEl.textContent = avgEmrP1===null?'–':'E'+avgEmrP1.toFixed(1);
+    const scoreDisplayEl=document.getElementById('p1-scoredisplay'); if(scoreDisplayEl) scoreDisplayEl.textContent = maturity===null?'–':maturity.toFixed(0)+'%';
+  }
+
+  const floors = {};
+  CONFIG.path2.forEach(r=>{ (floors[r.floorNo] ??= []).push(r.score); });
+  const floorScore = {};
+  for(let f=1; f<=7; f++){
+    const s = avg(floors[f]||[]); floorScore[f]=s;
+  }
+  const p2SumTable = document.getElementById('path2-summary-table');
+  if(p2SumTable){
+    p2SumTable.querySelectorAll('tr.p2-sum-row').forEach(r=>r.remove());
+    const floorNamesLocal = {}; const primaryLocal = {};
+    CONFIG.path2.forEach(r=>{ floorNamesLocal[r.floorNo]=r.floor; if(!primaryLocal[r.floorNo]) primaryLocal[r.floorNo]=r.primary; });
+    for(let f=1; f<=7; f++){
+      const tr=document.createElement('tr'); tr.className='p2-sum-row';
+      tr.innerHTML = `<td style="width:40px;text-align:center;">${f}</td><td style="white-space:nowrap;">${FLOOR_STARS[f]} ${floorNamesLocal[f]||''}</td>`+
+        `<td class="floor-score">${floorScore[f]===null?'–':floorScore[f].toFixed(0)}</td><td>${primaryLocal[f]||''}</td>`;
+      p2SumTable.appendChild(tr);
+    }
+  }
+
+  const rel = {};
+  CONFIG.reliability.forEach(r=>{ (rel[r.floorNo] ??= []).push(r.score); });
+  const trustScore = {};
+  for(let f=1; f<=7; f++){
+    const s = avg(rel[f]||[]); trustScore[f]=s;
+    const el = document.getElementById('trust-score-'+f);
+    if(el) el.textContent = s===null?'–':s.toFixed(1);
+  }
+
+  let firstFailFloor = null;
+  for(let f=1; f<=7; f++){
+    const req = CONFIG.requiredTrust[f]?.requiredTrust ?? 0;
+    const capOk = floorScore[f]!==null && floorScore[f]>=80;
+    const trustOk = trustScore[f]!==null && trustScore[f]>=req;
+    if(!(capOk && trustOk)){ firstFailFloor = f; break; }
+  }
+  for(let f=1; f<=7; f++){
+    const locked = firstFailFloor!==null && f>firstFailFloor;
+    document.querySelectorAll('.rel-floor-row-'+f).forEach(row=>row.classList.toggle('rel-locked', locked));
+    (window._relFloorInputs?.[f]||[]).forEach(el=>{ el.disabled = locked; });
+    const relNoteEl = document.getElementById('lock-note-'+f);
+    if(relNoteEl) relNoteEl.textContent = locked ? `Locked – Floor ${firstFailFloor} failed` : '';
+  }
+
+  const floorNames = {}; CONFIG.path2.forEach(r=>floorNames[r.floorNo]=r.floor);
+  let finalFloor = 0, broken=false;
+  const gateRows = [];
+  for(let f=1; f<=7; f++){
+    const req = CONFIG.requiredTrust[f]?.requiredTrust ?? 0;
+    const cap = floorScore[f], trust = trustScore[f];
+    const capPass = cap!==null && cap>=80;
+    const trustPass = trust!==null && trust>=req;
+    const pass = capPass && trustPass;
+    if(pass && !broken) finalFloor = f; else broken = true;
+    gateRows.push({floorNo:f, floor:floorNames[f], cap, trust, req, capPass, trustPass, pass});
+  }
+  renderGate(gateRows, finalFloor, floorNames);
+
+  const allEmr = []
+    .concat(CONFIG.path1.map(r=>r.emr), CONFIG.path2.map(r=>r.emr), CONFIG.reliability.map(r=>r.emr))
+    .filter(Boolean).map(e=>EMR_VAL[e]);
+  const avgEmr = avg(allEmr);
+  const finalTrust = trustScore[finalFloor] ?? 0;
+  const floorOrder = ['Classical AI','Machine Learning','Neural Networks','Deep Learning','Generative AI','Agent AI','Agentic AI'];
+  const finalFloorName = floorNames[finalFloor] ? floorNames[finalFloor].replace(/^[⭐\s]+/,'') : null;
+  const finalIdx = finalFloorName ? floorOrder.indexOf(finalFloorName) : -1;
+
+  let currentCert = null, nextCert = null;
+  CONFIG.certifications.forEach(c=>{
+    const capNames = c.minCapability.split(' / ').map(s=>s.trim());
+    const capIdx = Math.min(...capNames.map(n=>floorOrder.indexOf(n)).filter(i=>i>=0));
+    const emrOk = avgEmr!==null && avgEmr >= EMR_VAL[c.minEMR];
+    const ok = maturity!==null && maturity>=c.minMaturity && finalIdx>=capIdx && finalTrust>=c.minTrust && emrOk;
+    if(ok) currentCert = c;
+    else if(!nextCert) nextCert = c;
+  });
+
+  const avail = CONFIG.evidence.filter(e=>e.status==='Available').length;
+  const total = CONFIG.evidence.length;
+  const coveragePct = total? (avail/total*100) : null;
+
+  const capIndex = finalFloor>0 ? (finalFloor + finalTrust/100) : 0;
+
+  renderDashboard({maturity, finalFloor, finalFloorName, finalTrust, capIndex, avgEmr, currentCert, nextCert, coveragePct});
+  renderExec({maturity, finalFloor, finalFloorName, finalTrust, capIndex, avgEmr, currentCert, nextCert, coveragePct, floorScore, trustScore, floorNames});
+}
+
+function renderGate(rows, finalFloor, floorNames){
+  const body = document.getElementById('gate-body');
+  body.innerHTML='';
+  const t = document.createElement('table');
+  t.innerHTML = '<tr style="background-color:#c9a84c;color:#0d0d0d;font-weight:600;"><th>Floor</th><th>Capability</th><th>AI Trust</th><th>Required Trust</th><th>Gate Status</th></tr>';
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    const status = r.pass ? '<span class="pill pass">Pass</span>' : '<span class="pill fail">Fail</span>';
+    tr.innerHTML = `<td>${FLOOR_STARS[r.floorNo]} ${r.floor}</td><td>${r.cap===null?'–':r.cap.toFixed(0)}</td>`+
+      `<td>${r.trust===null?'–':r.trust.toFixed(0)}</td><td>${r.req}</td><td>${status}</td>`;
+    t.appendChild(tr);
+  });
+  body.appendChild(t);
+  const note = document.createElement('div');
+  note.className='insight';
+  note.textContent = finalFloor>0
+    ? `Final Capability Floor: ${FLOOR_STARS[finalFloor]} ${floorNames[finalFloor]} – all floors up to and including this one passed both the capability (≥80) and reliability gates.`
+    : 'No floor has passed both the capability and reliability gates yet. Floor 1 must pass before any higher floor can be certified.';
+  body.appendChild(note);
+}
+
+function renderDashboard(d){
+  const dash = document.getElementById('dashboard');
+  dash.innerHTML='';
+  const items = [
+    ['AI Maturity', d.maturity===null?'–':d.maturity.toFixed(1), maturityClass(d.maturity)],
+    ['Certified Capability', d.finalFloor>0? (FLOOR_STARS[d.finalFloor]+' '+d.finalFloorName) : 'No Floor Passed', ''],
+    ['AI Trust Score', d.finalTrust? d.finalTrust.toFixed(1): '–', 'at certified floor'],
+    ['AI Capability Index', d.capIndex.toFixed(2), 'floor + trust/100'],
+    ['Avg EMR / ACL', d.avgEmr? 'E'+d.avgEmr.toFixed(1):'–', aclBand(d.avgEmr)],
+    ['Evidence Coverage', d.coveragePct===null?'–':d.coveragePct.toFixed(0)+'%', coverageRating(d.coveragePct)],
+    ['Current Certification', d.currentCert? d.currentCert.name : 'None', d.nextCert? 'Next: '+d.nextCert.name : ''],
+  ];
+  items.forEach(([label,value,sub])=>{
+    const el=document.createElement('div'); el.className='kpi';
+    el.innerHTML = `<div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div>`;
+    dash.appendChild(el);
+  });
+}
+
+let chartMaturityRel = null, chartReliabilityGap = null, chartDimContribution = null;
+
+function renderExec(d){
+  const body = document.getElementById('exec-body');
+  body.innerHTML='';
+
+  const targetFloor = (()=>{
+    let t = d.finalFloor;
+    for(let f=7; f>=1; f--){ if(d.floorScore[f]!==null && d.floorScore[f]>=80){ t=f; break; } }
+    return Math.max(t, d.finalFloor+1<=7? d.finalFloor+1 : d.finalFloor);
+  })();
+  const targetFloorName = d.floorNames[targetFloor] || d.finalFloorName;
+  const nextStepFloor = Math.min(d.finalFloor+1, 7);
+  const nextStepName = d.floorNames[nextStepFloor];
+  const nextStepReq = CONFIG.requiredTrust[nextStepFloor]?.requiredTrust;
+  const gapFloors = Math.max(targetFloor - d.finalFloor, 0);
+  const gateOverallPass = d.finalFloor>0;
+
+  const row1 = document.createElement('div'); row1.className='grid2';
+  row1.innerHTML = `
+    <div class="ed-card">
+      <div class="ed-title">Next Target</div>
+      <table>
+        <tr><td>Target Floor</td><td><b>${targetFloorName||'–'}</b></td></tr>
+        <tr><td>Recommended Focus</td><td>${gateOverallPass? 'Improve reliability at next floor' : 'Establish Floor 1 reliability evidence'}</td></tr>
+        <tr><td>Registration No.</td><td>${CONFIG.org['Registration No.']||'–'}</td></tr>
+        <tr><td>Model Version</td><td>${CONFIG.org['Model Version']||'Assessment Toolkit'}</td></tr>
+        <tr><td>Overall Status</td><td class="ed-status-leading">${maturityClass(d.maturity)}</td></tr>
+        <tr><td>Website</td><td>${CONFIG.org['Website']||'–'}</td></tr>
+        <tr><td>Reliability Basis</td><td>Current passed floor</td></tr>
+      </table>
+    </div>
+    <div class="ed-card">
+      <div class="ed-title">Executive Summary</div>
+      <table>
+        <tr><th>Metric</th><th>Score</th></tr>
+        <tr><td>Maturity</td><td><b>${d.maturity===null?'–':d.maturity.toFixed(2)}</b></td></tr>
+        <tr><td>Reliability (AI Trust)</td><td><b>${d.finalTrust===null?'–':d.finalTrust.toFixed(2)}</b></td></tr>
+        <tr><td>Capability</td><td class="ed-cap-cell">${d.finalFloor>0? FLOOR_STARS[d.finalFloor]+' '+d.finalFloorName : 'No Floor Passed'}</td></tr>
+        <tr><td>Gate</td><td class="${gateOverallPass?'ed-gate-pass':'ed-gate-fail'}">${gateOverallPass?'PASS ✓':'FAIL ✗'}</td></tr>
+      </table>
+    </div>`;
+  body.appendChild(row1);
+
+  const row2 = document.createElement('div'); row2.className='grid2';
+  const card2a = document.createElement('div'); card2a.className='ed-card';
+  card2a.innerHTML = `<div class="ed-title">Maturity vs Reliability</div><div class="ed-chart-wrap"><canvas id="chart-mat-rel" height="190"></canvas></div>`;
+  const card2b = document.createElement('div'); card2b.className='ed-card';
+  let floorRows = '';
+  for(let f=1; f<=7; f++){
+    const cap=d.floorScore[f], trust=d.trustScore[f], req=CONFIG.requiredTrust[f]?.requiredTrust;
+    const pass = cap!==null && cap>=80 && trust!==null && trust>=req;
+    const isCurrent = f===d.finalFloor && d.finalFloor>0;
+    const floorNameClean = d.floorNames[f] ? d.floorNames[f].replace(/^[⭐\s]+/,'') : '';
+    floorRows += `<tr class="${isCurrent?'current-row':''}"><td>${f}</td><td>${FLOOR_STARS[f]} ${floorNameClean}</td>`+
+      `<td>${cap===null?'–':cap.toFixed(1)}</td><td>${trust===null?'–':trust.toFixed(1)}</td>`+
+      `<td>${pass?'<span class="icon-pass">✓</span>':'<span class="icon-fail">✗</span>'}</td></tr>`;
+  }
+  card2b.innerHTML = `<div class="ed-title">AI Capability by Floor</div>
+    <table class="ed-floor-table">
+      <tr><th>Floor</th><th></th><th>Capability</th><th>Reliability</th><th>Status</th></tr>
+      ${floorRows}
+    </table>
+    <div class="ed-legend"><span><span class="icon-pass">✓</span> Passed Reliability Gate</span><span><span class="icon-fail">✗</span> Failed Reliability Gate</span></div>
+    <div class="ed-current-banner">Current Passed Floor: ${d.finalFloor} &nbsp;|&nbsp; Current Capability Level: ${d.finalFloor>0?FLOOR_STARS[d.finalFloor]+' '+d.finalFloorName:'None'}</div>`;
+  row2.appendChild(card2a); row2.appendChild(card2b);
+  body.appendChild(row2);
+
+  const row3 = document.createElement('div'); row3.className='grid2';
+  const card3a = document.createElement('div'); card3a.className='ed-card';
+  let chevHtml = '<div class="ed-chevrons">';
+  for(let f=1; f<=7; f++){
+    let cls='';
+    if(f<d.finalFloor || (f===d.finalFloor && d.finalFloor>0)) cls='passed';
+    if(f===d.finalFloor && d.finalFloor>0) cls='current';
+    if(f===targetFloor && targetFloor!==d.finalFloor) cls='target';
+    chevHtml += `<div class="chevron ${cls}">${f}</div>`;
+  }
+  chevHtml += '</div>';
+  card3a.innerHTML = `<div class="ed-title">Gap Analysis</div>
+    ${chevHtml}
+    <div class="ed-gap-labels">
+      <div><b>${d.finalFloorName||'–'}</b>Current</div>
+      <div><b>${nextStepName||'–'}</b>Next Step</div>
+      <div><b>${targetFloorName||'–'}</b>Target</div>
+    </div>
+    <div class="ed-gap-boxes">
+      <div class="ed-gap-box"><div class="num">${d.finalFloor}</div><div class="lbl">${d.finalFloorName||'–'}<br>Current Floor</div></div>
+      <div class="ed-gap-box"><div class="num">${targetFloor}</div><div class="lbl">${targetFloorName||'–'}<br>Target Floor</div></div>
+      <div class="ed-gap-box"><div class="num">${gapFloors}</div><div class="lbl">Floors<br>Gap</div></div>
+    </div>`;
+  const card3b = document.createElement('div'); card3b.className='ed-card';
+  card3b.innerHTML = `<div class="ed-title">Reliability Gap by Floor</div><div class="ed-chart-wrap"><canvas id="chart-rel-gap" height="190"></canvas></div>`;
+  row3.appendChild(card3a); row3.appendChild(card3b);
+  body.appendChild(row3);
+
+  const dims = {}; CONFIG.path1.forEach(r=>{ (dims[r.dimension] ??= []).push(r.score); });
+  const dimScores = Object.entries(dims).map(([name,scores])=>[name, avg(scores)]);
+  const row4 = document.createElement('div'); row4.className='grid2';
+  const card4a = document.createElement('div'); card4a.className='ed-card';
+  card4a.innerHTML = `<div class="ed-title">Maturity Dimension Contribution</div><div class="ed-chart-wrap"><canvas id="chart-dim" height="190"></canvas></div>
+    <div class="ed-current-banner">Overall Maturity Score (Path 1) = ${d.maturity===null?'–':d.maturity.toFixed(1)} (${maturityClass(d.maturity)})</div>`;
+  const card4b = document.createElement('div'); card4b.className='ed-card';
+  card4b.innerHTML = `<div class="ed-title">Gap Summary &amp; Key Recommendations</div>
+    <div class="ed-reco-row"><div class="ico">▲</div><div class="lab">Primary Gap</div><div class="val">Reliability constraints at higher AI capability floors</div></div>
+    <div class="ed-reco-row"><div class="ico">→</div><div class="lab">Impact</div><div class="val">Limits progression to ${nextStepName||'the next floor'} and beyond</div></div>
+    <div class="ed-reco-row"><div class="ico">◈</div><div class="lab">Focus Areas</div><div class="val">• Improve model reliability and consistency<br>• Strengthen data quality and monitoring<br>• Enhance explainability and transparency<br>• Implement robust safety and governance controls</div></div>
+    <div class="ed-reco-row"><div class="ico">→</div><div class="lab">Next Step</div><div class="val">Achieve required reliability threshold for ${nextStepName||'–'} (${nextStepReq??'–'}%) to progress</div></div>`;
+  row4.appendChild(card4a); row4.appendChild(card4b);
+  body.appendChild(row4);
+
+  const insightCard = document.createElement('div'); insightCard.className='ed-insight-card';
+  const matText = d.maturity===null?'–':d.maturity.toFixed(0);
+  insightCard.innerHTML = `<div class="ico">💡</div><div>
+    <h4>Executive Insight</h4>
+    <p>The organization achieved a ${maturityClass(d.maturity)} AI Maturity score of ${matText}%. `+
+    (d.finalFloor>0
+      ? `However, capability assessment indicates that the organization currently operates at the ${d.finalFloorName} level due to reliability constraints at higher AI capability floors. `
+      : `Capability assessment indicates that no floor has yet passed both the capability and reliability gates. `)+
+    `Improving reliability controls will enable progression toward ${nextStepName||targetFloorName||'the next capability floor'}.</p>
+  </div>`;
+  body.appendChild(insightCard);
+
+  drawCharts(d);
+}
+
+function drawCharts(d){
+  if(typeof Chart === 'undefined') return;
+  const navy = '#0f1b33', gold='#c9a227';
+
+  if(chartMaturityRel) chartMaturityRel.destroy();
+  chartMaturityRel = new Chart(document.getElementById('chart-mat-rel'), {
+    type:'bar',
+    data:{ labels:['Maturity','Reliability'],
+      datasets:[{ data:[d.maturity||0, d.finalTrust||0], backgroundColor:[navy,navy], borderRadius:4, maxBarThickness:70 }] },
+    options:{ plugins:{legend:{display:false}}, scales:{ y:{ suggestedMin:0, suggestedMax:100 } } }
+  });
+
+  if(chartReliabilityGap) chartReliabilityGap.destroy();
+  const trustArr=[], reqArr=[];
+  for(let f=1; f<=7; f++){ trustArr.push(d.trustScore[f]); reqArr.push(CONFIG.requiredTrust[f]?.requiredTrust ?? null); }
+  chartReliabilityGap = new Chart(document.getElementById('chart-rel-gap'), {
+    type:'line',
+    data:{ labels:[1,2,3,4,5,6,7],
+      datasets:[
+        { label:'Reliability Score', data:trustArr, borderColor:navy, backgroundColor:navy, tension:0.25 },
+        { label:'Required Threshold', data:reqArr, borderColor:'#d64545', borderDash:[6,4], pointRadius:2 },
+      ]},
+    options:{ plugins:{legend:{position:'top', labels:{boxWidth:12}}}, scales:{ y:{ suggestedMin:0, suggestedMax:100 } }, interaction:{intersect:false} }
+  });
+
+  if(chartDimContribution) chartDimContribution.destroy();
+  const dims = {}; CONFIG.path1.forEach(r=>{ (dims[r.dimension] ??= []).push(r.score); });
+  const dimEntries = Object.entries(dims).map(([k,v])=>[k, avg(v)]);
+  chartDimContribution = new Chart(document.getElementById('chart-dim'), {
+    type:'bar',
+    data:{ labels: dimEntries.map(e=>e[0]),
+      datasets:[
+        { label:'Dimension Score', data: dimEntries.map(e=>e[1]||0), backgroundColor:navy, borderRadius:4 },
+        { label:'Weighted Contribution', data: dimEntries.map(e=>(e[1]||0)/dimEntries.length), backgroundColor:gold, borderRadius:4 },
+      ]},
+    options:{ plugins:{legend:{position:'top', labels:{boxWidth:12}}}, scales:{ y:{ suggestedMin:0, suggestedMax:100 } } }
+  });
+}
+
+renderOrg(); renderPath1(); renderPath2(); renderReliability(); renderEvidence(); renderInfoBoxes();
+renderStepper(); goStep(0); recalc();
+recalc();
+</script>
+</body>
+</html>

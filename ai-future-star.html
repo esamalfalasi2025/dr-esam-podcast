@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Future Star™ Model - Dr. Esam AlFalasi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap');
+
+    :root {
+      --color-bg: #0d0d0d;
+      --color-surface: #181818;
+      --color-border: #2a2a2a;
+      --color-text: #f0ede8;
+      --color-text-secondary: #9a9490;
+      --color-gold: #c9a84c;
+      --color-gold-hover: #dfc06a;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    .navbar__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      transition: color 0.3s ease;
+    }
+
+    .navbar__brand:hover {
+      color: var(--color-gold);
+    }
+
+    .navbar__logo-img {
+      height: 40px;
+      width: auto;
+    }
+
+    .navbar__actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .navbar__nav-icons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .navbar__nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .navbar__nav-btn:hover {
+      background: var(--color-gold);
+      color: var(--color-bg);
+      transform: scale(1.1);
+    }
+
+    .navbar__btn {
+      padding: 10px 20px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .navbar__btn:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold);
+      background: rgba(201, 168, 76, 0.08);
+    }
+
+    .navbar__btn--gold {
+      background: var(--color-gold);
+      color: var(--color-bg);
+      border-color: var(--color-gold);
+    }
+
+    .navbar__btn--gold:hover {
+      background: var(--color-gold-hover);
+      border-color: var(--color-gold-hover);
+      color: var(--color-bg);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 120px 20px 40px 20px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #e8c860;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .header p {
+      font-size: 1rem;
+      color: #c7cedd;
+      margin-bottom: 15px;
+    }
+
+    /* INFOGRAPHIC SECTION */
+    .infographic-section {
+      position: relative;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.3) 0%, rgba(15, 27, 51, 0.3) 100%);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .infographic-image-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .infographic-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(232, 200, 96, 0.2);
+    }
+
+    /* FLOOR HOTSPOTS */
+    .floor-hotspots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .floor-hotspot {
+      position: absolute;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+      border: 2px solid transparent;
+    }
+
+    .floor-hotspot:hover {
+      border-color: #e8c860;
+      background: rgba(232, 200, 96, 0.1);
+    }
+
+    /* FLOOR TOOLTIP */
+    .floor-tooltip {
+      position: absolute;
+      background: linear-gradient(135deg, #1a2a4a 0%, #0f1b33 100%);
+      border: 2px solid #c9a84c;
+      border-radius: 8px;
+      padding: 20px;
+      color: #fff;
+      font-size: 0.9rem;
+      z-index: 500;
+      max-width: 350px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+    }
+
+    .floor-tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .floor-tooltip h4 {
+      color: #e8c860;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .floor-tooltip p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    /* PATH 1 & PATH 2 SECTIONS */
+    .paths-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .path-content {
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.5) 0%, rgba(15, 27, 51, 0.5) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 12px;
+      padding: 40px;
+    }
+
+    .path-title {
+      font-size: 1.8rem;
+      color: #e8c860;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .path-description {
+      color: #c7cedd;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    /* PILLARS */
+    /* ARROW BETWEEN SECTIONS */
+    .section-arrow {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+      color: #c9a84c;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.6;
+    }
+
+    .paths-section {
+      position: relative;
+    }
+
+    /* Enlarge arrow on hover of entire section (triggers when hovering over pillars) */
+    .paths-section:hover .section-arrow {
+      font-size: 4rem;
+      opacity: 1;
+      filter: drop-shadow(0 0 25px rgba(201, 168, 76, 0.7));
+    }
+
+    /* Extra emphasis when hovering specifically over pillars */
+    .pillars-grid:hover ~ .section-arrow {
+      font-size: 4.5rem;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      width: 100%;
+      position: relative;
+    }
+
+    .pillar-card:nth-child(5) {
+      grid-column: 2 / 4;
+    }
+
+    @media (max-width: 1200px) {
+      .pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pillar-card:nth-child(5) {
+        grid-column: 1 / 4;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pillar-card:nth-child(5) {
+        grid-column: 1 / 3;
+      }
+    }
+
+    .pillar-card {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.15) 0%, rgba(201, 168, 76, 0.05) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      border-color: #c9a84c;
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.15);
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.25) 0%, rgba(201, 168, 76, 0.1) 100%);
+    }
+
+    .pillar-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+    }
+
+    .pillar-arabic {
+      font-size: 0.75rem;
+      color: #c7cedd;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* FLOORS DETAILS */
+    .floors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .floor-card {
+      background: linear-gradient(135deg, rgba(26, 42, 74, 0.6) 0%, rgba(15, 27, 51, 0.6) 100%);
+      border: 2px solid rgba(201, 168, 76, 0.2);
+      border-radius: 8px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .floor-card:hover {
+      border-color: #c9a84c;
+      box-shadow: 0 15px 40px rgba(201, 168, 76, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .floor-card-number {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #e8c860;
+      margin-bottom: 10px;
+    }
+
+    .floor-card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .floor-card-description {
+      font-size: 0.9rem;
+      color: #c7cedd;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .floor-card-stars {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .floor-card-button {
+      background: linear-gradient(120deg, #c9a84c, #e8c860);
+      color: #0f1b33;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    .floor-card-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(201, 168, 76, 0.3);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      padding: 60px 20px 40px;
+      margin-top: 80px;
+    }
+
+    .footer__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 30px;
+    }
+
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .footer__column {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .footer__column ul li a:hover {
+      color: var(--color-text) !important;
+    }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer__socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer__socials a {
+      color: #9a9490;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer__socials a:hover {
+      color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+      .footer__top {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1a2a4a 0%, #0f1b33 100%);
+      border: 2px solid #c9a84c;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #c9a84c;
+      transition: transform 0.2s;
+    }
+
+    .modal-close:hover {
+      transform: rotate(90deg);
+    }
+
+    .modal h2 {
+      font-size: 2rem;
+      color: #c9a84c;
+      margin-bottom: 20px;
+    }
+
+    .modal p {
+      color: #c7cedd;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .modal-action {
+      background: linear-gradient(120deg, #c9a84c, #e8c860);
+      color: #0f1b33;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .modal-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+    }
+
+    @media (max-width: 1200px) {
+      .paths-section {
+        grid-template-columns: 1fr;
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="navbar__nav-icons">
+          <button class="navbar__nav-btn" onclick="window.history.back()" title="Go Back">←</button>
+          <button class="navbar__nav-btn" onclick="window.location.href='index.html'" title="Go to Home">⌂</button>
+        </div>
+        <a href="index.html" class="navbar__brand">
+          <img src="assets/logo-main.png" alt="DR Esam Podcast" class="navbar__logo-img" />
+          <span>DR ESAM PODCAST</span>
+        </a>
+      </div>
+      <div class="navbar__actions">
+        <a href="#" class="navbar__btn" onclick="openAssessment()">START ASSESSMENT</a>
+        <a href="assets/AI_Future_Star_Flipbook.html" class="navbar__btn navbar__btn--gold">AI FUTURE STAR BOOK</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div style="font-size: 2rem; margin-bottom: 15px;">⭐</div>
+      <h1>AI Future Star Model™</h1>
+
+      <div style="max-width: 900px; margin: 30px auto; text-align: center;">
+        <p style="font-size: 1.05rem; color: #e8c860; font-weight: 600; margin-bottom: 20px; line-height: 1.6;">
+          "Unlock your organization's AI potential by discovering exactly where you stand in your AI transformation journey and what it takes to reach the next level."
+        </p>
+
+        <p style="color: #c7cedd; font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">
+          The <strong>AI Future Star Model™</strong> is a comprehensive assessment framework that helps organizations understand their current AI maturity level and actual AI capabilities. Rather than guessing your position in the AI landscape, our dual-path methodology provides clear visibility into your strengths and gaps.
+        </p>
+
+        <p style="color: #c7cedd; font-size: 0.95rem; line-height: 1.8; margin-top: 30px;">
+          <strong style="color: #e8c860;">Why It Matters:</strong> Organizations gain a precise roadmap to advance their AI capabilities, eliminate guesswork, and make data-driven decisions about where to invest in AI transformation—ensuring every step moves you closer to industry leadership.
+        </p>
+
+        <p style="color: #e8c860; margin-top: 25px; font-weight: 700; font-size: 1rem;">— Dr. Esam AlFalasi</p>
+      </div>
+
+      <p style="color: #c7cedd; font-size: 0.9rem; margin-top: 30px; text-align: center;">Copyright Registration No. 1920-2026<br>Registered with UAE Ministry of Economy and Tourism</p>
+    </div>
+
+    <!-- INFOGRAPHIC IMAGE SECTION -->
+    <div class="infographic-section">
+      <div class="infographic-image-wrapper" id="infographicWrapper">
+        <img src="./assets/AI future star building.png"
+             alt="AI Future Star Model Infographic"
+             class="infographic-image"
+             onload="setupFloorHotspots()">
+        <div class="floor-hotspots" id="floorHotspots"></div>
+      </div>
+      <p style="text-align: center; color: #c7cedd; margin-top: 20px; font-size: 0.9rem;">
+        💡 Click on the building floors in the image above to see detailed capability information
+      </p>
+    </div>
+
+    <!-- PATH 1 & 5 PILLARS SECTIONS -->
+    <div class="paths-section">
+      <!-- ARROW BETWEEN SECTIONS -->
+      <div class="section-arrow">→</div>
+
+      <!-- PATH 1 -->
+      <div class="path-content">
+        <h2 class="path-title">PATH 1</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">Organization AI Maturity Assessment</h3>
+        <p class="path-description">
+          <strong>Understand your organizational readiness for AI transformation.</strong> This comprehensive evaluation assesses your organization across 5 critical dimensions to identify where you stand today and what investments are needed to advance your AI capabilities.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ Identify capability gaps | ✓ Prioritize investments | ✓ Build a roadmap for success
+        </p>
+      </div>
+
+      <!-- 5 PILLARS -->
+      <div class="path-content">
+        <h2 class="path-title">5 PILLARS</h2>
+        <h3 style="color: #e8c860; margin-bottom: 20px; font-size: 1.3rem;">Core Assessment Dimensions</h3>
+        <div class="pillars-grid">
+          <div class="pillar-card" onclick="openPillar(1)">
+            <div class="pillar-name">📊 Data Readiness</div>
+            <div class="pillar-arabic">جاهزية البيانات</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">Quality, completeness & governance</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(2)">
+            <div class="pillar-name">💻 Technology Readiness</div>
+            <div class="pillar-arabic">البنية التقنية</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">Infrastructure & scalability</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(3)">
+            <div class="pillar-name">🤖 AI Adoption</div>
+            <div class="pillar-arabic">استخدام الذكاء</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">Use cases & ROI impact</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(4)">
+            <div class="pillar-name">⚙️ Automation & Agents</div>
+            <div class="pillar-arabic">الأتمتة والوكالء</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">Process automation maturity</p>
+          </div>
+          <div class="pillar-card" onclick="openPillar(5)">
+            <div class="pillar-name">🎓 Governance & Skills</div>
+            <div class="pillar-arabic">الحوكمة والمهارات</div>
+            <p style="font-size: 0.8rem; color: #9a9490; margin-top: 10px;">Policies, compliance & talent</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELIABILITY SECTION -->
+    <div style="margin-bottom: 60px;">
+      <div class="path-content">
+        <h2 class="path-title">RELIABILITY</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">AI System Reliability Assessment</h3>
+        <p class="path-description">
+          <strong>Ensure your AI systems are trustworthy and dependable.</strong> Measure the reliability of each AI capability floor with a comprehensive assessment that evaluates not just performance, but also safety, security, and transparency. This ensures your AI investments deliver business value with confidence.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ Mitigate AI risks | ✓ Build stakeholder trust | ✓ Ensure compliance & governance
+        </p>
+        <div style="display: grid; gap: 15px; margin-top: 20px;">
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ Accuracy (95%+ Correctness)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">Verify that AI predictions and decisions are consistently correct, enabling confident business actions and reliable outcomes.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ Safety (Policy Compliance)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">Ensure AI operations align with organizational policies and internal control standards, reducing operational risk.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ Security (Threat Protection)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">Protect AI systems from cyber threats and vulnerabilities, safeguarding your data and competitive advantage.</p>
+          </div>
+          <div style="padding: 18px; background: rgba(201, 168, 76, 0.1); border-radius: 8px; border-left: 4px solid #e8c860;">
+            <strong style="color: #e8c860; font-size: 1.05rem; display: block; margin-bottom: 8px;">✓ Explainability (Transparency)</strong>
+            <p style="color: #c7cedd; font-size: 0.9rem;">Understand why AI makes specific decisions, enabling better governance, compliance, and stakeholder confidence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATH 2 SECTION - SINGLE UNIFIED FRAME -->
+    <div style="background: linear-gradient(135deg, rgba(26, 42, 74, 0.5) 0%, rgba(15, 27, 51, 0.5) 100%); border: 1px solid rgba(201, 168, 76, 0.2); border-radius: 12px; padding: 40px; margin-bottom: 60px;">
+
+      <div style="margin-bottom: 40px;">
+        <h2 class="path-title">PATH 2</h2>
+        <h3 style="color: #e8c860; margin-bottom: 15px; font-size: 1.3rem;">AI Capability Assessment</h3>
+        <p class="path-description">
+          <strong>Measure your actual AI capabilities across 7 progressive levels.</strong> Each level—from foundational Classical AI through advanced Agentic AI—represents a distinct capability plateau with its own requirements, benefits, and reliability standards.
+        </p>
+        <p class="path-description" style="margin-top: 15px; color: #e8c860; font-size: 0.95rem;">
+          ✓ Assess current capabilities | ✓ Identify advancement opportunities | ✓ Plan transformation roadmap
+        </p>
+      </div>
+
+      <h3 style="font-size: 1.4rem; color: #e8c860; text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px;">The 7 Levels of AI Excellence</h3>
+      <div class="floors-grid">
+        <div class="floor-card" onclick="openFloor(1)">
+          <div class="floor-card-number">1</div>
+          <div class="floor-card-name">Classical AI</div>
+          <div class="floor-card-description">Follows predefined rules. Reads RSS feeds, searches for keywords, exports to PDF.</div>
+          <div class="floor-card-stars">⭐</div>
+          <button class="floor-card-button" onclick="openFloor(1); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(2)">
+          <div class="floor-card-number">2</div>
+          <div class="floor-card-name">Machine Learning</div>
+          <div class="floor-card-description">Learns which topics executives prioritize. Adapts reports based on historical behavior.</div>
+          <div class="floor-card-stars">⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(2); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(3)">
+          <div class="floor-card-number">3</div>
+          <div class="floor-card-name">Neural Networks</div>
+          <div class="floor-card-description">Recognizes patterns. Groups related vendors and topics from same ecosystem automatically.</div>
+          <div class="floor-card-stars">⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(3); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(4)">
+          <div class="floor-card-number">4</div>
+          <div class="floor-card-name">Deep Learning</div>
+          <div class="floor-card-description">Processes all content types: PDFs, videos, podcasts, images, research papers.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(4); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(5)">
+          <div class="floor-card-number">5</div>
+          <div class="floor-card-name">Generative AI</div>
+          <div class="floor-card-description">Writes professional executive summaries, trends, risks, opportunities, recommendations.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(5); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(6)">
+          <div class="floor-card-number">6</div>
+          <div class="floor-card-name">Agent AI</div>
+          <div class="floor-card-description">Multiple agents coordinate: search, validate, summarize, chart, generate PDF, email executives.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(6); event.stopPropagation();">View Details</button>
+        </div>
+
+        <div class="floor-card" onclick="openFloor(7)">
+          <div class="floor-card-number">7</div>
+          <div class="floor-card-name">Agentic AI</div>
+          <div class="floor-card-description">Autonomous team decides sources, breaks news priority, topics, continuous self-improvement.</div>
+          <div class="floor-card-stars">⭐⭐⭐⭐⭐⭐⭐</div>
+          <button class="floor-card-button" onclick="openFloor(7); event.stopPropagation();">View Details</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <h3 style="color: #f0ede8; font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px;">AI Future Star™</h3>
+            <p style="color: #9a9490; font-size: 0.9rem;">Enterprise AI Capability Assessment Platform</p>
+          </div>
+          <div class="footer__column">
+            <h4 style="color: #e8c860; margin-bottom: 12px; font-weight: 600;">Quick Links</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">About the Model</a></li>
+              <li><a href="ai-assessment-full.html" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">Start Assessment</a></li>
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">Documentation</a></li>
+              <li><a href="#" style="color: #9a9490; text-decoration: none; transition: color 0.2s;">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p style="font-size: 13px; color: #9a9490;">© 2026 Dr. Esam AlFalasi. All rights reserved. | AI Future Star™ is a registered trademark.</p>
+          <div class="footer__socials">
+            <a href="https://twitter.com/dresam" target="_blank" rel="noopener noreferrer" aria-label="Twitter" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/dr.esam.alfalasi" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163C8.756 0 8.335.012 7.052.07 2.695.278.273 2.882.06 7.047.009 8.333 0 8.742 0 12s.008 3.668.058 4.948c.214 4.192 2.614 6.609 6.859 6.82 1.261.058 1.69.072 4.888.072 3.195 0 3.622-.013 4.887-.072 4.268-.216 6.683-2.618 6.877-6.82.05-1.28.061-1.689.061-4.948 0-3.259-.008-3.668-.061-4.948C23.538 2.723 21.137.312 16.996.10 15.71.01 15.286 0 12 0z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@Dr.EsamAlFalasi" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@dxbesam" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="color: #9a9490; transition: color 0.2s;">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.75 2.9 2.9 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.26 6.26 0 0 0-1-.1 6.15 6.15 0 1 0 10.19 5.2V8.5a8.06 8.06 0 0 0 4.53-1.81v-3z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">✕</span>
+      <div id="modal-body"></div>
+      <button class="modal-action" onclick="generateReport()">Generate Assessment</button>
+    </div>
+  </div>
+
+  <script>
+    const floors = {
+      1: {
+        name: 'Classical AI',
+        title: 'Rule-Based Systems',
+        description: 'The system follows predefined rules. Example: Read RSS feeds, search for keywords like "OpenAI", copy matching articles, export to PDF. No reasoning, understanding, or adaptation. Everything is rule-based.',
+        capability: '"Follow my predefined instructions."',
+        businessUse: 'Generate Monthly AI Executive Report - Rule-based collection only'
+      },
+      2: {
+        name: 'Machine Learning',
+        title: 'Predictive Analytics',
+        description: 'The system learns which news articles executives usually open. After several months it discovers that OpenAI, Microsoft, Google, and Anthropic receive highest attention. Future reports automatically prioritize these topics.',
+        capability: '"Learn from previous reports."',
+        businessUse: 'Generate Monthly AI Executive Report - Learning from executive behavior'
+      },
+      3: {
+        name: 'Neural Networks',
+        title: 'Pattern Recognition',
+        description: 'The system recognizes patterns and relationships. It understands that Gemini Flash, Gemini Pro, Google AI, and Google DeepMind all belong to the same ecosystem. It groups related news together automatically.',
+        capability: '"Recognize patterns."',
+        businessUse: 'Generate Monthly AI Executive Report - Understanding topic relationships'
+      },
+      4: {
+        name: 'Deep Learning',
+        title: 'Complex Understanding',
+        description: 'The system understands different content types: PDFs, YouTube videos, research papers, podcasts, images, and presentations. It extracts knowledge regardless of format.',
+        capability: '"Understand unstructured information."',
+        businessUse: 'Generate Monthly AI Executive Report - Extracting knowledge from all sources'
+      },
+      5: {
+        name: 'Generative AI',
+        title: 'Creative Content Generation',
+        description: 'Instead of collecting news, the AI writes. It produces Executive Summary, Key Trends, Risks, Opportunities, and Recommendations. The report reads like it was written by a professional analyst.',
+        capability: '"Create original executive content."',
+        businessUse: 'Generate Monthly AI Executive Report - AI-written analysis'
+      },
+      6: {
+        name: 'Agent AI',
+        title: 'Autonomous Agents',
+        description: 'The AI performs multiple tasks autonomously. Agent 1 searches news → Agent 2 validates sources → Agent 3 summarizes → Agent 4 creates charts → Agent 5 generates PDF → Agent 6 emails executives. Each agent has defined responsibility with minimal human intervention.',
+        capability: '"Execute multiple coordinated tasks autonomously."',
+        businessUse: 'Generate Monthly AI Executive Report - Full workflow automation'
+      },
+      7: {
+        name: 'Agentic AI',
+        title: 'Multi-Agent Intelligence',
+        description: 'The system behaves like an executive team. Starting with the goal "Keep executives informed about AI", it independently decides which sources to monitor, whether breaking news requires immediate reports, which topics are strategically important, and continuously improves itself.',
+        capability: '"Reason, plan, collaborate, execute, evaluate, and continuously improve toward achieving organizational goals."',
+        businessUse: 'Generate Monthly AI Executive Report - Full autonomous goal achievement'
+      }
+    };
+
+    const pillars = {
+      1: { name: 'Data Readiness', metrics: 'Data Quality, Completeness, Integration, Availability, Governance' },
+      2: { name: 'Technology Readiness', metrics: 'Cloud Infrastructure, APIs, Security, Scalability, System Integration' },
+      3: { name: 'AI Adoption', metrics: 'Use Cases, Adoption Rate, Model Accuracy, Operational Impact, ROI' },
+      4: { name: 'Automation & Agents', metrics: 'Process Automation, Agent Deployment, Task Success, Autonomy, Tool Integration' },
+      5: { name: 'Governance & Skills', metrics: 'Policies, Risk Management, Training, Ethics, Compliance' }
+    };
+
+    function openFloor(floorNum) {
+      const floor = floors[floorNum];
+      const html = `
+        <h2>${floorNum}. ${floor.name}</h2>
+        <h3 style="color: #c7cedd; margin-bottom: 20px; font-size: 1.2rem;">${floor.title}</h3>
+        <p style="margin-bottom: 20px;"><strong style="color: #e8c860;">Business Use Case: Monthly AI Executive Report</strong></p>
+        <p style="margin-bottom: 20px; color: #c7cedd;">${floor.businessUse}</p>
+        <p style="margin-bottom: 15px;"><strong style="color: #e8c860;">How It Works:</strong></p>
+        <p style="margin-bottom: 20px; color: #c7cedd;">${floor.description}</p>
+        <p style="margin-bottom: 15px;"><strong style="color: #e8c860;">Executive Capability:</strong></p>
+        <p style="color: #e8c860; font-style: italic; font-size: 1.05rem;">${floor.capability}</p>
+      `;
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function openPillar(pillarNum) {
+      const pillar = pillars[pillarNum];
+      const html = `
+        <h2>PATH 1 - Pillar ${pillarNum}</h2>
+        <h3 style="color: #c7cedd; margin-bottom: 20px; font-size: 1.2rem;">${pillar.name}</h3>
+        <p><strong style="color: #e8c860;">Key Metrics:</strong></p>
+        <p>${pillar.metrics}</p>
+      `;
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    function generateReport() {
+      alert('📊 AI Future Star Assessment Report\n\nYour comprehensive assessment includes:\n\n✓ Path 1: Maturity Score (5 Dimensions)\n✓ Path 2: Capability Level (7 Floors)\n✓ Gap Analysis\n✓ Recommendations\n✓ Roadmap to Next Level\n✓ Executive Summary\n\nReport will be generated and emailed shortly!');
+    }
+
+    function openAssessment() {
+      window.location.href = 'ai-assessment-full.html';
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Setup floor hotspots on the infographic image
+    function setupFloorHotspots() {
+      const wrapper = document.getElementById('infographicWrapper');
+      const image = wrapper.querySelector('img');
+
+      if (!image || !image.complete) return;
+
+      // Create tooltip element
+      const tooltip = document.createElement('div');
+      tooltip.className = 'floor-tooltip';
+      tooltip.id = 'floorTooltip';
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(tooltip);
+
+      // Approximate positions of floors on the image (% from top)
+      const floorPositions = [
+        { floor: 7, topPercent: 18, heightPercent: 12 },
+        { floor: 6, topPercent: 30, heightPercent: 12 },
+        { floor: 5, topPercent: 42, heightPercent: 12 },
+        { floor: 4, topPercent: 54, heightPercent: 12 },
+        { floor: 3, topPercent: 66, heightPercent: 12 },
+        { floor: 2, topPercent: 78, heightPercent: 12 },
+        { floor: 1, topPercent: 90, heightPercent: 10 }
+      ];
+
+      const hotspots = document.getElementById('floorHotspots');
+
+      floorPositions.forEach(pos => {
+        const hotspot = document.createElement('div');
+        hotspot.className = 'floor-hotspot';
+        hotspot.style.top = pos.topPercent + '%';
+        hotspot.style.height = pos.heightPercent + '%';
+        hotspot.style.left = '25%';
+        hotspot.style.width = '50%';
+
+        // Hover to show tooltip
+        hotspot.addEventListener('mouseenter', () => {
+          const floor = floors[pos.floor];
+          tooltip.innerHTML = `
+            <h4>${floor.name}</h4>
+            <p><strong>${floor.title}</strong></p>
+            <p>${floor.businessUse}</p>
+          `;
+          tooltip.style.top = pos.topPercent + '%';
+          tooltip.classList.add('visible');
+        });
+
+        // Hide tooltip when mouse leaves
+        hotspot.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+        });
+
+        hotspot.title = `Hover for details`;
+        hotspots.appendChild(hotspot);
+      });
+
+      hotspots.style.display = 'block';
+    }
+
+    // Call setup when page loads
+    window.addEventListener('load', setupFloorHotspots);
+
+    // Arrow enlarge on pillar hover
+    const pillarsBox = document.querySelector('.paths-section .path-content:last-child');
+    const arrow = document.querySelector('.section-arrow');
+
+    if (pillarsBox && arrow) {
+      pillarsBox.addEventListener('mouseenter', () => {
+        arrow.style.fontSize = '4.5rem';
+        arrow.style.opacity = '1';
+        arrow.style.filter = 'drop-shadow(0 0 30px rgba(201, 168, 76, 0.8))';
+      });
+
+      pillarsBox.addEventListener('mouseleave', () => {
+        arrow.style.fontSize = '2.5rem';
+        arrow.style.opacity = '0.6';
+        arrow.style.filter = 'drop-shadow(0 0 0px rgba(201, 168, 76, 0))';
+      });
+    }
+  </script>
+</body>
+</html>
