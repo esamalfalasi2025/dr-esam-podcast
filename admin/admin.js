@@ -349,6 +349,11 @@ function fillAIModel() {
     set(`ai-pillar${i}-content-en`, ai[`pillar${i}ContentEn`] || '');
     set(`ai-pillar${i}-content-ar`, ai[`pillar${i}ContentAr`] || '');
   }
+  // Floors
+  for (let i = 1; i <= 7; i++) {
+    set(`ai-floor${i}-content-en`, ai[`floor${i}ContentEn`] || '');
+    set(`ai-floor${i}-content-ar`, ai[`floor${i}ContentAr`] || '');
+  }
 }
 
 // ──────────────────────────────────────────────────
@@ -679,7 +684,21 @@ function saveAll() {
     pillar5DescEn:  get('ai-pillar5-desc-en'),
     pillar5DescAr:  get('ai-pillar5-desc-ar'),
     pillar5ContentEn: get('ai-pillar5-content-en'),
-    pillar5ContentAr: get('ai-pillar5-content-ar')
+    pillar5ContentAr: get('ai-pillar5-content-ar'),
+    floor1ContentEn: get('ai-floor1-content-en'),
+    floor1ContentAr: get('ai-floor1-content-ar'),
+    floor2ContentEn: get('ai-floor2-content-en'),
+    floor2ContentAr: get('ai-floor2-content-ar'),
+    floor3ContentEn: get('ai-floor3-content-en'),
+    floor3ContentAr: get('ai-floor3-content-ar'),
+    floor4ContentEn: get('ai-floor4-content-en'),
+    floor4ContentAr: get('ai-floor4-content-ar'),
+    floor5ContentEn: get('ai-floor5-content-en'),
+    floor5ContentAr: get('ai-floor5-content-ar'),
+    floor6ContentEn: get('ai-floor6-content-en'),
+    floor6ContentAr: get('ai-floor6-content-ar'),
+    floor7ContentEn: get('ai-floor7-content-en'),
+    floor7ContentAr: get('ai-floor7-content-ar')
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
