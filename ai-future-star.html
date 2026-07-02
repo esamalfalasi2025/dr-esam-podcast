@@ -945,6 +945,26 @@
   </div>
 
   <script>
+    // Load content from localStorage (admin panel updates)
+    function loadContentFromStorage() {
+      const stored = localStorage.getItem('drEsamContent');
+      if (!stored) return;
+
+      try {
+        const data = JSON.parse(stored);
+        const ai = data.aiModel || {};
+
+        // Replace hardcoded content with admin panel values
+        if (ai.titleEn) document.body.innerHTML = document.body.innerHTML.replaceAll('AI Future Star Model™', ai.titleEn);
+        if (ai.authorEn) document.body.innerHTML = document.body.innerHTML.replaceAll('— Dr. Esam AlFalasi', ai.authorEn);
+        if (ai.copyrightEn) document.body.innerHTML = document.body.innerHTML.replaceAll('Copyright Registration No. 1920-2026', ai.copyrightEn.split('\n')[0]);
+      } catch (e) {
+        console.error('Error loading content:', e);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadContentFromStorage);
+
     const floors = {
       1: {
         name: 'Classical AI',

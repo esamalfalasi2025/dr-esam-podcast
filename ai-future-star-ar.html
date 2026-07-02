@@ -945,6 +945,26 @@
   </div>
 
   <script>
+    // Load content from localStorage (admin panel updates)
+    function loadContentFromStorage() {
+      const stored = localStorage.getItem('drEsamContent');
+      if (!stored) return;
+
+      try {
+        const data = JSON.parse(stored);
+        const ai = data.aiModel || {};
+
+        // Replace hardcoded content with admin panel values
+        if (ai.titleAr) document.body.innerHTML = document.body.innerHTML.replaceAll('نموذج النجم المستقبلي للذكاء الاصطناعي™', ai.titleAr);
+        if (ai.authorAr) document.body.innerHTML = document.body.innerHTML.replaceAll('— د. عصام الفلاسي', ai.authorAr);
+        if (ai.copyrightAr) document.body.innerHTML = document.body.innerHTML.replaceAll('رقم التسجيل حق المؤلف 1920-2026', ai.copyrightAr.split('\n')[0]);
+      } catch (e) {
+        console.error('Error loading content:', e);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadContentFromStorage);
+
     const floors = {
       1: {
         name: 'الذكاء الاصطناعي الكلاسيكي',
