@@ -1147,6 +1147,25 @@
       }
     };
 
+    // Load floor content from localStorage (admin panel updates)
+    function loadFloorContent() {
+      const stored = localStorage.getItem('drEsamContent');
+      if (!stored) return;
+      try {
+        const data = JSON.parse(stored);
+        const ai = data.aiModel || {};
+        for (let i = 1; i <= 7; i++) {
+          const key = `floor${i}ContentEn`;
+          if (ai[key] && floors[i]) {
+            floors[i].content = ai[key];
+          }
+        }
+      } catch (e) {
+        console.error('Error loading floor content:', e);
+      }
+    }
+    loadFloorContent();
+
     const pillars = {
       1: {
         name: 'Data Readiness',
