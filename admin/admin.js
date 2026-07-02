@@ -94,6 +94,14 @@ const DEFAULTS = {
     titleAr: 'نموذج النجم المستقبلي للذكاء الاصطناعي™',
     subtitleEn: 'Unlock your organization\'s AI potential by discovering exactly where you stand in your AI transformation journey and what it takes to reach the next level.',
     subtitleAr: 'اكتشف المكان الذي تقف فيه مؤسستك بدقة في رحلة التحول الرقمي بالذكاء الاصطناعي، وحدد ما يلزم للوصول إلى المستوى التالي.',
+    descriptionEn: 'The AI Future Star Model™ is a comprehensive assessment framework that helps organizations understand their current AI maturity level and actual AI capabilities. Rather than guessing your position in the AI landscape, our dual-path methodology provides clear visibility into your strengths and gaps.',
+    descriptionAr: 'نموذج النجم المستقبلي للذكاء الاصطناعي™ هو إطار عمل تقييم شامل يساعد المؤسسات على فهم مستوى نضجها الحالي في الذكاء الاصطناعي وقدراتها الفعلية. بدلاً من التخمين حول موقعك في مشهد الذكاء الاصطناعي، توفر منهجيتنا ثنائية المسار رؤية واضحة عن نقاط قوتك والفجوات الموجودة.',
+    mattersEn: 'Organizations gain a precise roadmap to advance their AI capabilities, eliminate guesswork, and make data-driven decisions about where to invest in AI transformation—ensuring every step moves you closer to industry leadership.',
+    mattersAr: 'تحصل المؤسسات على خارطة طريق دقيقة لتعزيز قدرات الذكاء الاصطناعي لديها، والقضاء على التخمين، واتخاذ قرارات تحكمها البيانات حول أماكن الاستثمار في التحول الرقمي بالذكاء الاصطناعي—مما يضمن أن كل خطوة تقربك نحو الريادة الصناعية.',
+    authorEn: '— Dr. Esam AlFalasi',
+    authorAr: '— د. عصام الفلاسي',
+    copyrightEn: 'Copyright Registration No. 1920-2026\nRegistered with UAE Ministry of Economy and Tourism',
+    copyrightAr: 'رقم التسجيل حق المؤلف 1920-2026\nمسجل لدى وزارة الاقتصاد والسياحة بدولة الإمارات',
     path1En: 'Understand your organizational readiness for AI transformation. This comprehensive evaluation assesses your organization across 5 critical dimensions to identify where you stand today and what investments are needed to advance your AI capabilities.',
     path1Ar: 'افهم جاهزية مؤسستك للتحول الرقمي بالذكاء الاصطناعي. يقيم هذا التقييم الشامل مؤسستك عبر 5 أبعاد حرجة لتحديد موقعك الحالي والاستثمارات اللازمة لتعزيز قدرات الذكاء الاصطناعي لديك.',
     path2En: 'Measure your actual AI capabilities across 7 progressive levels. Each level—from foundational Classical AI through advanced Agentic AI—represents a distinct capability plateau with its own requirements, benefits, and reliability standards.',
@@ -318,6 +326,14 @@ function fillAIModel() {
   set('ai-title-ar',          ai.titleAr || '');
   set('ai-subtitle-en',       ai.subtitleEn || '');
   set('ai-subtitle-ar',       ai.subtitleAr || '');
+  set('ai-description-en',    ai.descriptionEn || '');
+  set('ai-description-ar',    ai.descriptionAr || '');
+  set('ai-matters-en',        ai.mattersEn || '');
+  set('ai-matters-ar',        ai.mattersAr || '');
+  set('ai-author-en',         ai.authorEn || '');
+  set('ai-author-ar',         ai.authorAr || '');
+  set('ai-copyright-en',      ai.copyrightEn || '');
+  set('ai-copyright-ar',      ai.copyrightAr || '');
   set('ai-path1-en',          ai.path1En || '');
   set('ai-path1-ar',          ai.path1Ar || '');
   set('ai-path2-en',          ai.path2En || '');
@@ -620,6 +636,14 @@ function saveAll() {
     titleAr:        get('ai-title-ar'),
     subtitleEn:     get('ai-subtitle-en'),
     subtitleAr:     get('ai-subtitle-ar'),
+    descriptionEn:  get('ai-description-en'),
+    descriptionAr:  get('ai-description-ar'),
+    mattersEn:      get('ai-matters-en'),
+    mattersAr:      get('ai-matters-ar'),
+    authorEn:       get('ai-author-en'),
+    authorAr:       get('ai-author-ar'),
+    copyrightEn:    get('ai-copyright-en'),
+    copyrightAr:    get('ai-copyright-ar'),
     path1En:        get('ai-path1-en'),
     path1Ar:        get('ai-path1-ar'),
     path2En:        get('ai-path2-en'),
